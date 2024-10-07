@@ -17,7 +17,7 @@ STUDENT ID = 134126
 
 ## Link to repository
 
-[//]: https://github.com/NTNU-BIDATA-IDATG1003-2024/meal-planning-johannestheigen
+[//]: # https://github.com/NTNU-BIDATA-IDATG1003-2024/meal-planning-johannestheigen
 
 ## How to run the project
 
@@ -30,7 +30,7 @@ What is the input and output of the program? What is the expected behaviour of t
 
 ## Link to report
 
-[//]: https://www.overleaf.com/read/rgzddswhsjvj#c83f94
+[//]: # https://www.overleaf.com/read/rgzddswhsjvj#c83f94
 
 ## References
 
