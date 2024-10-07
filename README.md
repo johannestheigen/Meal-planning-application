@@ -28,6 +28,10 @@ What is the input and output of the program? What is the expected behaviour of t
 
 [//]: # (TODO: Describe how to run the tests here.)
 
+## Link to report
+
+[//]: https://www.overleaf.com/read/rgzddswhsjvj#c83f94
+
 ## References
 
 [//]: # (TODO: Include references here, if any. For example, if you have used code from the course book, include a reference to the chapter.
