@@ -17,7 +17,9 @@ STUDENT ID = 134126
 
 ## Link to repository
 
-[//]: # https://github.com/NTNU-BIDATA-IDATG1003-2024/meal-planning-johannestheigen
+[//]: # (TODO: Add repository link)
+
+https://github.com/NTNU-BIDATA-IDATG1003-2024/meal-planning-johannestheigen
 
 ## How to run the project
 
