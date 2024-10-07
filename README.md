@@ -32,7 +32,9 @@ What is the input and output of the program? What is the expected behaviour of t
 
 ## Link to report
 
-[//]: # https://www.overleaf.com/read/rgzddswhsjvj#c83f94
+[//]: # (TODO: Add link to report)
+
+https://www.overleaf.com/read/rgzddswhsjvj#c83f94
 
 ## References
 
