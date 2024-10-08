@@ -1,10 +1,11 @@
-# Portfolio project IDATA1003
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/RyiBKJgD)
+# Portfolio project IDATG1003
 This file uses Mark Down syntax. For more information see [here](https://www.markdownguide.org/basic-syntax/).
 
 [//]: # (TODO: Fill inn your name and student ID)
 
-STUDENT NAME = "Your name"  
-STUDENT ID = "Your ID"
+STUDENT NAME = Johannes Nupen Theigen  
+STUDENT ID = 134126
 
 ## Project description
 
@@ -16,7 +17,9 @@ STUDENT ID = "Your ID"
 
 ## Link to repository
 
-[//]: # (TODO: Include a link to your GitHub repository here.)
+[//]: # (TODO: Add repository link)
+
+https://github.com/NTNU-BIDATA-IDATG1003-2024/meal-planning-johannestheigen
 
 ## How to run the project
 
@@ -26,6 +29,12 @@ What is the input and output of the program? What is the expected behaviour of t
 ## How to run the tests
 
 [//]: # (TODO: Describe how to run the tests here.)
+
+## Link to report
+
+[//]: # (TODO: Add link to report)
+
+https://www.overleaf.com/read/rgzddswhsjvj#c83f94
 
 ## References
 
