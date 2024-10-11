@@ -18,7 +18,7 @@ public class Ingredient
   public Ingredient(String ingredientName, String unit, float amount) {
     setIngredientName(ingredientName);
     setUnit(unit);
-    this.amount = 0;
+    setAmount(amount);
   }
 
   /**
@@ -33,7 +33,12 @@ public class Ingredient
    * Sets the name of an ingredient
    */
   public void setIngredientName() {
-    this.ingredientName = ingredientName;
+    boolean isEmpty = (ingredientName == null || ingredientName.isEmpty());
+    if (isEmpty){
+      throw new IllegalArgumentException("The ingredient name cannot be null or empty");
+    } else {
+      this.ingredientName = ingredientName;
+    }
   }
 
   /**
@@ -48,7 +53,12 @@ public class Ingredient
    * Sets the unit of an ingredient
    */
   public void setUnit() {
-    this.unit = unit;
+    boolean isEmpty = (unit == null || unit.isEmpty());
+    if(isEmpty) {
+      throw new IllegalArgumentException("The unit cannot be null or empty.");
+    } else {
+      this.unit = unit;
+    }
   }
 
   /**
@@ -63,6 +73,10 @@ public class Ingredient
    * Sets the amount of an ingredient.
    */
   public void setAmount() {
-    this.amount = amount;
+    if (amount < 0){
+      throw new IllegalArgumentException("The amount cannot be less than 0.");
+    } else {
+      this.amount = amount;
+    }
   }
 }
