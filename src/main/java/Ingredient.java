@@ -10,7 +10,7 @@ import java.util.Date;
 public class Ingredient {
   private String ingredientName;
   private String descriptionOfIngredient;
-  private float amount;
+  private int amount;
   private String unit;
   private float price;
   private Date expirationDate;
