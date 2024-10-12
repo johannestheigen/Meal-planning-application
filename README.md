@@ -11,6 +11,11 @@ STUDENT ID = 134126
 
 [//]: # (TODO: Write a short description of your project/product here.)
 
+This application aims to make consumers more conscious about food waste.
+It provides a list of groceries in their household and how 
+they can use them to make food before its expiration date. 
+
+
 ## Project structure
 
 [//]: # (TODO: Describe the structure of your project here. How have you used packages in your structure. Where are all sourcefiles stored. Where are all JUnit-test classes stored. etc.)
