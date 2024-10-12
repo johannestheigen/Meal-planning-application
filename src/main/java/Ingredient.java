@@ -1,6 +1,8 @@
 /**
  * Holds information about a specific ingredient.
  * The name of the ingredient,unit and amount.
+ * @author Johannes Nupen Theigen
+ * @version 12.10.2024
  */
 
 public class Ingredient
