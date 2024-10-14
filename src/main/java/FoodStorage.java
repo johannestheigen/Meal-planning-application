@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Stores all the ingredients.
 
  * @author Johannes Nupen Theigen
- * @version 10.14.2024
+ * @since 10.14.2024
  * @version 0.0.2
  */
 public class FoodStorage {
