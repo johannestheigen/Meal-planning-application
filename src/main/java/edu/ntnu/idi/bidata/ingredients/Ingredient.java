@@ -1,11 +1,14 @@
-import java.util.Date;
+package ingredients;
+
+import java.time.LocalDate;
+
 /**
  * Holds information of an ingredient.
  * The name of the ingredient, description, amount, unit, price and expiration date.
 
  * @author Johannes Nupen Theigen
  * @since 10.14.2024
- * @version 0.0.2
+ * @version 0.0.3
  */
 
 public class Ingredient {
@@ -14,7 +17,7 @@ public class Ingredient {
   private int amount;
   private String unit;
   private float price;
-  private Date expirationDate;
+  private LocalDate expirationDate;
 
   /**
    * Creates an ingredient.
@@ -27,7 +30,7 @@ public class Ingredient {
    * @param expirationDate the expiration date of an ingredient.
    */
   public Ingredient(String ingredientName, String descriptionOfIngredient,
-                    float amount, String unit, float price, Date expirationDate) {
+                    int amount, String unit, float price, LocalDate expirationDate) {
     setIngredientName(ingredientName);
     setDescriptionOfIngredient(descriptionOfIngredient);
     setAmount(amount);
@@ -50,9 +53,10 @@ public class Ingredient {
    * If the name is null or empty an IllegalArgumentException is thrown.
 
    * @param ingredientName The ingredientName cannot be null or empty.
+   * @throws IllegalArgumentException If the name is null or empty.
    */
-  public void setIngredientName(String ingredientName) {
-    if (ingredientName == null || ingredientName.isEmpty() || ingredientName.isBlank()) {
+  public void setIngredientName(String ingredientName) throws IllegalArgumentException {
+    if (ingredientName == null || ingredientName.isEmpty()) {
       throw new IllegalArgumentException("The ingredient name cannot be null or empty");
     }
     this.ingredientName = ingredientName;
@@ -72,10 +76,11 @@ public class Ingredient {
    * an IllegalArgumentException is thrown.
 
    * @param descriptionOfIngredient the description of an ingredient.
+   * @throws IllegalArgumentException If the description of an ingredient is null or empty.
    */
-  public void setDescriptionOfIngredient(String descriptionOfIngredient) {
-    if (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty()
-        || descriptionOfIngredient.isBlank()) {
+  public void setDescriptionOfIngredient(String descriptionOfIngredient)
+      throws IllegalArgumentException {
+    if (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty()) {
       throw new IllegalArgumentException("The description of the ingredient cannot be null"
           + " or empty.");
     }
@@ -96,8 +101,9 @@ public class Ingredient {
    * If the value is less than zero an IllegalArgumentException is thrown.
 
    * @param amount the amount must be greater than zero.
+   * @throws IllegalArgumentException If the amount is less than zero.
    */
-  public void setAmount(int amount) {
+  public void setAmount(int amount)throws IllegalArgumentException {
     if (amount <= 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
     }
@@ -118,9 +124,10 @@ public class Ingredient {
    * If the unit is null or empty an IllegalArgumentException is thrown.
 
    * @param unit The unit cannot be null or empty.
+   * @throws IllegalArgumentException If the unit is null or empty.
    */
-  public void setUnit(String unit) {
-    if (unit == null || unit.isEmpty() || unit.isBlank()) {
+  public void setUnit(String unit) throws IllegalArgumentException {
+    if (unit == null || unit.isEmpty()) {
       throw new IllegalArgumentException("The unit cannot be null or empty.");
     }
     this.unit = unit;
@@ -140,8 +147,9 @@ public class Ingredient {
    * If the price of the ingredient is less than zero an IllegalArgumentException is thrown.
 
    * @param price The price of the ingredient must be greater than zero.
+   * @throws IllegalArgumentException If the price of the ingredient is less than zero.
    */
-  public void setPrice(float price) {
+  public void setPrice(float price) throws IllegalArgumentException {
     if (price <= 0) {
       throw new IllegalArgumentException("The price of the ingredient cannot be less than 0");
     }
@@ -153,19 +161,24 @@ public class Ingredient {
 
    * @return The expiration date of an ingredient.
    */
-  public Date getExpirationDate() {
+  public LocalDate getExpirationDate() {
     return expirationDate;
   }
 
   /**
    * Sets the expiration date of an ingredient.
-   * If the expiration date is null or empty an IllegalArgumentException is thrown.
+   * If the expiration date is null, the previous or current date
+   * an IllegalArgumentException is thrown.
 
    * @param expirationDate The expiration date cannot be null.
+   * @throws IllegalArgumentException If the expiration date is null, previous or current.
    */
-  public void setExpirationDate(Date expirationDate) {
+  public void setExpirationDate(LocalDate expirationDate) throws IllegalArgumentException {
     if (expirationDate == null) {
       throw new IllegalArgumentException("The expiration date cannot be null");
+    } else if (expirationDate.isBefore(LocalDate.now())) {
+      throw new IllegalArgumentException("The expiration date cannot be the "
+          + "current or previous date.");
     }
     this.expirationDate = expirationDate;
   }

@@ -1,3 +1,7 @@
+package foodstorage;
+
+import ingredients.Ingredient;
+
 import java.util.ArrayList;
 
 /**
@@ -5,7 +9,7 @@ import java.util.ArrayList;
 
  * @author Johannes Nupen Theigen
  * @since 10.14.2024
- * @version 0.0.2
+ * @version 0.0.3
  */
 public class FoodStorage {
   private ArrayList<Ingredient> ingredients;
@@ -50,6 +54,19 @@ public class FoodStorage {
   public void listIngredients() {
     for (Ingredient ingredient : ingredients) {
       System.out.println(ingredient.getIngredientName());
+    }
+  }
+
+  public void findIngredient() {
+    boolean flag = false;
+    for(Ingredient ingredient : ingredients) {
+      if (ingredients.contains(ingredient.getIngredientName()) {
+        flag = true;
+        System.out.println(ingredient.getIngredientName());
+      }
+    }
+    if (!flag) {
+      System.out.println("Could not find the ingredient");
     }
   }
 }
