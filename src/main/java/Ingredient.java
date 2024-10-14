@@ -4,7 +4,8 @@ import java.util.Date;
  * The name of the ingredient, description, amount, unit, price and expiration date.
 
  * @author Johannes Nupen Theigen
- * @version 0.0.02 (10.14.2024)
+ * @since 10.14.2024
+ * @version 0.0.2
  */
 
 public class Ingredient {
