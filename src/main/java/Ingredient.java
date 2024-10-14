@@ -51,7 +51,7 @@ public class Ingredient {
    * @param ingredientName The ingredientName cannot be null or empty.
    */
   public void setIngredientName(String ingredientName) {
-    if (ingredientName == null || ingredientName.isEmpty()) {
+    if (ingredientName == null || ingredientName.isEmpty() || ingredientName.isBlank()) {
       throw new IllegalArgumentException("The ingredient name cannot be null or empty");
     }
     this.ingredientName = ingredientName;
@@ -73,7 +73,8 @@ public class Ingredient {
    * @param descriptionOfIngredient the description of an ingredient.
    */
   public void setDescriptionOfIngredient(String descriptionOfIngredient) {
-    if (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty()) {
+    if (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty()
+        || descriptionOfIngredient.isBlank()) {
       throw new IllegalArgumentException("The description of the ingredient cannot be null"
           + " or empty.");
     }
@@ -95,7 +96,7 @@ public class Ingredient {
 
    * @param amount the amount must be greater than zero.
    */
-  public void setAmount(float amount) {
+  public void setAmount(int amount) {
     if (amount <= 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
     }
@@ -118,7 +119,7 @@ public class Ingredient {
    * @param unit The unit cannot be null or empty.
    */
   public void setUnit(String unit) {
-    if (unit == null || unit.isEmpty()) {
+    if (unit == null || unit.isEmpty() || unit.isBlank()) {
       throw new IllegalArgumentException("The unit cannot be null or empty.");
     }
     this.unit = unit;
