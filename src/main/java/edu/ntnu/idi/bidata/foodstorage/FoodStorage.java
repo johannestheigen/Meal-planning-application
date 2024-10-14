@@ -1,6 +1,6 @@
-package foodstorage;
+package edu.ntnu.idi.bidata.foodstorage;
 
-import ingredients.Ingredient;
+import edu.ntnu.idi.bidata.ingredients.Ingredient;
 
 import java.util.ArrayList;
 
