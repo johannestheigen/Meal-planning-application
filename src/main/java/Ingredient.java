@@ -4,7 +4,7 @@ import java.util.Date;
  * The name of the ingredient, description, amount, unit, price and expiration date.
 
  * @author Johannes Nupen Theigen
- * @version 12.10.2024
+ * @version 0.0.02 (10.14.2024)
  */
 
 public class Ingredient {
@@ -51,8 +51,7 @@ public class Ingredient {
    * @param ingredientName The ingredientName cannot be null or empty.
    */
   public void setIngredientName(String ingredientName) {
-    boolean isEmpty = (ingredientName == null || ingredientName.isEmpty());
-    if (isEmpty) {
+    if (ingredientName == null || ingredientName.isEmpty()) {
       throw new IllegalArgumentException("The ingredient name cannot be null or empty");
     } else {
       this.ingredientName = ingredientName;
@@ -75,8 +74,7 @@ public class Ingredient {
    * @param descriptionOfIngredient the description of an ingredient.
    */
   public void setDescriptionOfIngredient(String descriptionOfIngredient) {
-    boolean isEmpty = (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty());
-    if (isEmpty) {
+    if (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty()) {
       throw new IllegalArgumentException("The description of the ingredient cannot be null"
           + " or empty.");
     } else {
@@ -123,8 +121,7 @@ public class Ingredient {
    * @param unit The unit cannot be null or empty.
    */
   public void setUnit(String unit) {
-    boolean isEmpty = (unit == null || unit.isEmpty());
-    if (isEmpty) {
+    if (unit == null || unit.isEmpty()) {
       throw new IllegalArgumentException("The unit cannot be null or empty.");
     } else {
       this.unit = unit;
