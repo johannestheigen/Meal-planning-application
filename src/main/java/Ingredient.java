@@ -53,9 +53,8 @@ public class Ingredient {
   public void setIngredientName(String ingredientName) {
     if (ingredientName == null || ingredientName.isEmpty()) {
       throw new IllegalArgumentException("The ingredient name cannot be null or empty");
-    } else {
-      this.ingredientName = ingredientName;
     }
+    this.ingredientName = ingredientName;
   }
 
   /**
@@ -77,9 +76,8 @@ public class Ingredient {
     if (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty()) {
       throw new IllegalArgumentException("The description of the ingredient cannot be null"
           + " or empty.");
-    } else {
-      this.descriptionOfIngredient = descriptionOfIngredient;
     }
+    this.descriptionOfIngredient = descriptionOfIngredient;
   }
 
   /**
@@ -100,9 +98,8 @@ public class Ingredient {
   public void setAmount(float amount) {
     if (amount <= 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
-    } else {
-      this.amount = amount;
     }
+    this.amount = amount;
   }
 
   /**
@@ -123,9 +120,8 @@ public class Ingredient {
   public void setUnit(String unit) {
     if (unit == null || unit.isEmpty()) {
       throw new IllegalArgumentException("The unit cannot be null or empty.");
-    } else {
-      this.unit = unit;
     }
+    this.unit = unit;
   }
 
   /**
@@ -146,9 +142,8 @@ public class Ingredient {
   public void setPrice(float price) {
     if (price <= 0) {
       throw new IllegalArgumentException("The price of the ingredient cannot be less than 0");
-    } else {
-      this.price = price;
     }
+    this.price = price;
   }
 
   /**
@@ -169,8 +164,7 @@ public class Ingredient {
   public void setExpirationDate(Date expirationDate) {
     if (expirationDate == null) {
       throw new IllegalArgumentException("The expiration date cannot be null");
-    } else {
-      this.expirationDate = expirationDate;
     }
+    this.expirationDate = expirationDate;
   }
 }
