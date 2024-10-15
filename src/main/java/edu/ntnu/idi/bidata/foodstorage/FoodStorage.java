@@ -1,7 +1,6 @@
 package edu.ntnu.idi.bidata.foodstorage;
 
 import edu.ntnu.idi.bidata.ingredients.Ingredient;
-
 import java.util.ArrayList;
 
 /**
@@ -57,9 +56,12 @@ public class FoodStorage {
     }
   }
 
+  /**
+   * Finds an available ingredient when provided a String to search for.
+   */
   public void findIngredient() {
     boolean flag = false;
-    for(Ingredient ingredient : ingredients) {
+    for (Ingredient ingredient : ingredients) {
       if (ingredient.getIngredientName().contains(ingredient.getIngredientName())) {
         flag = true;
         System.out.println(ingredient.getIngredientName());
