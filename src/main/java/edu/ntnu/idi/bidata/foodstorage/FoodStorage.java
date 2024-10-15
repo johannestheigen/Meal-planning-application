@@ -60,7 +60,7 @@ public class FoodStorage {
   public void findIngredient() {
     boolean flag = false;
     for(Ingredient ingredient : ingredients) {
-      if (ingredients.contains(ingredient.getIngredientName()) {
+      if (ingredient.getIngredientName().contains(ingredient.getIngredientName())) {
         flag = true;
         System.out.println(ingredient.getIngredientName());
       }
