@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Ingredient {
   private String ingredientName;
   private String descriptionOfIngredient;
-  private int amount;
+  private float amount;
   private String unit;
   private float price;
   private LocalDate expirationDate;
@@ -30,7 +30,7 @@ public class Ingredient {
    * @param expirationDate the expiration date of an ingredient.
    */
   public Ingredient(String ingredientName, String descriptionOfIngredient,
-                    int amount, String unit, float price, LocalDate expirationDate) {
+                    float amount, String unit, float price, LocalDate expirationDate) {
     setIngredientName(ingredientName);
     setDescriptionOfIngredient(descriptionOfIngredient);
     setAmount(amount);
@@ -100,10 +100,10 @@ public class Ingredient {
    * Sets the amount of an ingredient.
    * If the value is less than zero an IllegalArgumentException is thrown.
 
-   * @param amount the amount must be greater than zero.
+   * @param amount the amount cannot be less than zero.
    * @throws IllegalArgumentException If the amount is less than zero.
    */
-  public void setAmount(int amount)throws IllegalArgumentException {
+  public void setAmount(float amount)throws IllegalArgumentException {
     if (amount <= 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
     }
