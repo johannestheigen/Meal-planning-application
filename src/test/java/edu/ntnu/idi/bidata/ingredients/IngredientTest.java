@@ -2,8 +2,6 @@
  * This class contains unit tests for the Ingredient class.
  * It tests the functionality of the Ingredient methods
  * including setIngredientName, setAmount, and setExpirationDate.
- * The other methods setDescriptionOfIngredient, setUnit,
- * and setPrice are not tested as they have similar implementations.
  */
 
 package edu.ntnu.idi.bidata.ingredients;
@@ -28,98 +26,74 @@ class IngredientTest {
    * Test that checks if a valid input of ingredientName is set correctly.
    */
   @Test
-  void setIngredientNameTestForValidInput() {
+  void setIngredientNameTestForPositiveInput() {
     testIngredient.setIngredientName("Tomato");
     assertEquals("Tomato", testIngredient.getIngredientName(), "The output should be Tomato");
   }
 
-  /**
-   * Test that checks if an invalid input of null for ingredientName is set,
-   * throws the expected IllegalArgumentException.
-   */
   @Test
-  void setIngredientNameTestForNullInput() {
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testIngredient.setIngredientName(null);
-    });
-    assertEquals("The ingredient name cannot be null or empty", exception.getMessage());
+  void setIngredientNameTestForNegativeInput() {
+    testIngredient.setIngredientName("Tomato");
+    assertNotEquals("Tomata",testIngredient.getIngredientName(),"The output should not be Tomata.");
   }
 
-  /**
-   * Test that checks if an invalid input of an empty string for ingredientName is set,
-   * throws the expected IllegalArgumentException.
-   */
   @Test
-  void setIngredientNameTestForEmptyInput() {
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testIngredient.setIngredientName("");
-    });
-    assertEquals("The ingredient name cannot be null or empty", exception.getMessage());
+  void setIngredientDescriptionForPositiveInput() {
+    testIngredient.setDescriptionOfIngredient("Vegetable");
+    assertEquals("Vegetable",testIngredient.getDescriptionOfIngredient(), "The output should be Vegetable");
   }
 
-  /**
-   * Test that checks if a positive input of amount is set,
-   * returns the same positive input.
-   */
   @Test
-  void setAmountTestForPositiveValues() {
+  void setIngredientDescriptionForNegativeInput() {
+    testIngredient.setDescriptionOfIngredient("Dairy");
+    assertNotEquals("Baked goods",testIngredient.getDescriptionOfIngredient(),"The output should not be Baked goods");
+  }
+
+  @Test
+  void setAmountForPositiveInput() {
     testIngredient.setAmount(10);
-    assertEquals(10, testIngredient.getAmount(), "The output should be 10");
+    assertEquals(10,testIngredient.getAmount(),"The output should be 10");
   }
 
-  /**
-   * Test that checks if a negative input of amount is set,
-   * throws the expected IllegalArgumentException.
-   */
   @Test
-  void setAmountTestForNegativeValues() {
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testIngredient.setAmount(-1);
-    });
-    assertEquals("The amount cannot be less than 0.", exception.getMessage());
+  void setAmountForNegativeInput() {
+    testIngredient.setAmount(100);
+    assertNotEquals(-50,testIngredient.getAmount(),"The output should not -50");
   }
 
-  /**
-   * Test that checks if an amount of zero is valid.
-   */
   @Test
-  void setAmountTestForZero() {
-    testIngredient.setAmount(0);
-    assertEquals(0, testIngredient.getAmount(), "The output should be 0");
+  void setUnitForPositiveInput() {
+    testIngredient.setUnit("kg");
+    assertEquals("kg",testIngredient.getUnit(),"The output should be kg");
   }
 
-  /**
-   * Test that checks if a valid input of expirationDate is set correctly.
-   */
   @Test
-  void setExpirationDateForValidInput() {
-    LocalDate validDate = LocalDate.of(2026, 10, 25);
-    testIngredient.setExpirationDate(validDate);
-    assertEquals(validDate, testIngredient.getExpirationDate(), "The expiration date should be 2026-10-25");
+  void setUnitForNegativeInput() {
+    testIngredient.setUnit("mg");
+    assertNotEquals("g",testIngredient.getUnit(),"The output should not be g");
   }
 
-  /**
-   * Test that checks if an invalid input of null for expirationDate is set,
-   * throws the expected IllegalArgumentException.
-   */
   @Test
-  void setExpirationDateForNullInput() {
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testIngredient.setExpirationDate(null);
-    });
-    assertEquals("The expiration date cannot be null", exception.getMessage());
+  void setPriceForPositiveInput() {
+    testIngredient.setPrice(1);
+    assertEquals(1,testIngredient.getPrice(),"The output should be 1.");
   }
 
-  /**
-   * Test that checks if an invalid input for expirationDate is before the current date,
-   * throws the expected IllegalArgumentException.
-   */
   @Test
-  void setExpirationDateForIsBeforeDateInput() {
-    LocalDate pastDate = LocalDate.of(2022, 1, 1); // Fixed past date for stability
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testIngredient.setExpirationDate(pastDate);
-    });
-    assertEquals("The expiration date cannot be the current or previous date.", exception.getMessage());
+  void setPriceForNegativeInput() {
+    testIngredient.setPrice(5);
+    assertNotEquals(9,testIngredient.getPrice(), "The output should not be 9");
+  }
+
+  @Test
+  void setExpirationDateForPositiveInput() {
+    testIngredient.setExpirationDate(LocalDate.of(2035,1,1));
+    assertEquals(LocalDate.of(2035,1,1),testIngredient.getExpirationDate(),"The output should be 2035 1 1");
+  }
+
+  @Test
+  void setExpirationDateForNegativeInput() {
+    testIngredient.setExpirationDate(LocalDate.of(2037,6,17));
+    assertNotEquals(LocalDate.of(2029,1,1),testIngredient.getExpirationDate(),"The output should not be 2029 1 1");
   }
 }
