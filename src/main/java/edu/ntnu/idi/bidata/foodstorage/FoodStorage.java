@@ -113,6 +113,6 @@ public class FoodStorage {
         totalValue = totalValue + ingredient.getPrice();
       }
     }
-    System.out.println("The total value of alle expired ingredients is: " + totalValue);
+    System.out.println("The total value of all expired ingredients is: " + totalValue);
   }
 }
