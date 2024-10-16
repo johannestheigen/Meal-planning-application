@@ -56,9 +56,9 @@ public class FoodStorage {
   }
 
   /**
-   * Finds an available ingredient when provided a String to search for.
+   * Finds an ingredient in the storage when provided a String to search for.
    */
-  public void listIngredient() {
+  public void findIngredient() {
     boolean flag = false;
     for (Ingredient ingredient : ingredients) {
       if (ingredient.getIngredientName().contains(ingredient.getIngredientName())) {
@@ -74,7 +74,7 @@ public class FoodStorage {
   /**
    * Lists all available ingredients in the storage.
    */
-  public void listIngredients() {
+  public void listAllIngredients() {
     for (Ingredient ingredient : ingredients) {
       System.out.println(ingredient.getIngredientName() + ingredient.getDescriptionOfIngredient());
     }
@@ -95,7 +95,7 @@ public class FoodStorage {
   /**
    * Prints the value of all ingredients.
    */
-  public void printValueOfIngredients() {
+  public void printValueOfAllIngredients() {
     float totalValue = 0;
     for (Ingredient ingredient : ingredients) {
       totalValue = totalValue + ingredient.getPrice();
