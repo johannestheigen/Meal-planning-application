@@ -7,8 +7,8 @@ import java.time.LocalDate;
  * The name of the ingredient, description, amount, unit, price and expiration date.
 
  * @author Johannes Nupen Theigen
- * @since 10.14.2024
- * @version 0.0.3
+ * @since 10.16.2024
+ * @version 0.0.4
  */
 
 public class Ingredient {

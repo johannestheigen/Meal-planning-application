@@ -1,16 +1,15 @@
 package edu.ntnu.idi.bidata.foodstorage;
 
 import edu.ntnu.idi.bidata.ingredients.Ingredient;
-
-import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Stores all the ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.3
- * @since 10.14.2024
+ * @version 0.0.4
+ * @since 10.16.2024
  */
 public class FoodStorage {
   private ArrayList<Ingredient> ingredients;
@@ -41,28 +40,19 @@ public class FoodStorage {
   }
 
   /**
+   * Removes all ingredients from the food storage.
+   */
+  public void emptyStorage() {
+    ingredients.clear();
+  }
+
+  /**
    * Returns the number of ingredients in the storage.
    *
    * @return the number of ingredients in the storage
    */
   public int getNumberOfIngredients() {
     return ingredients.size();
-  }
-
-  /**
-   * Lists all available ingredients in the storage.
-   */
-  public void listIngredients() {
-    for (Ingredient ingredient : ingredients) {
-      System.out.println(ingredient.getIngredientName());
-    }
-  }
-
-  public void listExpiredIngredients() {
-    for (Ingredient ingredient : ingredients)
-      if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
-        System.out.println(ingredient.getIngredientName());
-      }
   }
 
   /**
@@ -79,5 +69,50 @@ public class FoodStorage {
     if (!flag) {
       System.out.println("Could not find the ingredient");
     }
+  }
+
+  /**
+   * Lists all available ingredients in the storage.
+   */
+  public void listIngredients() {
+    for (Ingredient ingredient : ingredients) {
+      System.out.println(ingredient.getIngredientName() + ingredient.getDescriptionOfIngredient());
+    }
+  }
+
+  /**
+   * Lists all the expired ingredients in the storage.
+   */
+  public void listExpiredIngredients() {
+    for (Ingredient ingredient : ingredients) {
+      if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
+        System.out.println(ingredient.getIngredientName()
+            + ingredient.getDescriptionOfIngredient());
+      }
+    }
+  }
+
+  /**
+   * Prints the value of all ingredients.
+   */
+  public void printValueOfIngredients() {
+    float totalValue = 0;
+    for (Ingredient ingredient : ingredients) {
+      totalValue = totalValue + ingredient.getPrice();
+    }
+    System.out.println("The total value of all ingredients is: " + totalValue);
+  }
+
+  /**
+   * Prints the value of all expired ingredients.
+   */
+  public void printValueOfExpiredIngredients() {
+    float totalValue = 0;
+    for (Ingredient ingredient : ingredients) {
+      if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
+        totalValue = totalValue + ingredient.getPrice();
+      }
+    }
+    System.out.println("The total value of alle expired ingredients is: " + totalValue);
   }
 }
