@@ -104,7 +104,7 @@ public class Ingredient {
    * @throws IllegalArgumentException If the amount is less than zero.
    */
   public void setAmount(float amount)throws IllegalArgumentException {
-    if (amount <= 0) {
+    if (amount < 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
     }
     this.amount = amount;
@@ -150,7 +150,7 @@ public class Ingredient {
    * @throws IllegalArgumentException If the price of the ingredient is less than zero.
    */
   public void setPrice(float price) throws IllegalArgumentException {
-    if (price <= 0) {
+    if (price < 0) {
       throw new IllegalArgumentException("The price of the ingredient cannot be less than 0");
     }
     this.price = price;
