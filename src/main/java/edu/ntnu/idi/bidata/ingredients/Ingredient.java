@@ -121,16 +121,21 @@ public class Ingredient {
 
   /**
    * Sets the unit of an ingredient.
-   * If the unit is null or empty an IllegalArgumentException is thrown.
+   * If the unit is null, empty or invalid an IllegalArgumentException is thrown.
 
-   * @param unit The unit cannot be null or empty.
-   * @throws IllegalArgumentException If the unit is null or empty.
+   * @param unit The unit cannot be null empty, and it must be kg, g, l or ml.
+   * @throws IllegalArgumentException If the unit null, empty or invalid.
    */
   public void setUnit(String unit) throws IllegalArgumentException {
     if (unit == null || unit.isEmpty()) {
-      throw new IllegalArgumentException("The unit cannot be null or empty.");
+      throw new IllegalArgumentException("The unit cannot be null or empty");
     }
-    this.unit = unit;
+    if (unit.equalsIgnoreCase("kg") || unit.equalsIgnoreCase("g")
+        || unit.equalsIgnoreCase("l") || unit.equalsIgnoreCase("ml")) {
+      this.unit = unit;
+    } else {
+      throw new IllegalArgumentException("The unit must be kg, g, l or ml.");
+    }
   }
 
   /**

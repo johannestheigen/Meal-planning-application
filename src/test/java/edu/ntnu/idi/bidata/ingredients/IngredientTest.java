@@ -69,8 +69,8 @@ class IngredientTest {
 
   @Test
   void setUnitForNegativeInput() {
-    testIngredient.setUnit("mg");
-    assertNotEquals("g",testIngredient.getUnit(),"The output should not be g");
+    testIngredient.setUnit("kg");
+    assertNotEquals("mg",testIngredient.getUnit(),"The output should not be g");
   }
 
   @Test
