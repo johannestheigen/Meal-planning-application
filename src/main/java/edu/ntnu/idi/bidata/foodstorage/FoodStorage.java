@@ -96,7 +96,7 @@ public class FoodStorage {
    * Prints the value of all ingredients.
    */
   public void printValueOfAllIngredients() {
-    float totalValue = 0;
+    double totalValue = 0;
     for (Ingredient ingredient : ingredients) {
       totalValue = totalValue + ingredient.getPrice();
     }
@@ -107,7 +107,7 @@ public class FoodStorage {
    * Prints the value of all expired ingredients.
    */
   public void printValueOfExpiredIngredients() {
-    float totalValue = 0;
+    double totalValue = 0;
     for (Ingredient ingredient : ingredients) {
       if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
         totalValue = totalValue + ingredient.getPrice();
