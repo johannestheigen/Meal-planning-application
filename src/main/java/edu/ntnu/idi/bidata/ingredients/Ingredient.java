@@ -14,9 +14,9 @@ import java.time.LocalDate;
 public class Ingredient {
   private String ingredientName;
   private String descriptionOfIngredient;
-  private float amount;
+  private double amount;
   private String unit;
-  private float price;
+  private double price;
   private LocalDate expirationDate;
 
   /**
@@ -30,7 +30,7 @@ public class Ingredient {
    * @param expirationDate the expiration date of an ingredient.
    */
   public Ingredient(String ingredientName, String descriptionOfIngredient,
-                    float amount, String unit, float price, LocalDate expirationDate) {
+                    double amount, String unit, double price, LocalDate expirationDate) {
     setIngredientName(ingredientName);
     setDescriptionOfIngredient(descriptionOfIngredient);
     setAmount(amount);
@@ -92,7 +92,7 @@ public class Ingredient {
 
    * @return the amount of an ingredient
    */
-  public float getAmount() {
+  public double getAmount() {
     return amount;
   }
 
@@ -103,7 +103,7 @@ public class Ingredient {
    * @param amount the amount cannot be less than zero.
    * @throws IllegalArgumentException If the amount is less than zero.
    */
-  public void setAmount(float amount)throws IllegalArgumentException {
+  public void setAmount(double amount)throws IllegalArgumentException {
     if (amount < 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
     }
@@ -143,7 +143,7 @@ public class Ingredient {
 
    * @return The price of an ingredient.
    */
-  public float getPrice() {
+  public double getPrice() {
     return price;
   }
 
@@ -154,7 +154,7 @@ public class Ingredient {
    * @param price The price of the ingredient must be greater than zero.
    * @throws IllegalArgumentException If the price of the ingredient is less than zero.
    */
-  public void setPrice(float price) throws IllegalArgumentException {
+  public void setPrice(double price) throws IllegalArgumentException {
     if (price < 0) {
       throw new IllegalArgumentException("The price of the ingredient cannot be less than 0");
     }
