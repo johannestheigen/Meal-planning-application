@@ -4,7 +4,7 @@
  * including setIngredientName, setAmount, and setExpirationDate.
  */
 
-package edu.ntnu.idi.bidata.ingredients;
+package edu.ntnu.idi.bidata.items;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
