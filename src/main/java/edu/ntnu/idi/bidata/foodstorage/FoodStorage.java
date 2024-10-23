@@ -33,9 +33,8 @@ public class FoodStorage {
   /**
    * Removes an ingredient from the food storage.
    *
-   * @param ingredient an ingredient (anything edible) that can be removed from the food storage.
    */
-  public void removeIngredient(Ingredient ingredient) {
+  public void removeIngredient() {
     boolean flag = false;
     for (Ingredient ingredient : ingredients) {
       if (ingredient.getIngredientName().contains(ingredient.getIngredientName())) {
