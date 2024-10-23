@@ -123,8 +123,4 @@ public class FoodStorage {
     }
     System.out.println("The total value of all expired ingredients is: " + totalValue);
   }
-
-  public void testMethdod() {
-    System.out.println("Hi");
-  }
 }
