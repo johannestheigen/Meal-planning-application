@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * Stores all the ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.4
- * @since 10.16.2024
+ * @version 0.0.5
+ * @since 10.23.2024
  */
 public class FoodStorage {
   private ArrayList<Ingredient> ingredients;
