@@ -36,7 +36,16 @@ public class FoodStorage {
    * @param ingredient an ingredient (anything edible) that can be removed from the food storage.
    */
   public void removeIngredient(Ingredient ingredient) {
-    ingredients.remove(ingredient);
+    boolean flag = false;
+    for (Ingredient ingredient : ingredients) {
+      if (ingredient.getIngredientName().contains(ingredient.getIngredientName())) {
+        flag = true;
+        ingredients.remove(ingredient);
+      }
+      if (!flag) {
+        System.out.println("Could not delete - the ingredient doesn't exist.");
+      }
+    }
   }
 
   /**
