@@ -2,14 +2,11 @@
 # Portfolio project IDATG1003
 This file uses Mark Down syntax. For more information see [here](https://www.markdownguide.org/basic-syntax/).
 
-[//]: # (TODO: Fill inn your name and student ID)
 
 STUDENT NAME = Johannes Nupen Theigen  
 STUDENT ID = 134126
 
 ## Project description
-
-[//]: # (TODO: Write a short description of your project/product here.)
 
 This application aims to make consumers more conscious about food waste.
 It provides a list of groceries in their household and how 
@@ -18,11 +15,10 @@ they can use them to make food before its expiration date.
 
 ## Project structure
 
-[//]: # (TODO: Describe the structure of your project here. How have you used packages in your structure. Where are all sourcefiles stored. Where are all JUnit-test classes stored. etc.)
+This project consists of several packages located in the source folder (src).
+The test files are found in a test folder also located in the source folder.
 
 ## Link to repository
-
-[//]: # (TODO: Add repository link)
 
 https://github.com/NTNU-BIDATA-IDATG1003-2024/meal-planning-johannestheigen
 
@@ -36,8 +32,6 @@ What is the input and output of the program? What is the expected behaviour of t
 [//]: # (TODO: Describe how to run the tests here.)
 
 ## Link to report
-
-[//]: # (TODO: Add link to report)
 
 https://www.overleaf.com/read/rgzddswhsjvj#c83f94
 
