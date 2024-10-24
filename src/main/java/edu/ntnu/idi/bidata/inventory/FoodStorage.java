@@ -28,8 +28,12 @@ public class FoodStorage {
    * @param ingredient an ingredient (anything edible) that can be added to the food storage.
    */
   public void addIngredient(Ingredient ingredient) {
-    storage.add(ingredient);
-    System.out.println("Successfully added an ingredient to the storage!");
+    if (storage.contains(ingredient)) {
+      System.out.println("The ingredient already exists!");
+    } else {
+      storage.add(ingredient);
+      System.out.println("Successfully added an ingredient to the storage!");
+    }
   }
 
   /**
