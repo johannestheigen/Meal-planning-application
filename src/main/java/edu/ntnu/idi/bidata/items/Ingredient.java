@@ -4,17 +4,17 @@ import java.time.LocalDate;
 
 /**
  * Holds information of an ingredient.
- * The name of the ingredient, description, amount, unit, price and expiration date.
+ * The name of the ingredient, description, quantity, unit, price and expiration date.
 
  * @author Johannes Nupen Theigen
- * @version 0.0.5
- * @since 10.21.2024
+ * @version 0.0.6
+ * @since 10.24.2024
  */
 
 public class Ingredient {
   private String name;
-  private String descriptionOfIngredient;
-  private double amount;
+  private String description;
+  private double quantity;
   private String unit;
   private double price;
   private LocalDate expirationDate;
@@ -23,17 +23,17 @@ public class Ingredient {
    * Creates an ingredient.
 
    * @param name the name an ingredient
-   * @param descriptionOfIngredient the description of an ingredient. (type, taste, etc.)
-   * @param amount the amount of an ingredient
+   * @param description the description of an ingredient. (type, taste, etc.)
+   * @param quantity the quantity of an ingredient
    * @param unit the unit of an ingredient (gram, litre, etc.)
    * @param price the price of an ingredient. (price in Norwegian kr)
    * @param expirationDate the expiration date of an ingredient.
    */
-  public Ingredient(String name, String descriptionOfIngredient,
-                    double amount, String unit, double price, LocalDate expirationDate) {
+  public Ingredient(String name, String description,
+                    double quantity, String unit, double price, LocalDate expirationDate) {
     setName(name);
-    setDescriptionOfIngredient(descriptionOfIngredient);
-    setAmount(amount);
+    setDescription(description);
+    setQuantity(quantity);
     setUnit(unit);
     setPrice(price);
     setExpirationDate(expirationDate);
@@ -67,47 +67,47 @@ public class Ingredient {
 
    * @return The description of an ingredient.
    */
-  public String getDescriptionOfIngredient() {
-    return descriptionOfIngredient;
+  public String getDescription() {
+    return description;
   }
 
   /**
    * Sets the description of an ingredient. If the description of an ingredient is null or empty
    * an IllegalArgumentException is thrown.
 
-   * @param descriptionOfIngredient the description of an ingredient.
+   * @param description the description of an ingredient.
    * @throws IllegalArgumentException If the description of an ingredient is null or empty.
    */
-  public void setDescriptionOfIngredient(String descriptionOfIngredient)
+  public void setDescription(String description)
       throws IllegalArgumentException {
-    if (descriptionOfIngredient == null || descriptionOfIngredient.isEmpty()) {
+    if (description == null || description.isEmpty()) {
       throw new IllegalArgumentException("The description of the ingredient cannot be null"
           + " or empty.");
     }
-    this.descriptionOfIngredient = descriptionOfIngredient;
+    this.description = description;
   }
 
   /**
-   * Returns the amount of an ingredient.
+   * Returns the quantity of an ingredient.
 
-   * @return the amount of an ingredient
+   * @return the quantity of an ingredient
    */
-  public double getAmount() {
-    return amount;
+  public double getQuantity() {
+    return quantity;
   }
 
   /**
-   * Sets the amount of an ingredient.
-   * If the value is less than zero an IllegalArgumentException is thrown.
+   * Sets the quantity of an ingredient.
+   * If the quantity is less than zero an IllegalArgumentException is thrown.
 
-   * @param amount the amount cannot be less than zero.
-   * @throws IllegalArgumentException If the amount is less than zero.
+   * @param quantity the quantity cannot be less than zero.
+   * @throws IllegalArgumentException If the quantity is less than zero.
    */
-  public void setAmount(double amount)throws IllegalArgumentException {
-    if (amount < 0) {
+  public void setQuantity(double quantity)throws IllegalArgumentException {
+    if (quantity < 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
     }
-    this.amount = amount;
+    this.quantity = quantity;
   }
 
   /**

@@ -39,26 +39,26 @@ class IngredientTest {
 
   @Test
   void setIngredientDescriptionForPositiveInput() {
-    testIngredient.setDescriptionOfIngredient("Vegetable");
-    assertEquals("Vegetable",testIngredient.getDescriptionOfIngredient(), "The output should be Vegetable");
+    testIngredient.setDescription("Vegetable");
+    assertEquals("Vegetable",testIngredient.getDescription(), "The output should be Vegetable");
   }
 
   @Test
   void setIngredientDescriptionForNegativeInput() {
-    testIngredient.setDescriptionOfIngredient("Dairy");
-    assertNotEquals("Baked goods",testIngredient.getDescriptionOfIngredient(),"The output should not be Baked goods");
+    testIngredient.setDescription("Dairy");
+    assertNotEquals("Baked goods",testIngredient.getDescription(),"The output should not be Baked goods");
   }
 
   @Test
   void setAmountForPositiveInput() {
-    testIngredient.setAmount(10);
-    assertEquals(10,testIngredient.getAmount(),"The output should be 10");
+    testIngredient.setQuantity(10);
+    assertEquals(10,testIngredient.getQuantity(),"The output should be 10");
   }
 
   @Test
   void setAmountForNegativeInput() {
-    testIngredient.setAmount(100);
-    assertNotEquals(-50,testIngredient.getAmount(),"The output should not -50");
+    testIngredient.setQuantity(100);
+    assertNotEquals(-50,testIngredient.getQuantity(),"The output should not -50");
   }
 
   @Test
