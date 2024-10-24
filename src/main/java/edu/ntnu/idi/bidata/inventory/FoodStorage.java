@@ -133,6 +133,26 @@ public class FoodStorage {
   }
 
   /**
+   * Lists all the ingredients of a specific expiration date.
+   * @param expirationDate the expiration date of the ingredient.
+   */
+  public void listIngredientsByDate(LocalDate expirationDate) {
+    boolean found = false;
+    int index = 0;
+    while (index < storage.size()) {
+      Ingredient ingredient = storage.get(index);
+      if (ingredient.getExpirationDate().isEqual(expirationDate)) {
+        System.out.println(ingredient.getName());
+        found = true;
+      }
+      index++;
+    }
+    if (!found) {
+      System.out.println("Could not find any ingredients with the given expiration date!");
+    }
+  }
+
+  /**
    * Prints the value of all ing ingredients.
    */
   public void printValueOfAllIngredients() {
