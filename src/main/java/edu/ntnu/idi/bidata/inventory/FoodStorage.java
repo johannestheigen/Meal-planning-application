@@ -134,6 +134,7 @@ public class FoodStorage {
 
   /**
    * Lists all the ingredients of a specific expiration date.
+
    * @param expirationDate the expiration date of the ingredient.
    */
   public void listIngredientsByDate(LocalDate expirationDate) {
