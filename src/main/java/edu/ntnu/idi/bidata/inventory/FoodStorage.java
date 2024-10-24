@@ -1,7 +1,6 @@
 package edu.ntnu.idi.bidata.inventory;
 
 import edu.ntnu.idi.bidata.items.Ingredient;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,11 +9,11 @@ import java.util.Iterator;
  * Stores all the ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.7
+ * @version 0.0.8
  * @since 10.24.2024
  */
 public class FoodStorage {
-  private ArrayList<Ingredient> storage;
+  private final ArrayList<Ingredient> storage;
 
   /**
    * Creates a storage for ingredients.
@@ -32,7 +31,7 @@ public class FoodStorage {
     boolean ingredientExists = false;
 
     for (Ingredient existingIngredient : storage) {
-      if (existingIngredient.equals(ingredient)) {
+      if (existingIngredient.getName().equals(ingredient.getName())) {
         existingIngredient.setAmount(existingIngredient.getAmount() + ingredient.getAmount());
         System.out.println("Updated the amount of the existing ingredient: "
             + existingIngredient.getName());
@@ -48,20 +47,22 @@ public class FoodStorage {
   /**
    * Removes an ingredient from the food storage.
    */
-  public void removeIngredient(String ingredientName) {
+  public void removeIngredient(Ingredient ingredient) {
     boolean ingredientExists = false;
-    Iterator<Ingredient> iterator = storage.iterator();
-
-    while (iterator.hasNext()) {
-      Ingredient ingredient = iterator.next();
-      if (ingredient.getName().equalsIgnoreCase(ingredientName)) {
-        iterator.remove();
+    for (Ingredient existingIngredient : storage) {
+      if (existingIngredient.getName().equals(ingredient.getName())) {
+        existingIngredient.setAmount(existingIngredient.getAmount() - ingredient.getAmount());
+        System.out.println("Updated the amount of the existing ingredient: "
+            + existingIngredient.getName());
         ingredientExists = true;
-        System.out.println("The ingredient has been removed!");
+      }
+      if (existingIngredient.getAmount() <= 0) {
+        storage.remove(existingIngredient);
+        System.out.println("Removed" + existingIngredient.getName());
       }
     }
     if (!ingredientExists) {
-      System.out.println("Could not delete - the ingredient doesn't exist in the storage!");
+      System.out.println("The ingredient you tried to remove does not exist.");
     }
   }
 
@@ -83,11 +84,14 @@ public class FoodStorage {
    */
   public void findIngredient(String ingredientName) {
     boolean found = false;
-    for (Ingredient ingredient : storage) {
+    int index = 0;
+    while (index < storage.size()) {
+      Ingredient ingredient = storage.get(index);
       if (ingredient.getName().equalsIgnoreCase(ingredientName)) {
         found = true;
         System.out.println(ingredient.getName());
       }
+      index++;
     }
     if (!found) {
       System.out.println("Could not find the ingredient in the storage!");
@@ -129,7 +133,7 @@ public class FoodStorage {
   }
 
   /**
-   * Prints the value of all ingredients.
+   * Prints the value of all ing ingredients.
    */
   public void printValueOfAllIngredients() {
     double totalValue = 0;
