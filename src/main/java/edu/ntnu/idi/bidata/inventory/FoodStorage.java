@@ -1,6 +1,7 @@
 package edu.ntnu.idi.bidata.inventory;
 
 import edu.ntnu.idi.bidata.items.Ingredient;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,9 +29,17 @@ public class FoodStorage {
    * @param ingredient an ingredient (anything edible) that can be added to the food storage.
    */
   public void addIngredient(Ingredient ingredient) {
-    if (storage.contains(ingredient)) {
-      System.out.println("The ingredient already exists!");
-    } else {
+    boolean ingredientExists = false;
+
+    for (Ingredient existingIngredient : storage) {
+      if (existingIngredient.equals(ingredient)) {
+        existingIngredient.setAmount(existingIngredient.getAmount() + ingredient.getAmount());
+        System.out.println("Updated the amount of the existing ingredient: "
+            + existingIngredient.getName());
+        ingredientExists = true;
+      }
+    }
+    if (!ingredientExists) {
       storage.add(ingredient);
       System.out.println("Successfully added an ingredient to the storage!");
     }
@@ -40,18 +49,18 @@ public class FoodStorage {
    * Removes an ingredient from the food storage.
    */
   public void removeIngredient(String ingredientName) {
-    boolean found = false;
+    boolean ingredientExists = false;
     Iterator<Ingredient> iterator = storage.iterator();
 
     while (iterator.hasNext()) {
       Ingredient ingredient = iterator.next();
-      if (ingredient.getIngredientName().equalsIgnoreCase(ingredientName)) {
+      if (ingredient.getName().equalsIgnoreCase(ingredientName)) {
         iterator.remove();
-        found = true;
+        ingredientExists = true;
         System.out.println("The ingredient has been removed!");
       }
     }
-    if (!found) {
+    if (!ingredientExists) {
       System.out.println("Could not delete - the ingredient doesn't exist in the storage!");
     }
   }
@@ -75,9 +84,9 @@ public class FoodStorage {
   public void findIngredient(String ingredientName) {
     boolean found = false;
     for (Ingredient ingredient : storage) {
-      if (ingredient.getIngredientName().equalsIgnoreCase(ingredientName)) {
+      if (ingredient.getName().equalsIgnoreCase(ingredientName)) {
         found = true;
-        System.out.println(ingredient.getIngredientName());
+        System.out.println(ingredient.getName());
       }
     }
     if (!found) {
@@ -93,7 +102,7 @@ public class FoodStorage {
       System.out.println("There are no ingredients in the storage!");
     } else {
       for (Ingredient ingredient : storage) {
-        System.out.println(ingredient.getIngredientName() + ingredient.getDescriptionOfIngredient());
+        System.out.println(ingredient.getName() + ingredient.getDescriptionOfIngredient());
       }
     }
   }
@@ -108,7 +117,7 @@ public class FoodStorage {
       boolean expired = false;
       for (Ingredient ingredient : storage) {
         if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
-          System.out.println(ingredient.getIngredientName()
+          System.out.println(ingredient.getName()
               + ingredient.getDescriptionOfIngredient());
           expired = true;
         }

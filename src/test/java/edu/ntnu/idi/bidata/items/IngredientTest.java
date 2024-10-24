@@ -27,14 +27,14 @@ class IngredientTest {
    */
   @Test
   void setIngredientNameTestForPositiveInput() {
-    testIngredient.setIngredientName("Tomato");
-    assertEquals("Tomato", testIngredient.getIngredientName(), "The output should be Tomato");
+    testIngredient.setName("Tomato");
+    assertEquals("Tomato", testIngredient.getName(), "The output should be Tomato");
   }
 
   @Test
   void setIngredientNameTestForNegativeInput() {
-    testIngredient.setIngredientName("Tomato");
-    assertNotEquals("Tomata",testIngredient.getIngredientName(),"The output should not be Tomata.");
+    testIngredient.setName("Tomato");
+    assertNotEquals("Tomata",testIngredient.getName(),"The output should not be Tomata.");
   }
 
   @Test

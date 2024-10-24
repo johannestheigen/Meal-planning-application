@@ -12,7 +12,7 @@ import java.time.LocalDate;
  */
 
 public class Ingredient {
-  private String ingredientName;
+  private String name;
   private String descriptionOfIngredient;
   private double amount;
   private String unit;
@@ -22,16 +22,16 @@ public class Ingredient {
   /**
    * Creates an ingredient.
 
-   * @param ingredientName the name an ingredient
+   * @param name the name an ingredient
    * @param descriptionOfIngredient the description of an ingredient. (type, taste, etc.)
    * @param amount the amount of an ingredient
    * @param unit the unit of an ingredient (gram, litre, etc.)
    * @param price the price of an ingredient. (price in Norwegian kr)
    * @param expirationDate the expiration date of an ingredient.
    */
-  public Ingredient(String ingredientName, String descriptionOfIngredient,
+  public Ingredient(String name, String descriptionOfIngredient,
                     double amount, String unit, double price, LocalDate expirationDate) {
-    setIngredientName(ingredientName);
+    setName(name);
     setDescriptionOfIngredient(descriptionOfIngredient);
     setAmount(amount);
     setUnit(unit);
@@ -44,22 +44,22 @@ public class Ingredient {
 
    * @return the name of an ingredient
    */
-  public String getIngredientName() {
-    return ingredientName;
+  public String getName() {
+    return name;
   }
 
   /**
    * Sets the name of an ingredient
    * If the name is null or empty an IllegalArgumentException is thrown.
 
-   * @param ingredientName The ingredientName cannot be null or empty.
+   * @param name The ingredientName cannot be null or empty.
    * @throws IllegalArgumentException If the name is null or empty.
    */
-  public void setIngredientName(String ingredientName) throws IllegalArgumentException {
-    if (ingredientName == null || ingredientName.isEmpty()) {
+  public void setName(String name) throws IllegalArgumentException {
+    if (name == null || name.isEmpty()) {
       throw new IllegalArgumentException("The ingredient name cannot be null or empty");
     }
-    this.ingredientName = ingredientName;
+    this.name = name;
   }
 
   /**
