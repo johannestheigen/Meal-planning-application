@@ -3,12 +3,13 @@ package edu.ntnu.idi.bidata.inventory;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Storage that holds ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.9
+ * @version 0.1.0
  * @since 10.24.2024
  */
 public class FoodStorage {
@@ -50,20 +51,25 @@ public class FoodStorage {
    */
   public void removeIngredient(Ingredient ingredient) {
     boolean ingredientExists = false;
-    for (Ingredient existingIngredient : storage) {
+    Iterator<Ingredient> it = storage.iterator();
+
+    while (it.hasNext()) {
+      Ingredient existingIngredient = it.next();
       if (existingIngredient.getName().equals(ingredient.getName())) {
-        existingIngredient.setQuantity(existingIngredient.getQuantity() - 1);
-        System.out.println("Updated the amount of the existing ingredient: "
-            + existingIngredient.getName());
         ingredientExists = true;
-      }
-      if (existingIngredient.getQuantity() <= 0) {
-        storage.remove(existingIngredient);
-        System.out.println("Removed" + existingIngredient.getName());
+        if (existingIngredient.getQuantity() > 0) {
+          existingIngredient.setQuantity(existingIngredient.getQuantity() - 1);
+          System.out.println("Updated the amount of the existing ingredient: "
+              + existingIngredient.getName());
+        }
+        if (existingIngredient.getQuantity() <= 0) {
+          it.remove();
+          System.out.println("Removed" + existingIngredient.getName());
+        }
       }
     }
     if (!ingredientExists) {
-      System.out.println("The ingredient you tried to remove does not exists.");
+      System.out.println("The ingredient you tried to remove does not exist!");
     }
   }
 
@@ -121,8 +127,7 @@ public class FoodStorage {
       boolean expired = false;
       for (Ingredient ingredient : storage) {
         if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
-          System.out.println(ingredient.getName()
-              + ingredient.getDescription());
+          System.out.println(ingredient.getName() + ingredient.getDescription());
           expired = true;
         }
       }
@@ -134,7 +139,7 @@ public class FoodStorage {
 
   /**
    * Lists all the ingredients of a specific expiration date.
-
+   *
    * @param expirationDate the expiration date of the ingredient.
    */
   public void listIngredientsByDate(LocalDate expirationDate) {
