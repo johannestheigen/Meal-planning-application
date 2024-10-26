@@ -10,8 +10,8 @@ import java.util.Iterator;
  * Storage that holds ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.0
- * @since 10.24.2024
+ * @version 0.1.1
+ * @since 10.26.2024
  */
 public class FoodStorage {
   private final ArrayList<Ingredient> storage;
