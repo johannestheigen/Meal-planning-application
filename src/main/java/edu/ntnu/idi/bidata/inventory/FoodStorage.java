@@ -3,6 +3,7 @@ package edu.ntnu.idi.bidata.inventory;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -80,7 +81,6 @@ public class FoodStorage {
    */
   public int getNumberOfIngredients() {
     if (storage.isEmpty()) {
-      System.out.println("The storage is empty!");
       return 0;
     }
     return storage.size();
@@ -108,11 +108,28 @@ public class FoodStorage {
   /**
    * Lists all available ingredients in the storage.
    */
-  public void listAllIngredients() {
+  public void listIngredients() {
     if (storage.isEmpty()) {
       System.out.println("The storage is empty!");
+    } else {
+      System.out.println("List of all ingredients:");
       for (Ingredient ingredient : storage) {
         System.out.println(ingredient.getName() + ingredient.getDescription());
+      }
+    }
+  }
+
+  /**
+   * Lists all available ingredients in the storage in alphabetical order.
+   */
+  public void listIngredientsAlphabetically() {
+    if (storage.isEmpty()) {
+      System.out.println("The storage is empty!");
+    } else {
+      storage.sort(Comparator.comparing(Ingredient::getName));
+      System.out.println("List of all ingredients in alphabetical order:");
+      for (Ingredient ingredient : storage) {
+        System.out.println(ingredient.getName());
       }
     }
   }
