@@ -114,7 +114,7 @@ public class FoodStorage {
     } else {
       System.out.println("List of all ingredients:");
       for (Ingredient ingredient : storage) {
-        System.out.println(ingredient.getName() + ingredient.getDescription());
+        System.out.println(ingredient.getName());
       }
     }
   }
