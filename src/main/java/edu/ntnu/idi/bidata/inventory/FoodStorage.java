@@ -10,8 +10,8 @@ import java.util.Iterator;
  * Storage that holds ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.1
- * @since 10.26.2024
+ * @version 0.1.2
+ * @since 10.27.2024
  */
 public class FoodStorage {
   private final ArrayList<Ingredient> storage;
@@ -212,5 +212,17 @@ public class FoodStorage {
         System.out.println("There are no expired ingredients in the storage!");
       }
     }
+  }
+
+  /**
+   * Adds five ingredients that can be used
+   * to the test the functionality of the FoodStorage Class.
+   */
+  public void addTestIngredients() {
+    storage.add(new Ingredient("Banana", "Fruit", 10, "kg", 65, LocalDate.of(2025, 1, 1)));
+    storage.add(new Ingredient("Tomato", "Vegetable", 6, "kg", 30, LocalDate.of(2025, 1, 19)));
+    storage.add(new Ingredient("Cheese", "Dairy", 3, "kg", 75, LocalDate.of(2025, 1, 19)));
+    storage.add(new Ingredient("Ham", "Meat", 1, "g", 23, LocalDate.of(2025, 5, 19)));
+    storage.add(new Ingredient("Milk", "Dairy", 5, "l", 19, LocalDate.of(2025, 3, 19)));
   }
 }
