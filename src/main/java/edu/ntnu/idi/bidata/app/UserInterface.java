@@ -10,13 +10,12 @@ import java.time.LocalDate;
  * hardcode.
 
  * @author Johannes Nupen Theigen
- * @version 0.0.2
- * @since 27.10.2024
+ * @version 0.0.3
+ * @since 28.10.2024
  */
 public class UserInterface {
 
   private FoodStorage foodStorage;
-  private Ingredient test1;
 
   /**
    * Initialize the application at startup.
