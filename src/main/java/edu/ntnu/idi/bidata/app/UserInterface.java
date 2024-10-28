@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * hardcode.
 
  * @author Johannes Nupen Theigen
- * @version 0.0.3
+ * @version 0.0.4
  * @since 28.10.2024
  */
 public class UserInterface {
@@ -23,7 +23,11 @@ public class UserInterface {
 
   public void init() {
     foodStorage = new FoodStorage();
-    foodStorage.addTestIngredients();
+    foodStorage.addIngredient(new Ingredient("Banana",
+        "Fruit", 10, "kg", 65, LocalDate.of(2025, 1, 1)));
+    foodStorage.addIngredient(new Ingredient("Blueberry",
+        "Fruit", 4, "kg", 43, LocalDate.of(2024, 1, 1)));
+
 
   }
 

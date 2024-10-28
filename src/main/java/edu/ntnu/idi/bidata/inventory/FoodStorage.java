@@ -10,8 +10,8 @@ import java.util.Iterator;
  * Storage that holds ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.2
- * @since 10.27.2024
+ * @version 0.1.3
+ * @since 10.28.2024
  */
 public class FoodStorage {
   private final ArrayList<Ingredient> storage;
@@ -42,13 +42,14 @@ public class FoodStorage {
     }
     if (!ingredientExists) {
       storage.add(ingredient);
-      System.out.println("Successfully added" + ingredient.getName() + "to the storage!");
+      System.out.println("Successfully added " + ingredient.getName() + " to the storage!");
     }
   }
 
   /**
    * Decreases the quantity an ingredient from the food storage.
    * If the quantity gets to 0, the ingredient will be removed from the storage.
+   * Alerts the user if the ingredient attempted to be removed doesn't exist.
    */
   public void removeIngredient(Ingredient ingredient) {
     boolean ingredientExists = false;
@@ -75,19 +76,8 @@ public class FoodStorage {
   }
 
   /**
-   * Returns the number of ingredients in the storage.
-   *
-   * @return the number of ingredients in the storage
-   */
-  public int getNumberOfIngredients() {
-    if (storage.isEmpty()) {
-      return 0;
-    }
-    return storage.size();
-  }
-
-  /**
    * Finds an ingredient in the storage when provided a String to search for.
+   * Alerts the user if the ingredient searched for doesn't exist.
    */
   public void findIngredient(String ingredientName) {
     boolean ingredientExists = false;
@@ -106,13 +96,14 @@ public class FoodStorage {
   }
 
   /**
-   * Lists all available ingredients in the storage.
+   * Lists all ingredients in the storage.
+   * Alerts the user if the storage is empty.
    */
   public void listIngredients() {
     if (storage.isEmpty()) {
       System.out.println("The storage is empty!");
     } else {
-      System.out.println("List of all ingredients:");
+      System.out.println("List of all ingredients: " + storage.size());
       for (Ingredient ingredient : storage) {
         System.out.println(ingredient.getName());
       }
@@ -121,13 +112,14 @@ public class FoodStorage {
 
   /**
    * Lists all available ingredients in the storage in alphabetical order.
+   * Alerts the user if the storage is empty.
    */
   public void listIngredientsAlphabetically() {
     if (storage.isEmpty()) {
       System.out.println("The storage is empty!");
     } else {
       storage.sort(Comparator.comparing(Ingredient::getName));
-      System.out.println("List of all ingredients in alphabetical order:");
+      System.out.println("List of all ingredients in alphabetical order: " + storage.size());
       for (Ingredient ingredient : storage) {
         System.out.println(ingredient.getName());
       }
@@ -136,6 +128,7 @@ public class FoodStorage {
 
   /**
    * Lists all the expired ingredients in the storage.
+   * Alerts the user if the storage is empty.
    */
   public void listExpiredIngredients() {
     if (storage.isEmpty()) {
@@ -156,6 +149,7 @@ public class FoodStorage {
 
   /**
    * Lists all the ingredients of a specific expiration date.
+   * Alerts the user if the given expiration date isn't associated with an ingredient.
    *
    * @param expirationDate the expiration date of the ingredient.
    */
@@ -177,7 +171,9 @@ public class FoodStorage {
 
   /**
    * Prints the value of all ingredients.
+   * Alerts the user if the storage is empty.
    */
+
   public void printValueOfAllIngredients() {
     double totalValue = 0;
     if (storage.isEmpty()) {
@@ -192,6 +188,8 @@ public class FoodStorage {
 
   /**
    * Prints the value of all expired ingredients.
+   * Alerts the user if the storage is empty and if there are
+   * no expired ingredients in the storage.
    */
   public void printValueOfExpiredIngredients() {
     double totalValue = 0;
@@ -212,17 +210,5 @@ public class FoodStorage {
         System.out.println("There are no expired ingredients in the storage!");
       }
     }
-  }
-
-  /**
-   * Adds five ingredients that can be used
-   * to the test the functionality of the FoodStorage Class.
-   */
-  public void addTestIngredients() {
-    storage.add(new Ingredient("Banana", "Fruit", 10, "kg", 65, LocalDate.of(2025, 1, 1)));
-    storage.add(new Ingredient("Tomato", "Vegetable", 6, "kg", 30, LocalDate.of(2025, 1, 19)));
-    storage.add(new Ingredient("Cheese", "Dairy", 3, "kg", 75, LocalDate.of(2025, 1, 19)));
-    storage.add(new Ingredient("Ham", "Meat", 1, "g", 23, LocalDate.of(2025, 5, 19)));
-    storage.add(new Ingredient("Milk", "Dairy", 5, "l", 19, LocalDate.of(2025, 3, 19)));
   }
 }
