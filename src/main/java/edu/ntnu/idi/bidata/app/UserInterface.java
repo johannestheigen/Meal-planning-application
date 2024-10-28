@@ -16,6 +16,7 @@ import java.time.LocalDate;
 public class UserInterface {
 
   private FoodStorage foodStorage;
+  private Ingredient test1;
 
   /**
    * Initialize the application at startup.
@@ -24,6 +25,7 @@ public class UserInterface {
   public void init() {
     foodStorage = new FoodStorage();
     foodStorage.addTestIngredients();
+
   }
 
   /**
@@ -32,5 +34,6 @@ public class UserInterface {
   public void start() {
     init();
     foodStorage.listIngredients();
+    foodStorage.listIngredientsAlphabetically();
   }
 }

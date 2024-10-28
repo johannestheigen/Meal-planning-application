@@ -176,14 +176,11 @@ public class Ingredient {
    * an IllegalArgumentException is thrown.
 
    * @param expirationDate The expiration date cannot be null.
-   * @throws IllegalArgumentException If the expiration date is null, previous or current.
+   * @throws IllegalArgumentException If the expiration date is null.
    */
   public void setExpirationDate(LocalDate expirationDate) throws IllegalArgumentException {
     if (expirationDate == null) {
       throw new IllegalArgumentException("The expiration date cannot be null");
-    } else if (expirationDate.isBefore(LocalDate.now())) {
-      throw new IllegalArgumentException("The expiration date cannot be the "
-          + "current or previous date.");
     }
     this.expirationDate = expirationDate;
   }
