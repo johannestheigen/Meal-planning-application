@@ -10,8 +10,8 @@ import java.util.Iterator;
  * Storage that holds ingredients.
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.3
- * @since 10.28.2024
+ * @version 0.1.4
+ * @since 10.29.2024
  */
 public class FoodStorage {
   private final ArrayList<Ingredient> storage;
@@ -47,52 +47,49 @@ public class FoodStorage {
   }
 
   /**
-   * Decreases the quantity an ingredient from the food storage.
+   * Decreases the quantity of an ingredient from the food storage.
    * If the quantity gets to 0, the ingredient will be removed from the storage.
-   * Alerts the user if the ingredient attempted to be removed doesn't exist.
+   *
+   * @param ingredientName the name of the ingredient to be removed.
+   * @return true if the ingredient exists and was reduced or removed,
+   *         false if the ingredient does not exist.
    */
-  public void removeIngredient(Ingredient ingredient) {
-    boolean ingredientExists = false;
+  public boolean removeIngredient(String ingredientName) {
     Iterator<Ingredient> it = storage.iterator();
 
     while (it.hasNext()) {
       Ingredient existingIngredient = it.next();
-      if (existingIngredient.getName().equals(ingredient.getName())) {
-        ingredientExists = true;
-        if (existingIngredient.getQuantity() > 0) {
+      if (existingIngredient.getName().equalsIgnoreCase(ingredientName)) {
+        if (existingIngredient.getQuantity() > 1) {
           existingIngredient.setQuantity(existingIngredient.getQuantity() - 1);
-          System.out.println("Updated the amount of the existing ingredient: "
-              + existingIngredient.getName());
-        }
-        if (existingIngredient.getQuantity() <= 0) {
+          System.out.println("Reduced the amount of " + existingIngredient.getName() + " to "
+              + existingIngredient.getQuantity());
+          return true;
+        } else {
           it.remove();
-          System.out.println("Removed" + existingIngredient.getName());
+          System.out.println("Removed " + existingIngredient.getName());
+          return true;
         }
       }
     }
-    if (!ingredientExists) {
-      System.out.println("The ingredient you tried to remove does not exist!");
-    }
+    System.out.println("The ingredient" + ingredientName + "was not found in storage.");
+    return false;
   }
 
   /**
    * Finds an ingredient in the storage when provided a String to search for.
    * Alerts the user if the ingredient searched for doesn't exist.
    */
-  public void findIngredient(String ingredientName) {
-    boolean ingredientExists = false;
+  public Ingredient findIngredient(String ingredientName) {
     int index = 0;
     while (index < storage.size()) {
       Ingredient ingredient = storage.get(index);
       if (ingredient.getName().equalsIgnoreCase(ingredientName)) {
-        ingredientExists = true;
-        System.out.println(ingredient.getName());
+        return ingredient;
       }
       index++;
     }
-    if (!ingredientExists) {
-      System.out.println("The ingredient you tried to search for does not exist!");
-    }
+    return null;
   }
 
   /**
