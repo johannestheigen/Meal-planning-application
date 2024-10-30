@@ -1,17 +1,14 @@
 package edu.ntnu.idi.bidata.app;
 
 import edu.ntnu.idi.bidata.inventory.FoodStorage;
-import edu.ntnu.idi.bidata.items.Ingredient;
-import java.time.LocalDate;
-
 
 /**
  * The user interface class. Currently in early development stage, and full of
  * hardcode.
 
  * @author Johannes Nupen Theigen
- * @version 0.0.5
- * @since 29.10.2024
+ * @version 0.0.6
+ * @since 30.10.2024
  */
 public class UserInterface {
 
@@ -23,10 +20,6 @@ public class UserInterface {
 
   public void init() {
     foodStorage = new FoodStorage();
-    foodStorage.addIngredient(new Ingredient("Banana",
-        "Fruit", 10, "kg", 65, LocalDate.of(2025, 1, 1)));
-    foodStorage.addIngredient(new Ingredient("Blueberry",
-        "Fruit", 4, "kg", 43, LocalDate.of(2024, 1, 1)));
   }
 
   /**
@@ -34,7 +27,5 @@ public class UserInterface {
    */
   public void start() {
     init();
-    foodStorage.listIngredients();
-    foodStorage.printValueOfAllIngredients();
   }
 }
