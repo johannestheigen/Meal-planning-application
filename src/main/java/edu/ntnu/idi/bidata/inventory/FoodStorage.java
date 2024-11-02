@@ -141,7 +141,7 @@ public class FoodStorage {
    */
 
   public double getValueOfExpiredIngredients() {
-    double totalValue  = 0;
+    double totalValue = 0;
     for (Ingredient ingredient : storage.values()) {
       if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
         totalValue += ingredient.getPrice() * ingredient.getQuantity();
