@@ -337,8 +337,8 @@ class FoodStorageTest {
    */
   @Test
   void getValueOfExpiredIngredientsNegativeTest() {
-    foodStorageTest.addIngredient(new Ingredient("Chicken", "Meat", 3, "kg", 30.00, LocalDate.of(2025, 1, 1)));
-    foodStorageTest.addIngredient(new Ingredient("Cheese", "Dairy", 2, "kg", 70.00, LocalDate.of(2025, 6, 1)));
+    foodStorageTest.addIngredient(new Ingredient("Chocolate", "Sweet", 2, "kg", 10.00, LocalDate.of(2025, 1, 1)));
+    foodStorageTest.addIngredient(new Ingredient("Bread", "Baked goods", 1, "kg", 3.50, LocalDate.of(2025, 6, 1)));
 
     double expectedTotalValue = 0.0;
 
