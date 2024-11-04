@@ -32,8 +32,8 @@ public class FoodStorage {
    *
    * @param ingredient the ingredient to be added to the food storage.
    * @return true if the ingredient already exists and its quantity is successfully
-   * incremented, and false if the ingredient did not previously exist and was added
-   * to the storage.
+     incremented, and false if the ingredient did not previously exist and was added
+     to the storage.
    */
   public boolean addIngredient(Ingredient ingredient) {
     if (storage.containsKey(ingredient.getName())) {
