@@ -2,41 +2,47 @@ package edu.ntnu.idi.bidata.inventory;
 
 import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 
 /**
- * Storage that holds ingredients.
+ * Storage that stores ingredient objects.
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.5
- * @since 10.30.2024
+ * @version 0.1.6
+ * @since 11.04.2024
  */
 public class FoodStorage {
 
   private final HashMap<String, Ingredient> storage;
 
   /**
-   * Creates a storage that holds ingredients.
+   * Creates a new instance of FoodStorage, initializing an empty storage
+   * for holding ingredients.
    */
   public FoodStorage() {
     storage = new HashMap<>();
   }
 
   /**
-   * Adds an ingredient to the food storage. If the ingredient already exists
-   * the quantity of the existing ingredient incremented by 1.
+   * Adds an ingredient to the food storage. If the ingredient already exists,
+   * the quantity of the existing ingredient is incremented by the quantity of the
+   * ingredient being added.
    *
-   * @param ingredient the name of the ingredient to be removed.
+   * @param ingredient the ingredient to be added to the food storage.
+   * @return true if the ingredient already exists and its quantity is successfully
+   * incremented, and false if the ingredient did not previously exist and was added
+   * to the storage.
    */
-  public void addIngredient(Ingredient ingredient) {
+  public boolean addIngredient(Ingredient ingredient) {
     if (storage.containsKey(ingredient.getName())) {
       Ingredient existingIngredient = storage.get(ingredient.getName());
       existingIngredient.setQuantity(existingIngredient.getQuantity() + ingredient.getQuantity());
+      return true;
     } else {
       storage.put(ingredient.getName(), ingredient);
+      return false;
     }
   }
 
@@ -44,22 +50,27 @@ public class FoodStorage {
    * Decreases the quantity of an ingredient from the food storage.
    * If the quantity gets to 0, the ingredient will be removed from the storage.
    *
-   * @param ingredientName the name of the ingredient to be removed.
+   * @param ingredientName the name of the ingredient to be reduced.
+   * @return false if the ingredient does not exist, and true if the ingredient exists
+   *         and is reduced or removed entirely.
    */
-  public void reduceIngredient(String ingredientName) {
+  public boolean reduceIngredient(String ingredientName) {
     Ingredient existingIngredient = storage.get(ingredientName);
-    if (existingIngredient != null) {
-      if (existingIngredient.getQuantity() > 1) {
-        existingIngredient.setQuantity(existingIngredient.getQuantity() - 1);
-      } else {
-        storage.remove(ingredientName);
-      }
+    if (existingIngredient == null) {
+      return false;
     }
+    if (existingIngredient.getQuantity() > 1) {
+      existingIngredient.setQuantity(existingIngredient.getQuantity() - 1);
+    } else {
+      storage.remove(ingredientName);
+    }
+    return true;
   }
+
 
   /**
    * Returns an ingredient in the storage when provided a String to search for.
-
+   *
    * @return an ingredient in the storage
    */
   public Ingredient getIngredient(String ingredientName) {
@@ -68,62 +79,48 @@ public class FoodStorage {
 
   /**
    * Returns a list of all ingredients in the storage.
-
+   *
    * @return a list of all ingredients present in the storage
    */
-  public List<Ingredient> getListOfIngredients() {
-    return new ArrayList<>(storage.values());
+
+  public Iterator<Ingredient> getListOfIngredients() {
+    return storage.values().stream().toList().iterator();
   }
 
   /**
    * Returns a list of available ingredients in the storage in alphabetical order.
-
+   *
    * @return a list of all ingredients present in the storage in alphabetical order.
    */
-  public List<Ingredient> getListOfIngredientsAlphabetically() {
-    List<Ingredient> ingredientsList = new ArrayList<>(storage.values());
-    if (!storage.isEmpty()) {
-      ingredientsList.sort(Comparator.comparing(Ingredient::getName));
-    }
-    return ingredientsList;
+  public Iterator<Ingredient> getListOfIngredientsAlphabetically() {
+    return storage.values().stream().sorted(Comparator.comparing(Ingredient::getName)).iterator();
   }
 
   /**
    * Returns a list of all the expired ingredients in the storage.
-
+   *
    * @return a list of all expired ingredients present in the storage
    */
-  public List<Ingredient> getListOfExpiredIngredients() {
-    List<Ingredient> expiredIngredientsList = new ArrayList<>();
-
-    for (Ingredient ingredient : storage.values()) {
-      if (ingredient.getExpirationDate().isBefore(LocalDate.now())) {
-        expiredIngredientsList.add(ingredient);
-      }
-    }
-    return expiredIngredientsList;
+  public Iterator<Ingredient> getListOfExpiredIngredients() {
+    return storage.values().stream().filter(ingredient ->
+        ingredient.getExpirationDate().isBefore(LocalDate.now())).iterator();
   }
 
   /**
    * Returns a list of all the ingredients of a specific expiration date.
-
+   *
    * @param expirationDate expirationDate the expiration date of the ingredient.
    * @return a list of ingredients of a specific expiration date.
    */
-  public List<Ingredient> getListOfIngredientsByExpirationDate (LocalDate expirationDate) {
-    List<Ingredient> expiredIngredientsList = new ArrayList<>();
 
-    for (Ingredient ingredient : storage.values()) {
-      if (ingredient.getExpirationDate().isEqual(expirationDate)) {
-        expiredIngredientsList.add(ingredient);
-      }
-    }
-    return expiredIngredientsList;
+  public Iterator<Ingredient> getListOfIngredientsByExpirationDate(LocalDate expirationDate) {
+    return storage.values().stream().filter(ingredient ->
+        ingredient.getExpirationDate().isEqual(expirationDate)).iterator();
   }
 
   /**
    * Returns the value of all ingredients.
-
+   *
    * @return the value of all the ingredients.
    */
   public double getValueOfAllIngredients() {
@@ -136,7 +133,7 @@ public class FoodStorage {
 
   /**
    * Returns the value of all expired ingredients.
-
+   *
    * @return the value of all expired ingredients.
    */
 
