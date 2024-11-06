@@ -40,8 +40,6 @@ class FoodStorageTest {
   @BeforeEach
   void setUp() {
     foodStorageTest = new FoodStorage();
-    System.out.println("Setting up FoodStorage for a test.");
-    assertNotNull(foodStorageTest, "FoodStorage instance should be initialized.");
   }
 
   /**
@@ -145,11 +143,11 @@ class FoodStorageTest {
     foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 2.50, LocalDate.of(2028, 1, 1));
     foodStorageTest.addIngredient("Apple", "Fruit", 1, "kg", 1.50, LocalDate.of(2025, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfIngredients();
+    Iterator<String> iterator = foodStorageTest.getListOfIngredients();
 
     int count = 0;
     while (iterator.hasNext()) {
-      String ingredientName = iterator.next().getName();
+      String ingredientName = iterator.next();
       count++;
       assertTrue(ingredientName.equals("Tomato") || ingredientName.equals("Apple"),
           "Ingredient should be either 'Tomato' or 'Apple'.");
@@ -167,11 +165,11 @@ class FoodStorageTest {
     foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 2.50, LocalDate.of(2028, 1, 1));
     foodStorageTest.addIngredient("Apple", "Fruit", 1, "kg", 1.50, LocalDate.of(2025, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfIngredients();
+    Iterator<String> iterator = foodStorageTest.getListOfIngredients();
 
     int count = 0;
     while (iterator.hasNext()) {
-      String ingredientName = iterator.next().getName();
+      String ingredientName = iterator.next();
       count++;
       assertNotEquals("Banana", ingredientName, "Expected the ingredient not to be 'Banana'.");
       assertNotEquals("Chocolate", ingredientName, "Expected the ingredient not to be 'Chocolate'.");
@@ -179,7 +177,6 @@ class FoodStorageTest {
 
     assertEquals(2, count, "Expected exactly 2 ingredients in the list.");
   }
-
 
   /**
    * Positive test that checks that the correct list of
@@ -191,12 +188,12 @@ class FoodStorageTest {
     foodStorageTest.addIngredient("Avocado", "Vegetable", 1, "kg", 5.50, LocalDate.of(2028, 1, 1));
     foodStorageTest.addIngredient("Lemon", "Fruit", 1, "kg", 7.50, LocalDate.of(2024, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfIngredientsAlphabetically();
+    Iterator<String> iterator = foodStorageTest.getListOfIngredientsAlphabetically();
 
     assertTrue(iterator.hasNext(), "The iterator should have at least one ingredient.");
-    assertEquals("Avocado", iterator.next().getName(), "The first ingredient should be 'Avocado'.");
+    assertEquals("Avocado", iterator.next(), "The first ingredient should be 'Avocado'.");
     assertTrue(iterator.hasNext(), "The iterator should have a second ingredient.");
-    assertEquals("Lemon", iterator.next().getName(), "The second ingredient should be 'Lemon'.");
+    assertEquals("Lemon", iterator.next(), "The second ingredient should be 'Lemon'.");
   }
 
   /**
@@ -204,19 +201,19 @@ class FoodStorageTest {
    * is not returned in the wrong alphabetical order
    * when retrieving a list of ingredients.
    */
+
   @Test
   void getListOfIngredientsAlphabeticallyNegativeTest() {
     foodStorageTest.addIngredient("Avocado", "Vegetable", 1, "kg", 5.50, LocalDate.of(2028, 1, 1));
     foodStorageTest.addIngredient("Lemon", "Fruit", 1, "kg", 7.50, LocalDate.of(2024, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfIngredientsAlphabetically();
+    Iterator<String> iterator = foodStorageTest.getListOfIngredientsAlphabetically();
 
     assertTrue(iterator.hasNext(), "The iterator should have at least one ingredient.");
-    assertNotEquals("Lemon", iterator.next().getName(), "The first ingredient should not be 'Lemon'. It should be 'Avocado'.");
+    assertNotEquals("Lemon", iterator.next(), "The first ingredient should not be 'Lemon'. It should be 'Avocado'.");
     assertTrue(iterator.hasNext(), "The iterator should have a second ingredient.");
-    assertNotEquals("Avocado", iterator.next().getName(), "The second ingredient should not be 'Avocado'. It should be 'Lemon'.");
+    assertNotEquals("Avocado", iterator.next(), "The second ingredient should not be 'Avocado'. It should be 'Lemon'.");
   }
-
 
   /**
    * Positive test that checks that the correct list of
@@ -227,14 +224,13 @@ class FoodStorageTest {
     foodStorageTest.addIngredient("Chocolate", "Sweet", 1, "kg", 10.50, LocalDate.of(2015, 1, 1));
     foodStorageTest.addIngredient("Bread", "Baked goods", 1, "kg", 7.50, LocalDate.of(2011, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfExpiredIngredients();
+    Iterator<String> iterator = foodStorageTest.getListOfExpiredIngredients();
 
     assertTrue(iterator.hasNext(), "The iterator should have at least one expired ingredient.");
-    assertEquals("Chocolate", iterator.next().getName(), "First expired ingredient should be 'Chocolate'.");
+    assertEquals("Chocolate", iterator.next(), "First expired ingredient should be 'Chocolate'.");
     assertTrue(iterator.hasNext(), "The iterator should have a second expired ingredient.");
-    assertEquals("Bread", iterator.next().getName(), "Second expired ingredient should be 'Bread'.");
+    assertEquals("Bread", iterator.next(), "Second expired ingredient should be 'Bread'.");
   }
-
 
   /**
    * Negative test that checks that unexpired ingredients
@@ -245,7 +241,7 @@ class FoodStorageTest {
     foodStorageTest.addIngredient("Chocolate", "Sweet", 1, "kg", 10.50, LocalDate.of(2029, 1, 1));
     foodStorageTest.addIngredient("Bread", "Baked goods", 1, "kg", 7.50, LocalDate.of(2025, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfExpiredIngredients();
+    Iterator<String> iterator = foodStorageTest.getListOfExpiredIngredients();
 
     assertFalse(iterator.hasNext(), "The iterator should not have any expired ingredients.");
   }
@@ -254,18 +250,19 @@ class FoodStorageTest {
    * Positive test that checks that the correct list of
    * ingredients from a given expiration date is returned.
    */
+
   @Test
   void getListOfIngredientsByExpirationDatePositiveTest()
   {
     foodStorageTest.addIngredient("Strawberry", "Berry", 1, "kg", 5.50, LocalDate.of(2021, 1, 1));
     foodStorageTest.addIngredient("Orange", "Fruit", 1, "kg", 7.50, LocalDate.of(2021, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfIngredientsByExpirationDate(LocalDate.of(2021, 1, 1));
+    Iterator<String> iterator = foodStorageTest.getListOfIngredientsByExpirationDate(LocalDate.of(2021, 1, 1));
 
     assertTrue(iterator.hasNext(), "The iterator should have at least one ingredient with the expiration date of 2021-01-01.");
-    assertEquals("Strawberry", iterator.next().getName(), "First expired ingredient should be 'Strawberry'.");
+    assertEquals("Strawberry", iterator.next(), "First expired ingredient should be 'Strawberry'.");
     assertTrue(iterator.hasNext(), "The iterator should have a second ingredient with the expiration date of 2021-01-01.");
-    assertEquals("Orange", iterator.next().getName(), "Second expired ingredient should be 'Orange'.");
+    assertEquals("Orange", iterator.next(), "Second expired ingredient should be 'Orange'.");
   }
 
   /**
@@ -273,13 +270,14 @@ class FoodStorageTest {
    * are not returned when retrieving a list of expired ingredients
    * for a given expiration date.
    */
+
   @Test
   void getListOfIngredientsByExpirationDateNegativeTest() {
 
     foodStorageTest.addIngredient("Strawberry", "Berry", 1, "kg", 5.50, LocalDate.of(2026, 1, 1));
     foodStorageTest.addIngredient("Orange", "Fruit", 1, "kg", 7.50, LocalDate.of(2026, 1, 1));
 
-    Iterator<Ingredient> iterator = foodStorageTest.getListOfIngredientsByExpirationDate(LocalDate.of(2006, 1, 1));
+    Iterator<String> iterator = foodStorageTest.getListOfIngredientsByExpirationDate(LocalDate.of(2006, 1, 1));
 
     assertFalse(iterator.hasNext(), "The iterator should not have any ingredients with the expiration date of 2006-01-01.");
   }
