@@ -10,8 +10,8 @@ import java.util.Iterator;
  * Storage that stores ingredient objects.
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.6
- * @since 11.04.2024
+ * @version 0.1.7
+ * @since 11.06.2024
  */
 public class FoodStorage {
 
@@ -26,22 +26,33 @@ public class FoodStorage {
   }
 
   /**
-   * Adds an ingredient to the food storage. If the ingredient already exists,
+   * Creates and adds an ingredient to the food storage. If the ingredient already exists,
    * the quantity of the existing ingredient is incremented by the quantity of the
    * ingredient being added.
-   *
-   * @param ingredient the ingredient to be added to the food storage.
+
+   * @param name the name of the ingredient, which acts as the unique identifier for the ingredient.
+   * @param description the description of the ingredient (e.g. vegetable, meat, etc.)
+   * @param quantity the quantity of the ingredient
+   * @param unit the unt of the ingredient (e.g. kg)
+   * @param price the price of the ingredient (e.g. USD, NOK, EUR)
+   * @param expirationDate the expiration date of the ingredient,
+   *                       formatted as yyyy-MM-dd (e.g., 2025-12-31).
    * @return true if the ingredient already exists and its quantity is successfully
-     incremented, and false if the ingredient did not previously exist and was added
-     to the storage.
+   *                       incremented, and false if the ingredient
+   *                       did not previously exist and was added to the storage.
    */
-  public boolean addIngredient(Ingredient ingredient) {
-    if (storage.containsKey(ingredient.getName())) {
-      Ingredient existingIngredient = storage.get(ingredient.getName());
-      existingIngredient.setQuantity(existingIngredient.getQuantity() + ingredient.getQuantity());
+  public boolean addIngredient(String name, String description, double quantity,
+                               String unit, double price, LocalDate expirationDate) {
+
+    Ingredient newIngredient = new Ingredient(name, description, quantity,
+        unit, price, expirationDate);
+    if (storage.containsKey(newIngredient.getName())) {
+      Ingredient existingIngredient = storage.get(newIngredient.getName());
+      existingIngredient.setQuantity(existingIngredient.getQuantity()
+          + newIngredient.getQuantity());
       return true;
     } else {
-      storage.put(ingredient.getName(), ingredient);
+      storage.put(newIngredient.getName(), newIngredient);
       return false;
     }
   }
@@ -54,6 +65,7 @@ public class FoodStorage {
    * @return false if the ingredient does not exist, and true if the ingredient exists
    *         and is reduced or removed entirely.
    */
+
   public boolean reduceIngredient(String ingredientName) {
     Ingredient existingIngredient = storage.get(ingredientName);
     if (existingIngredient == null) {
