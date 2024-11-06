@@ -9,5 +9,4 @@ package edu.ntnu.idi.bidata.printutility;
  * @since 11.04.2024
  */
 public class UiPrintHandler {
-
 }
