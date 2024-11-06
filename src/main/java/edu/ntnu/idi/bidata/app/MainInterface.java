@@ -5,8 +5,8 @@ package edu.ntnu.idi.bidata.app;
  * instance of your main-class that starts your application.
 
  * @author Johannes Nupen Theigen
- * @version 0.0.1
- * @since 27.10.2024
+ * @version 0.0.2
+ * @since 11.06.2024
  */
 public class MainInterface {
   /**
