@@ -10,8 +10,8 @@ import java.util.Iterator;
  * Storage that stores ingredient objects.
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.7
- * @since 11.06.2024
+ * @version 0.1.8
+ * @since 11.07.2024
  */
 public class FoodStorage {
 
@@ -91,6 +91,18 @@ public class FoodStorage {
    */
   public Ingredient getIngredient(String ingredientName) {
     return storage.get(ingredientName);
+  }
+
+  /**
+   * Returns the name of an ingredient.
+   * @param ingredientName the name of the ingredient
+   * @return the name of an ingredient
+   */
+  public String getIngredientName(String ingredientName) {
+    if (storage.containsKey(ingredientName)) {
+      return storage.get(ingredientName).getName();
+    }
+    return null;
   }
 
   /**
