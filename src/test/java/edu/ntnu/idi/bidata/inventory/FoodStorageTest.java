@@ -114,11 +114,11 @@ class FoodStorageTest {
    */
   @Test
   void getIngredientPositiveTest() {
-    foodStorageTest.addIngredient("Blueberry", "Fruit", 1, "kg", 2.50, LocalDate.of(2025, 1, 1));
+    foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
 
-    Ingredient addedIngredient = foodStorageTest.getIngredient("Blueberry");
+    Ingredient ingredient = foodStorageTest.getIngredient("Tomato");
 
-    assertEquals("Blueberry", addedIngredient.getName(), "Expected the name to be 'Blueberry', but found: " + addedIngredient.getName());
+    assertNotNull(ingredient, "The ingredient object 'Tomato' should exist in the storage.");
   }
 
   /**
@@ -127,11 +127,10 @@ class FoodStorageTest {
    */
   @Test
   void getIngredientNegativeTest() {
-    foodStorageTest.addIngredient("Blueberry", "Fruit", 1, "kg", 2.50, LocalDate.of(2025, 1, 1));
 
     Ingredient addedIngredient = foodStorageTest.getIngredient("Blueberry");
 
-    assertNotEquals("Raspberry", addedIngredient.getName(), "Expected the name to be 'Blueberry', but found: " + addedIngredient.getName());
+    assertNull(addedIngredient, "The ingredient 'Blueberry' should not be found in the storage.");
   }
 
   /**
@@ -142,21 +141,23 @@ class FoodStorageTest {
   void getIngredientNamePositiveTest() {
     foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
 
-    String ingredientName = foodStorageTest.getIngredientName("Tomato");
+    Ingredient ingredient = foodStorageTest.getIngredient("Tomato");
 
-    assertEquals("Tomato", ingredientName, "Ingredient name should be 'Tomato'.");
+    assertNotNull(ingredient, "The ingredient 'Tomato' should exist in the storage.");
+    assertEquals("Tomato", ingredient.getName(), "Expected the name to be 'Tomato', but found: " + ingredient.getName());
   }
 
-  /**
-   * Negative test that checks that an incorrect ma,e
-   * is not returned from the storage.
+   /**
+   * Negative test that checks that an ingredient with an incorrect name does not exist in storage.
    */
-  @Test
-  void getIngredientNameNegativeTest() {
-    String ingredientName = foodStorageTest.getIngredientName("Blueberry");
+   @Test
+   void getIngredientNameNegativeTest() {
+     foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
 
-    assertNull(ingredientName, "Ingredient 'Blueberry' should not exist in storage, expected null.");
-  }
+     Ingredient ingredient = foodStorageTest.getIngredient("Blueberry");
+
+     assertNull(ingredient, "The ingredient 'Blueberry' should not be found in the storage.");
+   }
 
   /**
    * Positive test that checks that the correct list of
