@@ -33,8 +33,7 @@ public class UserInterface {
   public void start() {
     init();
     showMainMenu();
-    Scanner sc = new Scanner(System.in);
-    sc.nextInt();
+    userInput();
   }
 
   /**
@@ -98,12 +97,14 @@ public class UserInterface {
    * Displays the main menu with different options.
    */
   public void showMainMenu() {
-    System.out.println("Welcome to the FoodStorage App. ");
-    System.out.println("Press 1 to add an ingredient");
-    System.out.println("Press 2 to remove an ingredient");
-    System.out.println("Press 3 to view your ingredients");
-    System.out.println("Press 4 to view more commands");
-    System.out.println("Press 0 to exit");
+    System.out.println("""
+    Welcome to the FoodStorage App.
+    Press 1 to add an ingredient
+    Press 2 to remove an ingredient
+    Press 3 to view your ingredients
+    Press 4 to view more commands
+    Press 0 to exit
+        """);
   }
 
   /**
@@ -111,10 +112,48 @@ public class UserInterface {
    * with more options.
    */
   public void showExtendedMenu() {
-    System.out.println("Press 5 to view expired ingredients");
-    System.out.println("Press 6 to view ingredient by expiration date");
-    System.out.println("Press 7 to print value of all ingredients");
-    System.out.println("Press 8 to print value of all expired ingredients");
-    System.out.println("Press 9 to return to main menu");
+    System.out.println("""
+    Press 5 to view expired ingredients
+    Press 6 to view ingredient by expiration date
+    Press 7 to print value of all ingredients
+    Press 8 to print value of all expired ingredients
+    Press 9 to return to main menu
+        """);
+  }
+
+  /**
+   * Handles all user input.
+   */
+  public void userInput() {
+    boolean running = true;
+    Scanner sc = new Scanner(System.in);
+
+    while (running) {
+      String input = sc.nextLine();
+
+      switch (input) {
+        case "0":
+          System.out.println("Exiting the program");
+          running = false;
+          break;
+        case "4":
+          boolean shown = true;
+          while (shown) {
+            showExtendedMenu();
+            input = sc.nextLine();
+            if (input.equals("9")) {
+              shown = false;
+              showMainMenu();
+            }
+          }
+          break;
+        case "9":
+          showMainMenu();
+          break;
+        default:
+          System.out.println("Invalid input, please try again.");
+          break;
+      }
+    }
   }
 }
