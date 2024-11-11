@@ -8,7 +8,7 @@ package edu.ntnu.idi.bidata.app;
  * @version 0.0.2
  * @since 11.06.2024
  */
-public class MainInterface {
+public class Launch {
   /**
    * The main method that serves as the entry point for the application.
    * It initializes the UserInterface and starts the interaction process.
