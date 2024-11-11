@@ -7,8 +7,8 @@ import java.time.LocalDate;
  * The name of the ingredient, description, quantity, unit, price and expiration date.
 
  * @author Johannes Nupen Theigen
- * @version 0.0.8
- * @since 10.30.2024
+ * @version 0.0.9
+ * @since 11.11.2024
  */
 
 public class Ingredient {
@@ -56,7 +56,7 @@ public class Ingredient {
    * @param name The ingredientName cannot be null or empty.
    * @throws IllegalArgumentException If the name is null or empty.
    */
-  public void setName(String name) throws IllegalArgumentException {
+  public void setName(String name) {
     if (name == null || name.isEmpty()) {
       throw new IllegalArgumentException("The ingredient name cannot be null or empty");
     }
@@ -79,8 +79,7 @@ public class Ingredient {
    * @param description the description of an ingredient.
    * @throws IllegalArgumentException If the description of an ingredient is null or empty.
    */
-  public void setDescription(String description)
-      throws IllegalArgumentException {
+  public void setDescription(String description) {
     if (description == null || description.isEmpty()) {
       throw new IllegalArgumentException("The description of the ingredient cannot be null"
           + " or empty.");
@@ -104,7 +103,7 @@ public class Ingredient {
    * @param quantity the quantity cannot be less than zero.
    * @throws IllegalArgumentException If the quantity is less than zero.
    */
-  public void setQuantity(double quantity)throws IllegalArgumentException {
+  public void setQuantity(double quantity) {
     if (quantity < 0) {
       throw new IllegalArgumentException("The amount cannot be less than 0.");
     }
@@ -127,7 +126,7 @@ public class Ingredient {
    * @param unit The unit cannot be null empty, and it must be kg, g, l or ml.
    * @throws IllegalArgumentException If the unit null, empty or invalid.
    */
-  public void setUnit(String unit) throws IllegalArgumentException {
+  public void setUnit(String unit) {
     if (unit == null || unit.isEmpty()) {
       throw new IllegalArgumentException("The unit cannot be null or empty");
     }
@@ -155,7 +154,7 @@ public class Ingredient {
    * @param price The price of the ingredient must be greater than zero.
    * @throws IllegalArgumentException If the price of the ingredient is less than zero.
    */
-  public void setPrice(double price) throws IllegalArgumentException {
+  public void setPrice(double price) {
     if (price < 0) {
       throw new IllegalArgumentException("The price of the ingredient cannot be less than 0");
     }
@@ -179,7 +178,7 @@ public class Ingredient {
    * @param expirationDate The expiration date cannot be null.
    * @throws IllegalArgumentException If the expiration date is null.
    */
-  public void setExpirationDate(LocalDate expirationDate) throws IllegalArgumentException {
+  public void setExpirationDate(LocalDate expirationDate) {
     if (expirationDate == null) {
       throw new IllegalArgumentException("The expiration date cannot be null");
     }
