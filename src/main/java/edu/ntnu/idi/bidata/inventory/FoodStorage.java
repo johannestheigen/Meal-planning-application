@@ -33,7 +33,7 @@ import java.util.Iterator;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.1
+ * @version 0.2.2
  * @since 11.13.2024
  */
 public class FoodStorage {
@@ -55,7 +55,9 @@ public class FoodStorage {
    * the quantity of the existing ingredient is incremented by the quantity of the
    * ingredient being added. If the expiration date of the new ingredient is later
    * than the existing ingredient, the existing ingredient is renamed with the old
-   * expiration date and the new ingredient is added.</p>
+   * expiration date and the new ingredient is added. If the expiration date of the
+   * new ingredient is before the expiration date of the existing ingredient the
+   * the new ingredient is renamed with the older expiration date</p>
    *
    * @param name           the name of the ingredient,
    *                       which acts as the unique identifier for the ingredient.
@@ -69,6 +71,8 @@ public class FoodStorage {
      and its quantity is successfully incremented,
    *         or if a new ingredient was added with
    *         a later expiration date than an existing one (replacing the old one).
+   *          If the new ingredient has an earlier expiration date, it is added with a new name
+   *         based on the older expiration date.
    *         <code>false</code> if the ingredient did not previously exist
    *         and was successfully added to the storage.
    *
@@ -93,6 +97,9 @@ public class FoodStorage {
         String newName = ingredientName + "_" + existingExpirationDate;
         storage.put(newName, existingIngredient);
         storage.put(ingredientName, newIngredient);
+      } else if (expirationDate.isBefore(existingExpirationDate)) {
+        String newKey = ingredientName + "_" + expirationDate;
+        storage.put(newKey, newIngredient);
       } else {
         double updatedQuantity = existingIngredient.getQuantity() + quantity;
         existingIngredient.setQuantity(updatedQuantity);
