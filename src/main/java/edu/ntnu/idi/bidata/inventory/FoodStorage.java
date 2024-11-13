@@ -31,8 +31,8 @@ import java.util.Iterator;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.9
- * @since 11.11.2024
+ * @version 0.2.0
+ * @since 11.13.2024
  */
 public class FoodStorage {
 
