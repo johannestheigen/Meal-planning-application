@@ -33,7 +33,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @since 11.13.2024
  */
 public class UserInterface {
@@ -118,22 +118,20 @@ public class UserInterface {
     output.promptForPrice();
     final double price = input.doubleInput();
 
-    input.stringInput();
-
     output.promptForExpirationDate();
     final LocalDate expirationDate = input.expirationDateInput();
-
-    boolean ingredientExists =
-        foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
 
     output.printWarning();
     if (input.stringInput().equalsIgnoreCase("n")) {
       output.printAbortOperationMessage();
-    }
-    if (ingredientExists) {
-      output.printUpdatedQuantity(name);
     } else {
-      output.printAddedIngredient(name);
+      boolean ingredientExists = foodStorage.addIngredient(name, description,
+          quantity, unit, price, expirationDate);
+      if (ingredientExists) {
+        output.printUpdatedQuantity(name);
+      } else {
+        output.printAddedIngredient(name);
+      }
     }
   }
 
