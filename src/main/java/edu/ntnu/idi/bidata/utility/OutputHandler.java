@@ -17,7 +17,7 @@ import java.util.Iterator;
  *   <li>Displaying the total value of ingredients and expired ingredients.</li>
  * </ul>
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @since 11.13.2024
  */
 public class OutputHandler {
@@ -266,7 +266,7 @@ public class OutputHandler {
    * <pre><code>outputHandler.promptForUnit();</code></pre>
    */
   public void promptForUnit() {
-    System.out.println("Enter valid unit: kg, g, ml and liter:");
+    System.out.println("Enter valid unit: kg, g, ml and l:");
   }
 
   /**
