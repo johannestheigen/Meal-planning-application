@@ -218,7 +218,6 @@ public class FoodStorage {
     if (storage.containsKey(ingredientName)) {
       existingIngredient = storage.get(ingredientName).getName() + " "
           + storage.get(ingredientName).getDescription() + " "
-
           + storage.get(ingredientName).getQuantity() + " "
           + storage.get(ingredientName).getUnit() + " "
           + storage.get(ingredientName).getPrice() + " "
