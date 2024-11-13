@@ -17,8 +17,8 @@ import java.util.Iterator;
  *   <li>Displaying the total value of ingredients and expired ingredients.</li>
  * </ul>
  *
- * @version 0.0.2
- * @since 11.11.2024
+ * @version 0.0.3
+ * @since 11.13.2024
  */
 public class OutputHandler {
 
@@ -28,13 +28,11 @@ public class OutputHandler {
    * <p><b>Example of usage:</b></p>
    * <pre><code>OutputHandler.printMainMenu();</code></pre>
    */
+
   public void printMainMenu() {
     System.out.println("""
        Welcome to the FoodStorage App.
-       Press 1 to add an ingredient
-       Press 2 to remove an ingredient
-       Press 3 to view your ingredients
-       Press 4 to view more commands
+       Press '/help' to view commands
        Press 0 to exit
         """);
   }
@@ -47,6 +45,27 @@ public class OutputHandler {
    */
   public void printExitWarning() {
     System.out.println("Are you sure you want to exit? (y/n)");
+  }
+
+  /**
+   * <p>Prints a warning when a user wants to perform
+   *    * an operation that may have unintended consequences.</p>
+   *
+   * <p><b>Example of usage: </b>
+   * <pre><code>OutPutHandler.printWarning();</code></pre></p>
+   */
+  public void printWarning() {
+    System.out.println("Are you sure you want to continue? (y/n)");
+  }
+
+  /**
+   * Prints a message to confirm that the user has successfully completed an operation.
+   *
+   * <p><b>Example of usage: </b>
+   * <pre><code>OutPutHandler.printSuccess();</code></pre></p>
+   */
+  public void printSuccess() {
+    System.out.println("Success");
   }
 
   /**
@@ -75,14 +94,20 @@ public class OutputHandler {
    * <p><b>Example of usage:</b></p>
    * <pre><code>OutputHandler.printExtendedMenu();</code></pre>
    */
+
   public void printExtendedMenu() {
     System.out.println("""
-       Press 5 to find an ingredient
-       Press 6 to view ingredients in alphabetical order
-       Press 7 to view expired ingredients
-       Press 8 to view ingredients by a specific expiration date
-       Press 9 to print value of all ingredients
-       Press 10 to print value of all expired ingredients
+       Type '/add' to add an ingredient
+       Type '/reduce' to reduce the quantity of an ingredient
+       Type '/change-description"' to change the description of an ingredient
+       Type '/change-price' to change the price of an ingredient
+       Type '/view' to view your ingredients
+       Type '/find' to find an ingredient
+       Type '/sort' to view ingredients in alphabetical order
+       Type '/expired' to view expired ingredients
+       Type '/date' to view ingredients by a specific expiration date
+       Type '/value' to print value of all ingredients
+       Type '/value-expired' to print value of all expired ingredients
         """);
   }
 
@@ -133,8 +158,10 @@ public class OutputHandler {
    * <p><b>Example of usage:</b></p>
    * <pre><code>OutputHandler.printRemovedIngredient("Strawberry");</code></pre>
    */
+
   public void printRemovedIngredient(String name) {
-    System.out.println("Successfully removed " + name + " from the storage");
+    System.out.println("Successfully removed " + name
+        + "because the quantity was reduced to zero.");
   }
 
   /**
@@ -145,10 +172,14 @@ public class OutputHandler {
    * <p><b>Example of usage:</b></p>
    * <pre><code>OutputHandler.printListOfIngredients(ingredientsIterator);</code></pre>
    */
-  public void printListOfIngredients(Iterator<String> ingredientsIterator) {
-    System.out.println("These are your ingredients: ");
-    while (ingredientsIterator.hasNext()) {
-      System.out.println(ingredientsIterator.next());
+  public void printListOfIngredients(Iterator<String> ingredientsIterator, boolean hasIngredients) {
+    if (hasIngredients && ingredientsIterator != null) {
+      System.out.println("These are your ingredients: ");
+      while (ingredientsIterator.hasNext()) {
+        System.out.println(ingredientsIterator.next());
+      }
+    } else {
+      System.out.println("There are no ingredients in the storage.");
     }
   }
 
@@ -163,10 +194,15 @@ public class OutputHandler {
    *   <code>OutputHandler.printListOfIngredientsAlphabetically(ingredientsIterator);</code>
    * </pre>
    */
-  public void printListOfIngredientsAlphabetically(Iterator<String> ingredientsIterator) {
-    System.out.println("These are your ingredients in alphabetical order: ");
-    while (ingredientsIterator.hasNext()) {
-      System.out.println(ingredientsIterator.next());
+  public void printListOfIngredientsAlphabetically(Iterator<String> ingredientsIterator,
+                                                   boolean hasIngredients) {
+    if (hasIngredients && ingredientsIterator != null) {
+      System.out.println("These are your ingredients in alphabetical order: ");
+      while (ingredientsIterator.hasNext()) {
+        System.out.println(ingredientsIterator.next());
+      }
+    } else {
+      System.out.println("No ingredients found.");
     }
   }
 
@@ -180,10 +216,16 @@ public class OutputHandler {
    * <p><b>Example of usage:</b></p>
    * <pre><code>OutputHandler.printListOfExpiredIngredients(ingredientsIterator);</code></pre>
    */
-  public void printListOfExpiredIngredients(Iterator<String> ingredientsIterator) {
-    System.out.println("These are your expired ingredients:");
-    while (ingredientsIterator.hasNext()) {
-      System.out.println(ingredientsIterator.next());
+
+  public void printListOfExpiredIngredients(Iterator<String> ingredientsIterator,
+                                            boolean hasExpiredIngredients) {
+    if (hasExpiredIngredients && ingredientsIterator != null) {
+      System.out.println("These are your expired ingredients:");
+      while (ingredientsIterator.hasNext()) {
+        System.out.println(ingredientsIterator.next());
+      }
+    } else {
+      System.out.println("No expired ingredients found.");
     }
   }
 
@@ -247,6 +289,14 @@ public class OutputHandler {
     System.out.print("Enter expiration date (YYYY-MM-DD): ");
   }
 
+  public void promptForNewDescription() {
+    System.out.print("Enter a new description: ");
+  }
+
+  public void promptForNewPrice() {
+    System.out.print("Enter a new price: ");
+  }
+
   /**
    * <p>Prints an error message when an invalid input is entered by the user.</p>
    *
@@ -288,5 +338,9 @@ public class OutputHandler {
    */
   public void printValueOfExpiredIngredients(double totalValue) {
     System.out.println("The value of your expired ingredients is: " + totalValue);
+  }
+
+  public void printIngredientDetails(String ingredientInfo) {
+    System.out.println("Found: " + ingredientInfo);
   }
 }
