@@ -2,7 +2,6 @@ package edu.ntnu.idi.bidata.inventory;
 
 import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -187,9 +186,8 @@ public class FoodStorage {
    */
 
   public Iterator<String> getListOfIngredientsAlphabetically() {
-    return storage.values().stream()
-        .sorted(Comparator.comparing(Ingredient::getName))
-        .map(Ingredient::getName)
+    return storage.keySet().stream()
+        .sorted()
         .iterator();
   }
 
