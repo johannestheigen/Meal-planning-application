@@ -33,7 +33,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @since 11.13.2024
  */
 public class UserInterface {
@@ -318,9 +318,9 @@ public class UserInterface {
     Iterator<String> ingredientsIterator =
         foodStorage.getListOfIngredientsByExpirationDate(expirationDate);
 
-    boolean hasExpiredIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
+    boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
 
-    output.printListOfExpiredIngredients(ingredientsIterator, hasExpiredIngredients);
+    output.printListOfIngredientsByExpirationDate(ingredientsIterator, hasIngredients);
   }
 
   /**

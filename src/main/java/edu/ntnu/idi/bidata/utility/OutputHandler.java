@@ -17,7 +17,7 @@ import java.util.Iterator;
  *   <li>Displaying the total value of ingredients and expired ingredients.</li>
  * </ul>
  *
- * @version 0.0.4
+ * @version 0.0.5
  * @since 11.13.2024
  */
 public class OutputHandler {
@@ -119,8 +119,11 @@ public class OutputHandler {
    * it prints the ingredient's name.
    * If the ingredient is not found, it displays an error message.</p>
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>OutputHandler.printIngredient("Sugar", true);</code></pre>
+   * @param ingredientName the name of the ingredient to be printed.
+   * @param found a boolean value indicating whether the ingredient was found or not.
+   *
+     <p><b>Example of usage:</b></p>
+     <pre><code>OutputHandler.printIngredient("Sugar", true);</code></pre>
    */
   public void printIngredient(String ingredientName, boolean found) {
     if (found) {
@@ -134,8 +137,9 @@ public class OutputHandler {
    * <p>Prints a message when the quantity of the specified ingredient
    * has been successfully updated.</p>
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>OutputHandler.printUpdatedQuantity("Strawberry");</code></pre>
+   * @param name the name of the ingredient whose quantity was updated successfully.
+     <p><b>Example of usage:</b></p>
+     <pre><code>OutputHandler.printUpdatedQuantity("Strawberry");</code></pre>
    */
 
   public void printUpdatedQuantity(String name) {
@@ -145,8 +149,10 @@ public class OutputHandler {
   /**
    * <p>Prints a message when an ingredient has been successfully added.</p>
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>OutputHandler.printAddedIngredient("Strawberry");</code></pre>
+   * @param name the name of the ingredient that was added
+   *
+     <p><b>Example of usage:</b></p>
+     <pre><code>OutputHandler.printAddedIngredient("Strawberry");</code></pre>
    */
   public void printAddedIngredient(String name) {
     System.out.println("Successfully added " + name + " to the storage");
@@ -155,8 +161,10 @@ public class OutputHandler {
   /**
    * <p>Prints a message when an ingredient has been successfully removed.</p>
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>OutputHandler.printRemovedIngredient("Strawberry");</code></pre>
+   * @param name the name of the ingredient that was removed
+   *
+     <p><b>Example of usage:</b></p>
+     <pre><code>OutputHandler.printRemovedIngredient("Strawberry");</code></pre>
    */
 
   public void printRemovedIngredient(String name) {
@@ -169,8 +177,12 @@ public class OutputHandler {
    *
    * <p>This method takes an iterator of ingredient names and prints each one on a new line.</p>
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>OutputHandler.printListOfIngredients(ingredientsIterator);</code></pre>
+   *
+   * @param ingredientsIterator the iterator of ingredients to be printed.
+   * @param hasIngredients a boolean value indicating whether there are ingredients or not
+   *
+     <p><b>Example of usage:</b></p>
+     <pre><code>OutputHandler.printListOfIngredients(ingredientsIterator);</code></pre>
    */
   public void printListOfIngredients(Iterator<String> ingredientsIterator, boolean hasIngredients) {
     if (hasIngredients && ingredientsIterator != null) {
@@ -189,10 +201,13 @@ public class OutputHandler {
    * <p>This method takes an iterator of ingredient names, sorts them alphabetically and print
    * each one on a new line.</p>
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre>
-   *   <code>OutputHandler.printListOfIngredientsAlphabetically(ingredientsIterator);</code>
-   * </pre>
+   * @param ingredientsIterator the iterator of ingredients to be printed.
+   * @param hasIngredients a boolean value indicating whether there are ingredients or not.
+   *
+     <p><b>Example of usage:</b></p>
+     <pre>
+       <code>OutputHandler.printListOfIngredientsAlphabetically(ingredientsIterator);</code>
+     </pre>
    */
   public void printListOfIngredientsAlphabetically(Iterator<String> ingredientsIterator,
                                                    boolean hasIngredients) {
@@ -213,8 +228,11 @@ public class OutputHandler {
    * <p>This method takes an iterator of ingredients
    * and filters them to display only those that are expired.
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>OutputHandler.printListOfExpiredIngredients(ingredientsIterator);</code></pre>
+   * @param ingredientsIterator the iterator of ingredients to be printed.
+   * @param hasExpiredIngredients a boolean value indicating whether there are expired ingredients.
+   *
+   *<p><b>Example of usage:</b></p>
+     <pre><code>OutputHandler.printListOfExpiredIngredients(ingredientsIterator);</code></pre>
    */
 
   public void printListOfExpiredIngredients(Iterator<String> ingredientsIterator,
@@ -226,6 +244,33 @@ public class OutputHandler {
       }
     } else {
       System.out.println("No expired ingredients found.");
+    }
+  }
+
+  /**
+   * <p>Prints a list of ingredients by a specific expiration date.</p>
+   * <p>This method takes an iterator of ingredients
+   *  and filters them to display only those that are expiring on the specified date.</p>
+   *
+   *
+   * @param ingredientsIterator the iterator of ingredients to be printed.
+   * @param ingredientsFound a boolean value indicating whether
+   *                         there are ingredients on the specified expiration date.
+   *
+      <p><b>Example of usage: </b>
+      <pre><code>OutputHandler.printListOfIngredientsByExpirationDate
+  (ingredientsIterator);</code></pre>
+      </p>
+   */
+  public void printListOfIngredientsByExpirationDate(Iterator<String> ingredientsIterator,
+                                            boolean ingredientsFound) {
+    if (ingredientsFound && ingredientsIterator != null) {
+      System.out.println("These are the ingredients expiring on the specified date:");
+      while (ingredientsIterator.hasNext()) {
+        System.out.println(ingredientsIterator.next());
+      }
+    } else {
+      System.out.println("No ingredients found on the specified date.");
     }
   }
 
