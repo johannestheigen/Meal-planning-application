@@ -33,8 +33,8 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.0.9
- * @since 11.11.2024
+ * @version 0.1.0
+ * @since 11.13.2024
  */
 public class UserInterface {
 
@@ -60,8 +60,8 @@ public class UserInterface {
     foodStorage = new FoodStorage();
     output = new OutputHandler();
     input = new InputHandler();
-    foodStorage.addIngredient("Kiwi", "Fruit", 5, "kg", 2, LocalDate.of(2027, 10, 10));
-    foodStorage.addIngredient("Apple", "Fruit", 1, "kg", 2, LocalDate.of(2027, 10, 10));
+    foodStorage.addIngredient("Kiwi", "Fruit", 1, "kg", 2, LocalDate.of(2027, 10, 10));
+    foodStorage.addIngredient("Apple", "Fruit", 2, "kg", 2, LocalDate.of(2027, 10, 10));
     userInput();
   }
 
@@ -92,7 +92,10 @@ public class UserInterface {
    *   <li>Price</li>
    *   <li>Expiration date</li>
    * </ul>
-   * Once all details are collected, the ingredient is added to the storage.
+   *
+   * <p>The user is prompted to confirm if they want to add the ingredient.</p>
+   *
+   * <p>Once all details are collected, the ingredient is added to the storage.
    * If an ingredient with the same name already exists, its quantity is incremented;
    * otherwise, a new ingredient is created and added to the storage.</p>
    *
@@ -123,6 +126,10 @@ public class UserInterface {
     boolean ingredientExists =
         foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
 
+    output.printWarning();
+    if (input.stringInput().equalsIgnoreCase("n")) {
+      output.printAbortOperationMessage();
+    }
     if (ingredientExists) {
       output.printUpdatedQuantity(name);
     } else {
@@ -133,13 +140,16 @@ public class UserInterface {
   /**
    * Reduces the quantity of an ingredient in the storage through user interaction.
    *
-   * <p>This method prompts the user for the <b>name</b>
-   * of the ingredient to identify it in the storage.
-   * If the ingredient is found, its quantity is reduced by 1.
+   * <p>This method prompts the user for the <b>name</b> and <b>quantity</b>
+   * of the ingredient to identify it in the storage.</p>
+   *
+   * <p>The user is prompted to confirm if they want to reduce the ingredient.</p>
+   *
+   * <p>If the ingredient is found, its quantity is reduced by 1.
    * If the ingredient's quantity becomes less than 1 after the reduction,
    * the ingredient is completely removed from storage.
    * If the ingredient does not exist, an error message is displayed.</p>
-   *
+   **
    * <p><b>Example of usage:</b></p>
    * <pre><code>userInterface.reduceIngredient();</code></pre>
    */
@@ -147,33 +157,105 @@ public class UserInterface {
     output.promptForIngredientName();
     String name = input.stringInput();
 
+    output.promptForQuantity();
+    double quantity = input.doubleInput();
+
     if (foodStorage.getIngredient(name) == null) {
       output.printIngredient(name, false);
     } else {
-      boolean wasReduced = foodStorage.reduceIngredient(name);
-
-      if (wasReduced) {
-        output.printUpdatedQuantity(name);
+      boolean wasReduced = foodStorage.reduceIngredient(name, quantity);
+      output.printWarning();
+      if (input.stringInput().equalsIgnoreCase("n")) {
+        output.printAbortOperationMessage();
       } else {
-        output.printRemovedIngredient(name);
+        if (wasReduced) {
+          output.printUpdatedQuantity(name);
+        } else {
+          output.printRemovedIngredient(name);
+        }
+      }
+    }
+  }
+
+  /**
+   * <p>Allows the user to change the description of an ingredient.</p>
+   *
+   * <p>The user is prompted to enter the name of the ingredient and
+   * a new description for the ingredient.</p>
+   *
+   * <p>Before the change is made, the user is prompted to confirm the operation.</p>
+   *
+   * <p>If the user confirms the operation, the description of the ingredient is updated.</p>
+   *
+   * <p><b>Example of usage:</b>
+   * <pre><code>foodStorage.changeDescription();</code></pre></p>
+   */
+  public void changeDescription() {
+    output.promptForIngredientName();
+    String name = input.stringInput();
+    if (foodStorage.getIngredient(name) == null) {
+      output.printIngredient(name, false);
+    } else {
+      output.promptForNewDescription();
+      String newDescription = input.stringInput();
+      output.printWarning();
+      if (input.stringInput().equalsIgnoreCase("n")) {
+        output.printAbortOperationMessage();
+      }
+      foodStorage.changeDescription(name, newDescription);
+      output.printSuccess();
+    }
+  }
+
+  /**
+   * <p>Allows the user to change the price of an ingredient.</p>
+   *
+   * <p>The user is prompted to enter the name of the ingredient and
+   * a new price for the ingredient.</p>
+   *
+   * <p>Before the change is made, the user is prompted to confirm the operation.</p>
+   *
+   * <p>If the user confirms the operation, the price of the ingredient is updated.</p>
+   *
+   * <p><b>Example of usage:</b>
+   * <pre><code>foodStorage.changePrice();</code></pre></p>
+   */
+  public void changePrice() {
+    output.promptForIngredientName();
+    String name = input.stringInput();
+    if (foodStorage.getIngredient(name) == null) {
+      output.printIngredient(name, false);
+    } else {
+      output.promptForNewPrice();
+      double newPrice = input.doubleInput();
+      output.printWarning();
+      if (input.stringInput().equalsIgnoreCase("n")) {
+        output.printAbortOperationMessage();
+      } else {
+        foodStorage.changePrice(name, newPrice);
+        output.printSuccess();
       }
     }
   }
 
   /**
    * Finds an ingredient by its name.
-   * If the ingredient is found, its name is displayed.
+   * If the ingredient is found, all its details is displayed.
    * If the ingredient does not exist, an error message is displayed.
-   *
-   * @param ingredientName the name of the ingredient to search for.
    *
      <p><b>Example of usage:</b></p>
      <pre><code>userInterface.findIngredient();</code></pre>
    */
-  public void findIngredient(String ingredientName) {
-    String ingredient = foodStorage.getIngredientName(ingredientName);
-    boolean found = ingredient != null;
-    output.printIngredient(ingredientName, found);
+
+  public void findIngredient() {
+    output.promptForIngredientName();
+    String ingredientName = input.stringInput();
+    String ingredientInfo = foodStorage.getIngredientInfo(ingredientName);
+    if (ingredientInfo != null) {
+      output.printIngredientDetails(ingredientInfo);
+    } else {
+      output.printIngredient(ingredientName, false);  // Prints a not-found message
+    }
   }
 
   /**
@@ -186,7 +268,8 @@ public class UserInterface {
    */
   public void displayListOfIngredients() {
     Iterator<String> ingredientsIterator = foodStorage.getListOfIngredients();
-    output.printListOfIngredients(ingredientsIterator);
+    boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
+    output.printListOfIngredients(ingredientsIterator, hasIngredients);
   }
 
   /**
@@ -199,7 +282,8 @@ public class UserInterface {
    */
   public void displayListOfIngredientsAlphabetically() {
     Iterator<String> ingredientsIterator = foodStorage.getListOfIngredientsAlphabetically();
-    output.printListOfIngredientsAlphabetically(ingredientsIterator);
+    boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
+    output.printListOfIngredientsAlphabetically(ingredientsIterator, hasIngredients);
   }
 
   /**
@@ -213,7 +297,8 @@ public class UserInterface {
    */
   public void displayListOfExpiredIngredients() {
     Iterator<String> ingredientsIterator = foodStorage.getListOfExpiredIngredients();
-    output.printListOfExpiredIngredients(ingredientsIterator);
+    boolean hasExpiredIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
+    output.printListOfExpiredIngredients(ingredientsIterator, hasExpiredIngredients);
   }
 
   /**
@@ -222,16 +307,21 @@ public class UserInterface {
    * and filter the ingredients based on the provided expiration date,
    * and then displays only those that match the specific expiration date.
    *
-   * @param expirationDate the specific expiration date used to filter the ingredients.
-   *
      <p><b>Example of usage:</b></p>
      <pre><code>
   userInterface.displayListOfIngredientsByExpirationDate(LocalDate.of(2024, 7, 10));</code></pre>
    */
-  public void displayListOfIngredientsByExpirationDate(LocalDate expirationDate) {
+
+  public void displayListOfIngredientsByExpirationDate() {
+    output.promptForExpirationDate();
+    LocalDate expirationDate = input.expirationDateInput();
+
     Iterator<String> ingredientsIterator =
         foodStorage.getListOfIngredientsByExpirationDate(expirationDate);
-    output.printListOfExpiredIngredients(ingredientsIterator);
+
+    boolean hasExpiredIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
+
+    output.printListOfExpiredIngredients(ingredientsIterator, hasExpiredIngredients);
   }
 
   /**
@@ -269,8 +359,11 @@ public class UserInterface {
    * <p>
    * The available options allow the user to:
    * <ul>
+   *    <li>Help command to view the different options</li>
    *   <li>Add an ingredient</li>
    *   <li>Reduce the quantity of an ingredient</li>
+   *   <li>Change the description of an ingredient</li>
+   *   <li>Change the price of an ingredient</li>
    *   <li>Display a list of all ingredients</li>
    *   <li>Display ingredients in alphabetical order</li>
    *   <li>Display expired ingredients</li>
@@ -290,7 +383,7 @@ public class UserInterface {
     while (running) {
       String userChoice = input.stringInput();
 
-      switch (userChoice) {
+      switch (userChoice.toLowerCase()) {
         case "0" -> {
           output.printExitWarning();
           if (input.stringInput().equalsIgnoreCase("y")) {
@@ -301,27 +394,21 @@ public class UserInterface {
             output.printAbortOperationMessage();
           }
         }
-        case "1" -> addIngredient();
-        case "2" -> reduceIngredient();
-        case "3" -> displayListOfIngredients();
-        case "4" -> output.printExtendedMenu();
-        case "5" -> {
-          output.promptForIngredientName();
-          String ingredientName = input.stringInput();
-          findIngredient(ingredientName);
-        }
-        case "6" -> displayListOfIngredientsAlphabetically();
-        case "7" -> displayListOfExpiredIngredients();
-        case "8" -> {
-          output.promptForExpirationDate();
-          LocalDate expirationDate = input.expirationDateInput();
-          displayListOfIngredientsByExpirationDate(expirationDate);
-        }
-        case "9" -> displayValueOfAllIngredients();
-        case "10" -> displayValueOfExpiredIngredients();
+        case "/help" -> output.printExtendedMenu();
+        case "/add" -> addIngredient();
+        case "/change-description" -> changeDescription();
+        case "/change-price" -> changePrice();
+        case "/reduce" -> reduceIngredient();
+        case "/view" -> displayListOfIngredients();
+        case "/find" -> findIngredient();
+        case "/sort" -> displayListOfIngredientsAlphabetically();
+        case "/expired" -> displayListOfExpiredIngredients();
+        case "/date" -> displayListOfIngredientsByExpirationDate();
+        case "/value" -> displayValueOfAllIngredients();
+        case "/value-expired" -> displayValueOfExpiredIngredients();
         default -> output.printInvalidInput();
       }
-      if (!(userChoice.equals("4") || userChoice.equals("0"))) {
+      if (!(userChoice.equals("/help") || userChoice.equals("0"))) {
         output.printMainMenu();
       }
     }
