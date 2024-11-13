@@ -14,6 +14,8 @@ import java.util.Iterator;
  * <ul>
  *   <li><b>addIngredient</b>: Adds an ingredient to the food storage.</li>
  *   <li><b>reduceIngredient</b>: Reduces the quantity of an ingredient or removes it entirely.</li>
+ *   <li><b>changeDescription</b>: Changes the description of an ingredient.</li>
+ *   <li><b>changePrice</b>: Changes the price of an ingredient.</li>
  *   <li><b>getIngredient</b>: Retrieves an ingredient object from the food storage.</li>
  *   <li><b>getIngredientName</b>: Retrieves the name of an ingredient,
  *   which is also the key to the ingredient object.</li>
@@ -31,7 +33,7 @@ import java.util.Iterator;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.0
+ * @version 0.2.1
  * @since 11.13.2024
  */
 public class FoodStorage {
@@ -42,16 +44,18 @@ public class FoodStorage {
    * Creates a new instance of FoodStorage, initializing an empty storage
    * for holding ingredient objects.
    *
-   * <p><b>Example of usage: </b> <code> foodStorage = new FoodStorage();</code></p>
+   * <p><b>Example of usage: </b> <pre><code> foodStorage = new FoodStorage();</code></pre></p>
    */
   public FoodStorage() {
     storage = new HashMap<>();
   }
 
   /**
-   * Creates and adds an ingredient to the food storage. If the ingredient already exists,
+   * <p>Creates and adds an ingredient to the food storage. If the ingredient already exists,
    * the quantity of the existing ingredient is incremented by the quantity of the
-   * ingredient being added.
+   * ingredient being added. If the expiration date of the new ingredient is later
+   * than the existing ingredient, the existing ingredient is renamed with the old
+   * expiration date and the new ingredient is added.</p>
    *
    * @param name           the name of the ingredient,
    *                       which acts as the unique identifier for the ingredient.
@@ -61,9 +65,12 @@ public class FoodStorage {
    * @param price          the price of the ingredient (e.g. USD, NOK, EUR)
    * @param expirationDate the expiration date of the ingredient,
    *                       formatted as yyyy-MM-dd (e.g., 2025-12-31).
-   * @return true if the ingredient already exists and its quantity is successfully
-   *     incremented, and false if the ingredient
-   *     did not previously exist and was added to the storage.
+   * @return <code>true</code> if the ingredient already exists
+     and its quantity is successfully incremented,
+   *         or if a new ingredient was added with
+   *         a later expiration date than an existing one (replacing the old one).
+   *         <code>false</code> if the ingredient did not previously exist
+   *         and was successfully added to the storage.
    *
      <p><b>Example of usage:</b></p>
      <pre><code>
@@ -74,19 +81,26 @@ public class FoodStorage {
   public boolean addIngredient(String name, String description, double quantity,
                                String unit, double price, LocalDate expirationDate) {
 
-    boolean ingredientExists = false;
+    Ingredient newIngredient = new Ingredient(name, description,
+        quantity, unit, price, expirationDate);
+    String ingredientName = newIngredient.getName();
 
-    Ingredient newIngredient = new Ingredient(name, description, quantity,
-        unit, price, expirationDate);
-    if (storage.containsKey(newIngredient.getName())) {
-      Ingredient existingIngredient = storage.get(newIngredient.getName());
-      existingIngredient.setQuantity(existingIngredient.getQuantity()
-          + newIngredient.getQuantity());
-      ingredientExists = true;
-    } else {
-      storage.put(newIngredient.getName(), newIngredient);
+    if (storage.containsKey(ingredientName)) {
+      Ingredient existingIngredient = storage.get(ingredientName);
+      LocalDate existingExpirationDate = existingIngredient.getExpirationDate();
+
+      if (expirationDate.isAfter(existingExpirationDate)) {
+        String newName = ingredientName + "_" + existingExpirationDate;
+        storage.put(newName, existingIngredient);
+        storage.put(ingredientName, newIngredient);
+      } else {
+        double updatedQuantity = existingIngredient.getQuantity() + quantity;
+        existingIngredient.setQuantity(updatedQuantity);
+      }
+      return true;
     }
-    return ingredientExists;
+    storage.put(ingredientName, newIngredient);
+    return false;
   }
 
   /**
@@ -94,6 +108,7 @@ public class FoodStorage {
    * If the quantity gets to 0, the ingredient will be removed from the storage.
    *
    * @param ingredientName the name of the ingredient to be reduced.
+   * @param quantity the quantity to be reduced from the ingredient.
    * @return false if the ingredient does not exist, and true if the ingredient exists
    *     and is reduced or removed entirely.
    *
@@ -101,17 +116,66 @@ public class FoodStorage {
    *<pre><code>foodStorage.reduceIngredient("Banana");</code></pre></p>
    */
 
-  public boolean reduceIngredient(String ingredientName) {
+  public boolean reduceIngredient(String ingredientName, double quantity) {
     boolean ingredientFound = false;
+    boolean wasRemoved = false;
+
     Ingredient existingIngredient = storage.get(ingredientName);
 
     if (existingIngredient != null) {
       ingredientFound = true;
-      if (existingIngredient.getQuantity() > 1) {
-        existingIngredient.setQuantity(existingIngredient.getQuantity() - 1);
-      } else {
+      double newQuantity = existingIngredient.getQuantity() - quantity;
+
+      if (newQuantity <= 0) {
         storage.remove(ingredientName);
+        wasRemoved = true;
+      } else {
+        existingIngredient.setQuantity(newQuantity);
       }
+    }
+    return ingredientFound && !wasRemoved;
+  }
+
+  /**
+   * <p>Changes the description of an ingredient in the food storage.</p>
+   * <p>If the ingredient does not exist, the method will return <code>false</code></p>
+
+   * @param ingredientName the name of the ingredient, which is the key for the ingredient object
+   * @param newDescription the new description to be set for the ingredient
+   * @return <code>true</code> if the ingredient exists and the description is successfully changed,
+     and <code>false</code> if the ingredient does not exist.
+   *
+     <p><b>Example of usage: </b>
+     <pre><code>foodStorage.changeDescription("Apple","Fruit");</code></pre></p>
+   */
+  public boolean changeDescription(String ingredientName, String newDescription) {
+    boolean ingredientFound = false;
+    Ingredient existingIngredient = storage.get(ingredientName);
+    if (existingIngredient != null) {
+      ingredientFound = true;
+      existingIngredient.setDescription(newDescription);
+    }
+    return ingredientFound;
+  }
+
+  /**
+   * <p>Changes the price of an ingredient in the food storage.</p>
+   * <p>If the ingredient does not exist, the method will return <code>false</code></p>
+
+   * @param ingredientName the name of the ingredient, which is the key for the ingredient object
+   * @param newPrice the new price to be set for the ingredient
+   * @return <code>true</code> if the ingredient exists and the price is successfully changed,
+     and <code>false</code> if the ingredient does not exist.
+   *
+     <p><b>Example of usage: </b>
+     <pre><code>foodStorage.changeDescription("Apple",10);</code></pre></p>
+   */
+  public boolean changePrice(String ingredientName, double newPrice) {
+    boolean ingredientFound = false;
+    Ingredient existingIngredient = storage.get(ingredientName);
+    if (existingIngredient != null) {
+      ingredientFound = true;
+      existingIngredient.setPrice(newPrice);
     }
     return ingredientFound;
   }
@@ -141,10 +205,17 @@ public class FoodStorage {
     <p><b>Example of usage: </b>
   <pre><code>foodStorage.getIngredientName("Banana");</code></pre></p>
    */
-  public String getIngredientName(String ingredientName) {
+
+  public String getIngredientInfo(String ingredientName) {
     String existingIngredient = null;
     if (storage.containsKey(ingredientName)) {
-      existingIngredient = storage.get(ingredientName).getName();
+      existingIngredient = storage.get(ingredientName).getName() + " "
+          + storage.get(ingredientName).getDescription() + " "
+
+          + storage.get(ingredientName).getQuantity() + " "
+          + storage.get(ingredientName).getUnit() + " "
+          + storage.get(ingredientName).getPrice() + " "
+          + storage.get(ingredientName).getExpirationDate();
     }
     return existingIngredient;
   }
