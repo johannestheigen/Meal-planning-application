@@ -33,7 +33,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.1.3
+ * @version 0.1.4
  * @since 11.13.2024
  */
 public class UserInterface {
@@ -199,9 +199,10 @@ public class UserInterface {
       output.printWarning();
       if (input.stringInput().equalsIgnoreCase("n")) {
         output.printAbortOperationMessage();
+      } else {
+        foodStorage.changeDescription(name, newDescription);
+        output.printSuccess();
       }
-      foodStorage.changeDescription(name, newDescription);
-      output.printSuccess();
     }
   }
 
