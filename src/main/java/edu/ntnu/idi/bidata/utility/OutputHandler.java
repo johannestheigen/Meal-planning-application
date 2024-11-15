@@ -17,8 +17,8 @@ import java.util.Iterator;
  *   <li>Displaying the total value of ingredients and expired ingredients.</li>
  * </ul>
  *
- * @version 0.0.5
- * @since 11.13.2024
+ * @version 0.0.6
+ * @since 11.15.2024
  */
 public class OutputHandler {
 
@@ -99,7 +99,7 @@ public class OutputHandler {
     System.out.println("""
        Type '/add' to add an ingredient
        Type '/reduce' to reduce the quantity of an ingredient
-       Type '/change-description"' to change the description of an ingredient
+       Type '/change-description' to change the description of an ingredient
        Type '/change-price' to change the price of an ingredient
        Type '/view' to view your ingredients
        Type '/find' to find an ingredient
@@ -110,7 +110,6 @@ public class OutputHandler {
        Type '/value-expired' to print value of all expired ingredients
         """);
   }
-
 
   /**
    * <p>Prints a message indicating whether the specified ingredient was found in the storage.</p>
