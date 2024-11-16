@@ -33,8 +33,8 @@ import java.util.Iterator;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.2
- * @since 11.13.2024
+ * @version 0.2.1
+ * @since 11.16.2024
  */
 public class FoodStorage {
 
@@ -155,7 +155,7 @@ public class FoodStorage {
      <p><b>Example of usage: </b>
      <pre><code>foodStorage.changeDescription("Apple","Fruit");</code></pre></p>
    */
-  public boolean changeDescription(String ingredientName, String newDescription) {
+  public boolean updateDescription(String ingredientName, String newDescription) {
     boolean ingredientFound = false;
     Ingredient existingIngredient = storage.get(ingredientName);
     if (existingIngredient != null) {
@@ -177,7 +177,7 @@ public class FoodStorage {
      <p><b>Example of usage: </b>
      <pre><code>foodStorage.changeDescription("Apple",10);</code></pre></p>
    */
-  public boolean changePrice(String ingredientName, double newPrice) {
+  public boolean updatePrice(String ingredientName, double newPrice) {
     boolean ingredientFound = false;
     Ingredient existingIngredient = storage.get(ingredientName);
     if (existingIngredient != null) {

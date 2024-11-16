@@ -226,7 +226,7 @@ public class UserInterface {
         if (input.stringInput().equalsIgnoreCase("n")) {
           output.printAbortOperationMessage();
         } else {
-          foodStorage.changeDescription(name, newDescription);
+          foodStorage.updateDescription(name, newDescription);
           output.printSuccess();
         }
       }
@@ -266,7 +266,7 @@ public class UserInterface {
         if (input.stringInput().equalsIgnoreCase("n")) {
           output.printAbortOperationMessage();
         } else {
-          foodStorage.changePrice(name, newPrice);
+          foodStorage.updatePrice(name, newPrice);
           output.printSuccess();
         }
       }
