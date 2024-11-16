@@ -17,8 +17,8 @@ import java.util.Iterator;
  *   <li>Displaying the total value of ingredients and expired ingredients.</li>
  * </ul>
  *
- * @version 0.0.6
- * @since 11.15.2024
+ * @version 0.0.7
+ * @since 11.16.2024
  */
 public class OutputHandler {
 
@@ -99,15 +99,39 @@ public class OutputHandler {
     System.out.println("""
        Type '/add' to add an ingredient
        Type '/reduce' to reduce the quantity of an ingredient
-       Type '/change-description' to change the description of an ingredient
-       Type '/change-price' to change the price of an ingredient
-       Type '/view' to view your ingredients
+       Type '/change-ingredient' to change an ingredient
        Type '/find' to find an ingredient
-       Type '/sort' to view ingredients in alphabetical order
-       Type '/expired' to view expired ingredients
-       Type '/date' to view ingredients by a specific expiration date
+       Type '/list' to list all ingredients
        Type '/value' to print value of all ingredients
        Type '/value-expired' to print value of all expired ingredients
+        """);
+  }
+
+  /**
+   * <p>Displays a menu with options to change the description or price of an ingredient.</p>
+   *
+   * <p><b>Example of usage: </b>
+   * <pre><code>OutputHandler.printChangeIngredientMenu()</code></pre></p>
+   */
+  public void printChangeIngredientMenu() {
+    System.out.println("""
+       Type '/change-description' to change the description of an ingredient
+       Type '/change-price' to change the price of an ingredient
+        """);
+  }
+
+  /**
+   * <p>Displays a menu with options to sort ingredients alphabetically, expired ingredients
+   * and ingredients by a specific expiration date.</p>
+   *
+   * <p><b>Example of usage: </b>
+   * <pre><code>OutputHandler.printListMenu()</code></pre></p>
+   */
+  public void printListMenu() {
+    System.out.println("""
+        Type '/sort' to view ingredients in alphabetical order
+        Type '/expired to view expired ingredients
+        Type '/date' to view ingredients by a specific expiration date
         """);
   }
 
@@ -168,7 +192,7 @@ public class OutputHandler {
 
   public void printRemovedIngredient(String name) {
     System.out.println("Successfully removed " + name
-        + "because the quantity was reduced to zero.");
+        + " because the quantity was reduced to zero.");
   }
 
   /**
@@ -350,8 +374,8 @@ public class OutputHandler {
    * <p><b>Example of usage:</b></p>
    * <pre><code>outputHandler.printInvalidInput();</code></pre>
    */
-  public void printInvalidInput() {
-    System.out.println("Invalid input, please enter a valid input.");
+  public void printInvalidInput(String message) {
+    System.out.println("Invalid input " + message);
   }
 
   /**
