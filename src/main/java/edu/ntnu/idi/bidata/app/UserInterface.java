@@ -33,8 +33,8 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.1.6
- * @since 11.13.2024
+ * @version 0.1.7
+ * @since 11.16.2024
  */
 public class UserInterface {
 
@@ -50,10 +50,10 @@ public class UserInterface {
    * for testing and demonstration purposes, providing initial data that can be
    * used to showcase application functionality.</p>
    *
-     <p><b>Example of usage:</b></p>
-     <pre><code>
-     userInterface.init();
-     </code></pre>
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>
+   * userInterface.init();
+   * </code></pre>
    */
 
   public void init() {
@@ -95,43 +95,54 @@ public class UserInterface {
    *
    * <p>The user is prompted to confirm if they want to add the ingredient.</p>
    *
+   * <p>If the values provided by the user is invalid an error message is displayed
+   * with the details of the error.</p>
+   *
    * <p>Once all details are collected, the ingredient is added to the storage.
    * If an ingredient with the same name already exists, its quantity is incremented;
    * otherwise, a new ingredient is created and added to the storage.</p>
    *
+   *
+   *
    * <p><b>Example of usage:</b></p>
    * <pre><code>userInterface.addIngredient();</code></pre>
    */
-  private void addIngredient() {
-    output.promptForIngredientName();
-    final String name = input.stringInput();
+  public void addIngredient() {
+    try {
+      output.promptForIngredientName();
+      final String name = input.stringInput();
 
-    output.promptForDescription();
-    final String description = input.stringInput();
+      output.promptForDescription();
+      final String description = input.stringInput();
 
-    output.promptForQuantity();
-    final double quantity = input.doubleInput();
+      output.promptForQuantity();
+      final double quantity = input.doubleInput();
 
-    output.promptForUnit();
-    final String unit = input.stringInput();
+      output.promptForUnit();
+      final String unit = input.stringInput();
 
-    output.promptForPrice();
-    final double price = input.doubleInput();
+      output.promptForPrice();
+      double price = input.doubleInput();
 
-    output.promptForExpirationDate();
-    final LocalDate expirationDate = input.expirationDateInput();
+      output.promptForExpirationDate();
+      final LocalDate expirationDate = input.expirationDateInput();
 
-    output.printWarning();
-    if (input.stringInput().equalsIgnoreCase("n")) {
-      output.printAbortOperationMessage();
-    } else {
-      boolean ingredientExists = foodStorage.addIngredient(name, description,
-          quantity, unit, price, expirationDate);
-      if (ingredientExists) {
-        output.printUpdatedQuantity(name);
+      output.printWarning();
+      if (input.stringInput().equalsIgnoreCase("n")) {
+        output.printAbortOperationMessage();
       } else {
-        output.printAddedIngredient(name);
+        boolean ingredientExists =
+            foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
+        if (ingredientExists) {
+          output.printUpdatedQuantity(name);
+        } else {
+          output.printAddedIngredient(name);
+        }
       }
+    } catch (IllegalArgumentException e) {
+      output.printInvalidInput(e.getMessage());
+    } catch (Exception e) {
+      output.printError(e.getMessage());
     }
   }
 
@@ -143,37 +154,48 @@ public class UserInterface {
    *
    * <p>The user is prompted to confirm if they want to reduce the ingredient.</p>
    *
+   * <p>If the values provided by the user is invalid an error message is displayed
+   * with the details of the error.</p>
+   *
    * <p>If the ingredient is found, its quantity is reduced by 1.
    * If the ingredient's quantity becomes less than 1 after the reduction,
    * the ingredient is completely removed from storage.
    * If the ingredient does not exist, an error message is displayed.</p>
-   **
+   * *
    * <p><b>Example of usage:</b></p>
    * <pre><code>userInterface.reduceIngredient();</code></pre>
    */
   public void reduceIngredient() {
-    output.promptForIngredientName();
-    String name = input.stringInput();
+    try {
+      output.promptForIngredientName();
+      String name = input.stringInput();
 
-    output.promptForQuantity();
-    double quantity = input.doubleInput();
+      output.promptForQuantity();
+      double quantity = input.doubleInput();
 
-    if (foodStorage.getIngredient(name) == null) {
-      output.printIngredient(name, false);
-    } else {
-      boolean wasReduced = foodStorage.reduceIngredient(name, quantity);
-      output.printWarning();
-      if (input.stringInput().equalsIgnoreCase("n")) {
-        output.printAbortOperationMessage();
+      if (foodStorage.getIngredient(name) == null) {
+        output.printIngredient(name, false);
       } else {
-        if (wasReduced) {
-          output.printUpdatedQuantity(name);
+        boolean wasReduced = foodStorage.reduceIngredient(name, quantity);
+
+        output.printWarning();
+        if (input.stringInput().equalsIgnoreCase("n")) {
+          output.printAbortOperationMessage();
         } else {
-          output.printRemovedIngredient(name);
+          if (wasReduced) {
+            output.printUpdatedQuantity(name);
+          } else {
+            output.printRemovedIngredient(name);
+          }
         }
       }
+    } catch (IllegalArgumentException e) {
+      output.printInvalidInput(e.getMessage());
+    } catch (Exception e) {
+      output.printError(e.getMessage());
     }
   }
+
 
   /**
    * <p>Allows the user to change the description of an ingredient.</p>
@@ -183,26 +205,35 @@ public class UserInterface {
    *
    * <p>Before the change is made, the user is prompted to confirm the operation.</p>
    *
+   * <p>If the description provided by the user is invalid an error message is displayed
+   * with the details of the error.</p>
+   *
    * <p>If the user confirms the operation, the description of the ingredient is updated.</p>
    *
    * <p><b>Example of usage:</b>
    * <pre><code>foodStorage.changeDescription();</code></pre></p>
    */
   public void changeDescription() {
-    output.promptForIngredientName();
-    String name = input.stringInput();
-    if (foodStorage.getIngredient(name) == null) {
-      output.printIngredient(name, false);
-    } else {
-      output.promptForNewDescription();
-      String newDescription = input.stringInput();
-      output.printWarning();
-      if (input.stringInput().equalsIgnoreCase("n")) {
-        output.printAbortOperationMessage();
+    try {
+      output.promptForIngredientName();
+      String name = input.stringInput();
+      if (foodStorage.getIngredient(name) == null) {
+        output.printIngredient(name, false);
       } else {
-        foodStorage.changeDescription(name, newDescription);
-        output.printSuccess();
+        output.promptForNewDescription();
+        String newDescription = input.stringInput();
+        output.printWarning();
+        if (input.stringInput().equalsIgnoreCase("n")) {
+          output.printAbortOperationMessage();
+        } else {
+          foodStorage.changeDescription(name, newDescription);
+          output.printSuccess();
+        }
       }
+    } catch (IllegalArgumentException e) {
+      output.printInvalidInput(e.getMessage());
+    } catch (Exception e) {
+      output.printError(e.getMessage());
     }
   }
 
@@ -214,26 +245,35 @@ public class UserInterface {
    *
    * <p>Before the change is made, the user is prompted to confirm the operation.</p>
    *
+   * <p>If the price provided by the user is invalid an error message is displayed
+   * with the details of the error.</p>
+   *
    * <p>If the user confirms the operation, the price of the ingredient is updated.</p>
    *
    * <p><b>Example of usage:</b>
    * <pre><code>foodStorage.changePrice();</code></pre></p>
    */
   public void changePrice() {
-    output.promptForIngredientName();
-    String name = input.stringInput();
-    if (foodStorage.getIngredient(name) == null) {
-      output.printIngredient(name, false);
-    } else {
-      output.promptForNewPrice();
-      double newPrice = input.doubleInput();
-      output.printWarning();
-      if (input.stringInput().equalsIgnoreCase("n")) {
-        output.printAbortOperationMessage();
+    try {
+      output.promptForIngredientName();
+      String name = input.stringInput();
+      if (foodStorage.getIngredient(name) == null) {
+        output.printIngredient(name, false);
       } else {
-        foodStorage.changePrice(name, newPrice);
-        output.printSuccess();
+        output.promptForNewPrice();
+        double newPrice = input.doubleInput();
+        output.printWarning();
+        if (input.stringInput().equalsIgnoreCase("n")) {
+          output.printAbortOperationMessage();
+        } else {
+          foodStorage.changePrice(name, newPrice);
+          output.printSuccess();
+        }
       }
+    } catch (IllegalArgumentException e) {
+      output.printInvalidInput(e.getMessage());
+    } catch (Exception e) {
+      output.printError(e.getMessage());
     }
   }
 
@@ -242,8 +282,8 @@ public class UserInterface {
    * If the ingredient is found, all its details is displayed.
    * If the ingredient does not exist, an error message is displayed.
    *
-     <p><b>Example of usage:</b></p>
-     <pre><code>userInterface.findIngredient();</code></pre>
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>userInterface.findIngredient();</code></pre>
    */
 
   public void findIngredient() {
@@ -306,9 +346,9 @@ public class UserInterface {
    * and filter the ingredients based on the provided expiration date,
    * and then displays only those that match the specific expiration date.
    *
-     <p><b>Example of usage:</b></p>
-     <pre><code>
-  userInterface.displayListOfIngredientsByExpirationDate(LocalDate.of(2024, 7, 10));</code></pre>
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>
+   * userInterface.displayListOfIngredientsByExpirationDate(LocalDate.of(2024, 7, 10));</code></pre>
    */
 
   public void displayListOfIngredientsByExpirationDate() {
@@ -396,9 +436,11 @@ public class UserInterface {
         }
         case "/help" -> output.printExtendedMenu();
         case "/add" -> addIngredient();
+        case "/change-ingredient" -> output.printChangeIngredientMenu();
         case "/change-description" -> changeDescription();
         case "/change-price" -> changePrice();
         case "/reduce" -> reduceIngredient();
+        case "/list" -> output.printListMenu();
         case "/view" -> displayListOfIngredients();
         case "/find" -> findIngredient();
         case "/sort" -> displayListOfIngredientsAlphabetically();
@@ -406,9 +448,11 @@ public class UserInterface {
         case "/date" -> displayListOfIngredientsByExpirationDate();
         case "/value" -> displayValueOfAllIngredients();
         case "/value-expired" -> displayValueOfExpiredIngredients();
-        default -> output.printInvalidInput();
+        default -> output.printInvalidInput(userChoice);
       }
-      if (!(userChoice.equalsIgnoreCase("/help")|| userChoice.equals("0"))) {
+      if (!(userChoice.equalsIgnoreCase("/help") || userChoice.equalsIgnoreCase("0")
+          || userChoice.equalsIgnoreCase("/change-ingredient")
+          || userChoice.equalsIgnoreCase("/list"))) {
         output.printMainMenu();
       }
     }

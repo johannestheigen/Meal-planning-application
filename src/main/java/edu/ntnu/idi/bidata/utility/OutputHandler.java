@@ -378,6 +378,10 @@ public class OutputHandler {
     System.out.println("Invalid input " + message);
   }
 
+  public void printError(String message) {
+    System.out.println("Unexpected error: " + message);
+  }
+
   /**
    * Prints the total value of all the ingredients present in the storage.
    *
