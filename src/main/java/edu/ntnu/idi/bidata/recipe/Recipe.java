@@ -1,0 +1,154 @@
+package edu.ntnu.idi.bidata.recipe;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * <p>
+ *   The Recipe class represents a recipe entity that can be stored in a RecipeBook.
+ * </p>
+ *
+ * <p>This class provides methods to: </p>
+ * <ul>
+ *   <li>Retrieve and update recipe details</li>
+ * </ul>
+ *
+ *<p>Instances of Recipe can be managed within a RecipeBook
+ * to maintain an organized collection of recipes.</p>
+ *
+ * @author Johanens Nupen Theigen
+ * @version 0.0.1
+ * @since 11.17.2024
+ */
+public class Recipe {
+  private String name;
+  private String description;
+  private String instruction;
+  private Map<String, Double> requiredIngredients;
+
+  /**
+   * Creates a new instance of Recipe that can be stored in a RecipeBook.
+
+   * @param name the name of the recipe
+   * @param description the description of the recipe
+   * @param instruction the instruction of the recipe
+   * @param requiredIngredients the ingredients required for the recipe
+   *
+     <p>Example of usage: </p>
+
+     <pre><code>
+      newRecipe = new Recipe("Apple Pie", "A delicious pie",
+  "1 preheat the oven to 180 degrees",ingredients);
+      </code></pre>
+   */
+  public Recipe(String name, String description,
+                String instruction, Map<String, Double> requiredIngredients) {
+    setName(name);
+    setDescription(description);
+    setInstruction(instruction);
+    setRequiredIngredients(requiredIngredients);
+  }
+
+  /**
+   * <p>Retrieves the name of the recipe.</p>
+
+   * @return the name of the recipe
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * <p>
+   *   Sets the name of the recipe.
+   * </p>
+   *
+   * @param name the name of the recipe
+   * @throws IllegalArgumentException if the name is null or empty
+   */
+  public void setName(String name) {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("The recipe name cannot be null or empty");
+    }
+    this.name = name;
+  }
+
+  /**
+   * <p>
+   *   Retrieves the description of the recipe.
+   * </p>
+
+   * @return the description of the recipe
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * <p>
+   *   Sets the description of the recipe.
+   * </p>
+
+   * @param description the description of the recipe
+   * @throws IllegalArgumentException if the description is null or empty
+   */
+  public void setDescription(String description) {
+    if (description == null || description.isEmpty()) {
+      throw new IllegalArgumentException("The recipe description cannot be null or empty");
+    }
+    this.description = description;
+  }
+
+  /**
+   * <p>
+   *   Retrieves the instruction of the recipe.
+   * </p>
+
+   * @return the instruction of the recipe
+   */
+  public String getInstruction() {
+    return instruction;
+  }
+
+  /**
+   * <p>
+   *   Sets the instruction of the recipe.
+   * </p>
+
+   * @param instruction the instruction of the recipe.
+   * @throws IllegalArgumentException if the instruction is null or empty.
+   */
+  public void setInstruction(String instruction) {
+    if (instruction == null || instruction.isEmpty()) {
+      throw new IllegalArgumentException("The recipe instruction cannot be null or empty");
+    }
+    this.instruction = instruction;
+  }
+
+  /**
+   * <p>
+   *   Retrieves the required ingredients for the recipe.
+   * </p>
+
+   * @return the required ingredients for the recipe
+   */
+  public Map<String, Double> getRequiredIngredients() {
+    return requiredIngredients;
+  }
+
+  /**
+   * <p>
+   *   Sets the required ingredients for the recipe.
+   * </p>
+
+   * @param requiredIngredients the required ingredients for the recipe
+   * @throws IllegalArgumentException if the required ingredients are null or empty
+   */
+  public void setRequiredIngredients(Map<String, Double> requiredIngredients) {
+    if (requiredIngredients == null || requiredIngredients.isEmpty()) {
+      throw new IllegalArgumentException("The recipe must have at least one ingredient");
+    }
+    this.requiredIngredients = requiredIngredients;
+  }
+
+}
