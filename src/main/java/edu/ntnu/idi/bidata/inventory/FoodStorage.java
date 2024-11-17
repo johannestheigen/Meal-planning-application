@@ -34,7 +34,7 @@ import java.util.Map;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.2
+ * @version 0.2.3
  * @since 11.17.2024
  */
 public class FoodStorage {

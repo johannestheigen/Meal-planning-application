@@ -17,8 +17,8 @@ import java.util.Iterator;
  *   <li>Displaying the total value of ingredients and expired ingredients.</li>
  * </ul>
  *
- * @version 0.0.7
- * @since 11.16.2024
+ * @version 0.0.8
+ * @since 11.17.2024
  */
 public class OutputHandler {
 

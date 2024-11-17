@@ -20,8 +20,8 @@ import java.time.LocalDate;
  * an organized collection of ingredients.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.9
- * @since 11.11.2024
+ * @version 0.1.0
+ * @since 11.17.2024
  */
 
 public class Ingredient {
