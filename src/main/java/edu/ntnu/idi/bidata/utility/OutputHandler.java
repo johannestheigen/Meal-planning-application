@@ -31,7 +31,7 @@ public class OutputHandler {
 
   public void printMainMenu() {
     System.out.println("""
-       Welcome to the FoodStorage App.
+       Welcome to the Meal Planning Application.
        Press '/help' to view commands
        Press 0 to exit
         """);
