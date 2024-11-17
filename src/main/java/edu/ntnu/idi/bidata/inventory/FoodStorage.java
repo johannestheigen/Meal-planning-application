@@ -221,7 +221,7 @@ public class FoodStorage {
           + storage.get(ingredientName).getDescription() + " "
           + storage.get(ingredientName).getQuantity() + " "
           + storage.get(ingredientName).getUnit() + " "
-          + storage.get(ingredientName).getPrice() + " "
+          + storage.get(ingredientName).getPrice() + " per unit "
           + storage.get(ingredientName).getExpirationDate();
     }
     return existingIngredient;
