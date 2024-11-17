@@ -157,8 +157,8 @@ public class Ingredient {
    *      </code></pre>
    */
   public void setQuantity(double quantity) {
-    if (quantity < 0) {
-      throw new IllegalArgumentException("The amount cannot be less than 0.");
+    if (quantity <= 0) {
+      throw new IllegalArgumentException("The amount cannot be 0 or less.");
     }
     this.quantity = quantity;
   }
@@ -232,8 +232,8 @@ public class Ingredient {
    *      </code></pre>
    */
   public void setPrice(double price) {
-    if (price < 0) {
-      throw new IllegalArgumentException("The price of the ingredient cannot be less than 0");
+    if (price <= 0) {
+      throw new IllegalArgumentException("The price of the ingredient cannot be 0 or less");
     }
     this.price = price;
   }
