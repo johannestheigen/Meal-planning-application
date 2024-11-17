@@ -7,7 +7,10 @@
  * <ol>
  *   <li><b>addIngredient:</b> Tests if valid ingredients are added correctly and handles duplicate ingredients.</li>
  *   <li><b>reduceIngredient:</b> Tests if existing ingredients can be reduced and if ingredients are removed when the quantity reaches zero.</li>
+ *   <li><b>updateDescription:</b> Tests if existing ingredient's description can be updated.</li>
+ *   <li><b>updatePrie:</b> Tests if existing ingredient's price can be updated.</li>
  *   <li><b>getIngredient:</b> Tests if existing ingredients can be retrieved by name.</li>
+ *   <li><b>getIngredientInfo:</b> Tests if existing ingredient's information can be retrieved by name.</li>
  *   <li><b>getListOfIngredients:</b> Tests if all ingredients can be listed correctly.</li>
  *   <li><b>getListOfIngredientsAlphabetically:</b> Tests if ingredients can be listed in alphabetical order.</li>
  *   <li><b>getListOfExpiredIngredients:</b> Tests if expired ingredients are listed correctly.</li>
