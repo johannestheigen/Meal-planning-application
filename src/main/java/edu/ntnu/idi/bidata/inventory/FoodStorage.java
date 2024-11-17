@@ -4,6 +4,7 @@ import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * The FoodStorage class is responsible for storing Ingredient objects. It uses a HashMap to store
@@ -33,12 +34,12 @@ import java.util.Iterator;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.1
- * @since 11.16.2024
+ * @version 0.2.2
+ * @since 11.17.2024
  */
 public class FoodStorage {
 
-  private final HashMap<String, Ingredient> storage;
+  private final Map<String, Ingredient> storage;
 
   /**
    * Creates a new instance of FoodStorage, initializing an empty storage
