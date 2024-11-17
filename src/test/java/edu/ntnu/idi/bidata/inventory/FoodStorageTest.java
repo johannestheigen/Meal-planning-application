@@ -109,6 +109,79 @@ class FoodStorageTest {
   }
 
   /**
+   * Positive test that checks if an ingredient's description is properly updated.
+   */
+  @Test
+  void updateDescriptionPositiveTest() {
+    foodStorageTest.addIngredient("Apple","Berry",1,"kg",4.50,LocalDate.of(2024,11,10));
+
+    Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Apple");
+    assertEquals("Berry", ingredientBeforeUpdate.getDescription(), "Expected the description of the ingredient to be 'Berry' before update");
+
+    foodStorageTest.updateDescription("Apple","Fruit");
+    Ingredient updatedIngredient = foodStorageTest.getIngredient("Apple");
+
+    assertEquals("Fruit",updatedIngredient.getDescription(),"Expected the description of the ingredient to be 'Fruit'");
+  }
+
+  /**
+   * Negative test that checks if an ingredient's description is not wrongly updated.
+   */
+  @Test
+  void updateDescriptionNegativeTest() {
+    foodStorageTest.addIngredient("Apple", "Berry", 1, "kg", 4.50, LocalDate.of(2024, 11, 10));
+
+    Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Apple");
+    assertEquals("Berry", ingredientBeforeUpdate.getDescription(), "Expected the description of the ingredient to be 'Berry' before update");
+
+    foodStorageTest.updateDescription("Apple", "Dairy");
+
+    Ingredient updatedIngredient = foodStorageTest.getIngredient("Apple");
+
+    assertEquals("Dairy", updatedIngredient.getDescription(), "Expected the description of the ingredient to be 'Dairy' after update");
+
+    assertNotEquals("Berry", updatedIngredient.getDescription(), "Description should no longer be 'Berry' after update");
+  }
+
+  /**
+   * Positive test that checks if an ingredient's quantity is properly updated.
+   */
+  @Test
+  void updatePricePositiveTest() {
+    foodStorageTest.addIngredient("Banana","Fruit",1,"kg",5.50,LocalDate.of(2025,01,01));
+
+    Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
+    assertEquals(5.50,ingredientBeforeUpdate.getPrice(),"Expected the price of the ingredient to be 5.50 before the update");
+
+    foodStorageTest.updatePrice("Banana",6.50);
+
+    Ingredient updatedIngredient = foodStorageTest.getIngredient("Banana");
+
+    assertEquals(6.50,updatedIngredient.getPrice(),"Expected the price of the ingredient to be 6.50 after the update");
+  }
+
+  /**
+   * Negative test that checks if an ingredient's price is not wrongly updated.
+   */
+  @Test
+  void updatePriceNegativeTest() {
+    foodStorageTest.addIngredient("Banana","Fruit",1,"kg",5.50,LocalDate.of(2025,01,01));
+
+    Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
+    assertEquals(5.50,ingredientBeforeUpdate.getPrice(),"Expected the price of the ingredient to be 5.50 before the update");
+
+    foodStorageTest.updatePrice("Banana",3.50);
+
+    Ingredient updatedIngredient = foodStorageTest.getIngredient("Banana");
+
+    assertEquals(3.50,updatedIngredient.getPrice(),"Expected the price of the ingredient to be 3.50 after the update");
+
+    assertNotEquals(5.50, updatedIngredient.getPrice(), "Price should no longer be '5.50' after update");
+  }
+
+
+
+  /**
    * Positive test that checks if an ingredient can be retrieved
    * after being added to the storage.
    */
@@ -134,29 +207,40 @@ class FoodStorageTest {
   }
 
   /**
-   * Positive test that checks that the correct name can be
+   * Positive test that checks that the correct details of an ingredient can be
    * retrieved after being added.
    */
   @Test
-  void getIngredientNamePositiveTest() {
+  void getIngredientInfoPositiveTest() {
     foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
 
     Ingredient ingredient = foodStorageTest.getIngredient("Tomato");
 
-    assertNotNull(ingredient, "The ingredient 'Tomato' should exist in the storage.");
-    assertEquals("Tomato", ingredient.getName(), "Expected the name to be 'Tomato', but found: " + ingredient.getName());
+    assertEquals("Tomato", ingredient.getName(),"The name of the ingredient should be 'Tomato'");
+    assertEquals("Vegetable", ingredient.getDescription(),"The description of the ingredient should be 'Vegetable'");
+    assertEquals(1, ingredient.getQuantity(),"The quantity of the ingredient should be '1'");
+    assertEquals("kg", ingredient.getUnit(),"The unit of the ingredient should be 'kg'");
+    assertEquals(15.50, ingredient.getPrice(),"The price of the ingredient should be '15.50'");
+    assertEquals(LocalDate.of(2024,12,1), ingredient.getExpirationDate(),"The expiration date of the ingredient should be '2024-12-1'");
+
   }
 
    /**
-   * Negative test that checks that an ingredient with an incorrect name does not exist in storage.
+   * Negative test that checks that an ingredient with incorrect details does not exist in storage.
    */
    @Test
-   void getIngredientNameNegativeTest() {
+   void getIngredientInfoNegativeTest() {
      foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
 
-     Ingredient ingredient = foodStorageTest.getIngredient("Blueberry");
+     Ingredient ingredient = foodStorageTest.getIngredient("Tomato");
 
-     assertNull(ingredient, "The ingredient 'Blueberry' should not be found in the storage.");
+     assertNotEquals("Banana",ingredient.getName(),"The name of the ingredient should not be 'Banana'");
+     assertNotEquals("Berry", ingredient.getDescription(),"The description of the ingredient should not be 'Berry'");
+     assertNotEquals(6, ingredient.getQuantity(),"The quantity of the ingredient should not be '6'");
+     assertNotEquals("g", ingredient.getUnit(),"The unit of the ingredient should be not 'g'");
+     assertNotEquals(1.50, ingredient.getPrice(),"The price of the ingredient should not be '1.50'");
+     assertNotEquals(LocalDate.of(2029,12,1), ingredient.getExpirationDate(),"The expiration date of the ingredient should be '2029-12-1'");
+
    }
 
   /**
