@@ -20,7 +20,7 @@ import java.time.LocalDate;
  * an organized collection of ingredients.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.1
+ * @version 0.1.3
  * @since 11.19.2024
  */
 
@@ -57,6 +57,25 @@ public class Ingredient {
     setUnit(unit);
     setPrice(price);
     setExpirationDate(expirationDate);
+  }
+
+  /**
+   * <p>
+   * Creates a new instance of Ingredient that is used when adding
+   * a new ingredient to a recipe which only requires the quantity and unit.
+   * </p>
+
+   * @param quantity the quantity of an ingredient
+   * @param unit the unit of an ingredient (gram, liter, etc.)
+   *
+     <p>
+     <b>Example of usage:</b>
+     <pre><code>Ingredient newIngredient = new Ingredient(1, "kg");</code></pre>
+     </p>
+   */
+  public Ingredient(Double quantity, String unit) {
+    setQuantity(quantity);
+    setUnit(unit);
   }
 
   /**
