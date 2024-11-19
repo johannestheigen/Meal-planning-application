@@ -1,7 +1,7 @@
 package edu.ntnu.idi.bidata.recipe;
 
 import edu.ntnu.idi.bidata.items.Ingredient;
-
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Map;
  * to maintain an organized collection of recipes.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.3
+ * @version 0.0.4
  * @since 11.19.2024
  */
 public class Recipe {
@@ -129,13 +129,15 @@ public class Recipe {
 
   /**
    * <p>
-   * Retrieves the required ingredients for the recipe.
+   * Return an Iterator that can be used to retrieve
+   * the required ingredients for the recipe. It
+   * retrives the name, quantity and unit of the ingredient.
    * </p>
    *
    * @return the required ingredients for the recipe
    */
-  public Map<String, Ingredient> getRequiredIngredients() {
-    return requiredIngredients;
+  public Iterator<Map.Entry<String, Ingredient>> getRequiredIngredients() {
+    return requiredIngredients.entrySet().iterator();
   }
 
   /**
@@ -152,4 +154,5 @@ public class Recipe {
     }
     this.requiredIngredients = requiredIngredients;
   }
+
 }
