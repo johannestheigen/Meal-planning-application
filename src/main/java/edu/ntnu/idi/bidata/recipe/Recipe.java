@@ -1,11 +1,12 @@
 package edu.ntnu.idi.bidata.recipe;
 
-import java.util.HashMap;
+import edu.ntnu.idi.bidata.items.Ingredient;
+
 import java.util.Map;
 
 /**
  * <p>
- *   The Recipe class represents a recipe entity that can be stored in a RecipeBook.
+ * The Recipe class represents a recipe entity that can be stored in a RecipeBook.
  * </p>
  *
  * <p>This class provides methods to: </p>
@@ -13,36 +14,37 @@ import java.util.Map;
  *   <li>Retrieve and update recipe details</li>
  * </ul>
  *
- *<p>Instances of Recipe can be managed within a RecipeBook
+ * <p>Instances of Recipe can be managed within a RecipeBook
  * to maintain an organized collection of recipes.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.1
- * @since 11.17.2024
+ * @version 0.0.3
+ * @since 11.19.2024
  */
 public class Recipe {
   private String name;
   private String description;
   private String instruction;
-  private Map<String, Double> requiredIngredients;
+  private Map<String, Ingredient> requiredIngredients;
 
   /**
-   * Creates a new instance of Recipe that can be stored in a RecipeBook.
+   * <p>
+   *   Creates a new Recipe that can be stored in a RecipeBook.
+   * </p>
 
    * @param name the name of the recipe
    * @param description the description of the recipe
    * @param instruction the instruction of the recipe
-   * @param requiredIngredients the ingredients required for the recipe
+   * @param requiredIngredients the required ingredients for the recipe
    *
-     <p>Example of usage: </p>
-
-     <pre><code>
-      newRecipe = new Recipe("Apple Pie", "A delicious pie",
-  "1 preheat the oven to 180 degrees",ingredients);
-      </code></pre>
+   *<p>
+     <b>Example of usage: </b>
+     <pre><code>Recipe newRecipe = new Recipe("Pancakes","A delicious breakfast treat",
+   *                            "1. Mix flour, eggs, and milk",requiredIngredients);</code></pre>
+   *</p>
    */
   public Recipe(String name, String description,
-                String instruction, Map<String, Double> requiredIngredients) {
+                String instruction, Map<String, Ingredient> requiredIngredients) {
     setName(name);
     setDescription(description);
     setInstruction(instruction);
@@ -51,7 +53,7 @@ public class Recipe {
 
   /**
    * <p>Retrieves the name of the recipe.</p>
-
+   *
    * @return the name of the recipe
    */
   public String getName() {
@@ -60,7 +62,7 @@ public class Recipe {
 
   /**
    * <p>
-   *   Sets the name of the recipe.
+   * Sets the name of the recipe.
    * </p>
    *
    * @param name the name of the recipe
@@ -75,9 +77,9 @@ public class Recipe {
 
   /**
    * <p>
-   *   Retrieves the description of the recipe.
+   * Retrieves the description of the recipe.
    * </p>
-
+   *
    * @return the description of the recipe
    */
   public String getDescription() {
@@ -86,9 +88,9 @@ public class Recipe {
 
   /**
    * <p>
-   *   Sets the description of the recipe.
+   * Sets the description of the recipe.
    * </p>
-
+   *
    * @param description the description of the recipe
    * @throws IllegalArgumentException if the description is null or empty
    */
@@ -101,9 +103,9 @@ public class Recipe {
 
   /**
    * <p>
-   *   Retrieves the instruction of the recipe.
+   * Retrieves the instruction of the recipe.
    * </p>
-
+   *
    * @return the instruction of the recipe
    */
   public String getInstruction() {
@@ -112,9 +114,9 @@ public class Recipe {
 
   /**
    * <p>
-   *   Sets the instruction of the recipe.
+   * Sets the instruction of the recipe.
    * </p>
-
+   *
    * @param instruction the instruction of the recipe.
    * @throws IllegalArgumentException if the instruction is null or empty.
    */
@@ -127,28 +129,27 @@ public class Recipe {
 
   /**
    * <p>
-   *   Retrieves the required ingredients for the recipe.
+   * Retrieves the required ingredients for the recipe.
    * </p>
-
+   *
    * @return the required ingredients for the recipe
    */
-  public Map<String, Double> getRequiredIngredients() {
+  public Map<String, Ingredient> getRequiredIngredients() {
     return requiredIngredients;
   }
 
   /**
    * <p>
-   *   Sets the required ingredients for the recipe.
+   * Sets the required ingredients for the recipe.
    * </p>
-
+   *
    * @param requiredIngredients the required ingredients for the recipe
    * @throws IllegalArgumentException if the required ingredients are null or empty
    */
-  public void setRequiredIngredients(Map<String, Double> requiredIngredients) {
+  public void setRequiredIngredients(Map<String, Ingredient> requiredIngredients) {
     if (requiredIngredients == null || requiredIngredients.isEmpty()) {
       throw new IllegalArgumentException("The recipe must have at least one ingredient");
     }
     this.requiredIngredients = requiredIngredients;
   }
-
 }

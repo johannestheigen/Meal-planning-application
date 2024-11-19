@@ -17,8 +17,8 @@ import java.util.Iterator;
  *   <li>Displaying the total value of ingredients and expired ingredients.</li>
  * </ul>
  *
- * @version 0.0.8
- * @since 11.17.2024
+ * @version 0.0.9
+ * @since 11.19.2024
  */
 public class OutputHandler {
 
@@ -294,6 +294,17 @@ public class OutputHandler {
       }
     } else {
       System.out.println("No ingredients found on the specified date.");
+    }
+  }
+
+  public void printListOfRecipes(Iterator<String> recipesIterator, boolean hasRecipes) {
+    System.out.println("These are your recipes: ");
+    if (hasRecipes && recipesIterator != null) {
+      while (recipesIterator.hasNext()) {
+        System.out.println(recipesIterator.next());
+      }
+    } else {
+      System.out.println("No recipes found.");
     }
   }
 

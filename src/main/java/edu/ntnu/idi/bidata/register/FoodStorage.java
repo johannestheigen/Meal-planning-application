@@ -1,4 +1,4 @@
-package edu.ntnu.idi.bidata.inventory;
+package edu.ntnu.idi.bidata.register;
 
 import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
@@ -34,8 +34,8 @@ import java.util.Map;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.3
- * @since 11.17.2024
+ * @version 0.2.4
+ * @since 11.18.2024
  */
 public class FoodStorage {
 
@@ -200,6 +200,24 @@ public class FoodStorage {
    */
   public Ingredient getIngredient(String ingredientName) {
     return storage.get(ingredientName);
+  }
+
+  /**
+   * <p>
+   *   Checks if an ingredient exists in the food storage.
+   * </p>
+
+   * @param ingredientName the name of the ingredient to check for
+   * @return <code>true</code> if the ingredient exists in the storage, and
+     <code>false</code> if the ingredient does not exist.
+   *
+     <p>
+       <b>Example of usage:</b>
+       <pre><code>foodStorage.isIngredientExisting("Banana");</code></pre>
+     </p>
+   */
+  public boolean isIngredientExisting(String ingredientName) {
+    return storage.containsKey(ingredientName);
   }
 
   /**

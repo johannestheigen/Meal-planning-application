@@ -22,7 +22,7 @@
  * <p>Each method is validated for both expected success and failure cases to ensure robustness.</p>
  */
 
-package edu.ntnu.idi.bidata.inventory;
+package edu.ntnu.idi.bidata.register;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;

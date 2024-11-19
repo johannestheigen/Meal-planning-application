@@ -22,8 +22,8 @@ import java.util.Scanner;
  * The <b>close</b> method ends the user interaction when the application finishes running.
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.1
- * @since 11.11.2024
+ * @version 0.0.2
+ * @since 11.19.2024
  */
 
 public class InputHandler {

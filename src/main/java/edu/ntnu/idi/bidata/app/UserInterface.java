@@ -1,6 +1,6 @@
 package edu.ntnu.idi.bidata.app;
 
-import edu.ntnu.idi.bidata.inventory.FoodStorage;
+import edu.ntnu.idi.bidata.register.FoodStorage;
 import edu.ntnu.idi.bidata.utility.InputHandler;
 import edu.ntnu.idi.bidata.utility.OutputHandler;
 import java.time.LocalDate;
@@ -33,8 +33,8 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.1.8
- * @since 11.17.2024
+ * @version 0.1.9
+ * @since 11.19.2024
  */
 public class UserInterface {
 
@@ -87,7 +87,7 @@ public class UserInterface {
    * <ul>
    *   <li>Name</li>
    *   <li>Description</li>
-   *   <li>Quantity</li>
+   *   <li>IngredientQuantity</li>
    *   <li>Unit (e.g., grams, liters)</li>
    *   <li>Price</li>
    *   <li>Expiration date</li>
@@ -416,6 +416,7 @@ public class UserInterface {
    * <p><b>Example of usage:</b></p>
    * <pre><code>userInterface.userInput();</code></pre>
    */
+
   public void userInput() {
     output.printMainMenu();
     boolean running = true;
