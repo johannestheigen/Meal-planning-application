@@ -44,7 +44,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.2.6
+ * @version 0.2.7
  * @since 11.21.2024
  */
 public class UserInterface {
@@ -655,34 +655,32 @@ public class UserInterface {
       output.printRecipeNotFound(name);
       return;
     }
-
     Iterator<Ingredient> requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients();
 
-    while (requiredIngredients.hasNext()) {
-      Ingredient requiredIngredient = requiredIngredients.next();
-      String ingredientName = requiredIngredient.getName();
-      double requiredQuantity = requiredIngredient.getQuantity();
-      String requiredUnit = requiredIngredient.getUnit();
+    if (inputValidator.allIngredientsValid(foodStorage, requiredIngredients)) {
+      output.printRecipeCanBeMade(name);
+    } else {
+      requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients(); // Reset iterator
+      while (requiredIngredients.hasNext()) {
+        Ingredient requiredIngredient = requiredIngredients.next();
+        String ingredientName = requiredIngredient.getName();
+        double requiredQuantity = requiredIngredient.getQuantity();
+        String requiredUnit = requiredIngredient.getUnit();
 
-      if (!inputValidator.ingredientExists(foodStorage, ingredientName)) {
-        output.printMissingIngredient(requiredQuantity, requiredUnit, ingredientName);
-        output.printRecipeCannotBeMade(name);
-        return;
+        if (!inputValidator.ingredientExists(foodStorage, ingredientName)) {
+          output.printMissingIngredient(requiredQuantity, requiredUnit, ingredientName);
+        } else if (!inputValidator.hasSufficientQuantity(foodStorage,
+            ingredientName, requiredQuantity)) {
+          Ingredient availableIngredient = foodStorage.getIngredient(ingredientName);
+          double availableQuantity = availableIngredient.getQuantity();
+          String availableUnit = availableIngredient.getUnit();
+
+          output.printInsufficientIngredientAmount(
+              requiredQuantity, requiredUnit, ingredientName, availableQuantity, availableUnit);
+        }
       }
-
-      if (!inputValidator.hasSufficientQuantity(foodStorage, ingredientName, requiredQuantity)) {
-        Ingredient availableIngredient = foodStorage.getIngredient(ingredientName);
-        double availableQuantity = availableIngredient.getQuantity();
-        String availableUnit = availableIngredient.getUnit();
-
-        output.printInsufficientIngredientAmount(
-            requiredQuantity, requiredUnit, ingredientName, availableQuantity, availableUnit);
-        output.printRecipeCannotBeMade(name);
-        return;
-      }
-      output.printIngredientAvailable(requiredQuantity, requiredUnit, ingredientName);
+      output.printRecipeCannotBeMade(name);
     }
-    output.printRecipeCanBeMade(name);
   }
 
   /**

@@ -4,6 +4,8 @@ import edu.ntnu.idi.bidata.items.Ingredient;
 import edu.ntnu.idi.bidata.register.FoodStorage;
 import edu.ntnu.idi.bidata.register.RecipeBook;
 
+import java.util.Iterator;
+
 /**
  *<p>This class is responsible for validating user input.</p>
  * <p>It checks if the user input is valid or not.</p>
@@ -197,5 +199,32 @@ public class InputValidator {
                                        String ingredientName, double requiredQuantity) {
     Ingredient availableIngredient = foodStorage.getIngredient(ingredientName);
     return availableIngredient.getQuantity() >= requiredQuantity;
+  }
+
+  /**
+   * <p>Checks if all ingredients are valid when a user
+   * wants to cook a recipe.</p>
+   * @param foodStorage The food storage
+   * @param ingredients The ingredients
+   * @return true if all ingredients are valid, false otherwise
+   * <p>
+   *   <b>Example of usage:</b>
+   *   <pre><code>InputValidator inputValidator = new InputValidator();</code></pre>
+   *   </p>
+   */
+  public boolean allIngredientsValid(FoodStorage foodStorage, Iterator<Ingredient> ingredients) {
+    while (ingredients.hasNext()) {
+      Ingredient ingredient = ingredients.next();
+      String ingredientName = ingredient.getName();
+      double requiredQuantity = ingredient.getQuantity();
+
+      if (!ingredientExists(foodStorage, ingredientName)) {
+        return false;
+      }
+      if (!hasSufficientQuantity(foodStorage, ingredientName, requiredQuantity)) {
+        return false;
+      }
+    }
+    return true;
   }
 }
