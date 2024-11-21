@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.4
+ * @version 0.1.5
  * @since 11.21.2024
  */
 public class OutputHandler {
@@ -61,10 +61,9 @@ public class OutputHandler {
   public void printFoodStorageMenu() {
     System.out.println("""
        Type '/add-ing' to add an ingredient
-       Type '/remove-ing' to remove an ingredient
+       Type '/ree-ing' to reduce the quantity of an ingredient
        Type '/edit-desc' to change the description of an ingredient
        Type '/edit-price' to change the price of an ingredient
-       Type '/edit-qty' to change the quantity of an ingredient
        Type '/find-ing' to find an ingredient and display its details
        Type '/list-ing' to view all ingredients
        Type '/sort-ing' to view ingredients in alphabetical order
