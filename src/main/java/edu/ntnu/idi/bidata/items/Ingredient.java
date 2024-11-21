@@ -20,8 +20,8 @@ import java.time.LocalDate;
  * an organized collection of ingredients.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.3
- * @since 11.19.2024
+ * @version 0.1.4
+ * @since 11.21.2024
  */
 
 public class Ingredient {
@@ -217,10 +217,11 @@ public class Ingredient {
       throw new IllegalArgumentException("The unit cannot be null or empty");
     }
     if (unit.equalsIgnoreCase("kg") || unit.equalsIgnoreCase("g")
-        || unit.equalsIgnoreCase("l") || unit.equalsIgnoreCase("ml")) {
+        || unit.equalsIgnoreCase("l") || unit.equalsIgnoreCase("ml")
+        || unit.equalsIgnoreCase("pcs")) {
       this.unit = unit;
     } else {
-      throw new IllegalArgumentException("The unit must be kg, g, l or ml.");
+      throw new IllegalArgumentException("The unit must be kg, g, l, ml or pcs");
     }
   }
 
