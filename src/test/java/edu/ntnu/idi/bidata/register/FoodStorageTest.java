@@ -214,7 +214,7 @@ class FoodStorageTest {
    * retrieved after being added.
    */
   @Test
-  void getIngredientInfoPositiveTest() {
+  void getIngredientNamePositiveTest() {
     foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
 
     Ingredient ingredient = foodStorageTest.getIngredient("Tomato");
@@ -232,7 +232,7 @@ class FoodStorageTest {
    * Negative test that checks that an ingredient with incorrect details does not exist in storage.
    */
    @Test
-   void getIngredientInfoNegativeTest() {
+   void getIngredientNameNegativeTest() {
      foodStorageTest.addIngredient("Tomato", "Vegetable", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
 
      Ingredient ingredient = foodStorageTest.getIngredient("Tomato");

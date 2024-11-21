@@ -7,19 +7,19 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * The FoodStorage class is responsible for storing Ingredient objects. It uses a HashMap to store
+ * <p>he FoodStorage class is responsible for storing Ingredient objects. It uses a HashMap to store
  * ingredient objects, where the key is the name of the Ingredient
- * and the value is the Ingredient object.
+ * and the value is the Ingredient object.</p>
  *
  * <p>The FoodStorage class provides the following methods:</p>
  * <ul>
  *   <li><b>addIngredient</b>: Adds an ingredient to the food storage.</li>
  *   <li><b>reduceIngredient</b>: Reduces the quantity of an ingredient or removes it entirely.</li>
- *   <li><b>changeDescription</b>: Changes the description of an ingredient.</li>
- *   <li><b>changePrice</b>: Changes the price of an ingredient.</li>
+ *   <li><b>updateDescription</b>: Changes the description of an ingredient.</li>
+ *   <li><b>updatePrice</b>: Changes the price of an ingredient.</li>
  *   <li><b>getIngredient</b>: Retrieves an ingredient object from the food storage.</li>
- *   <li><b>getIngredientName</b>: Retrieves the name of an ingredient,
  *   which is also the key to the ingredient object.</li>
+ *   <li><b>isIngredientExisting</b>: Checks if an ingredient exists in the storage.</li>
  *   <li><b>getListOfIngredients</b>: Returns an iterator object that
  *   can be used to retrieve a list of ingredients.</li>
  *   <li><b>getListOfIngredientsAlphabetically</b>:
@@ -34,8 +34,8 @@ import java.util.Map;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.4
- * @since 11.18.2024
+ * @version 0.2.5
+ * @since 11.21.2024
  */
 public class FoodStorage {
 
@@ -68,6 +68,7 @@ public class FoodStorage {
    * @param price          the price of the ingredient (e.g. USD, NOK, EUR)
    * @param expirationDate the expiration date of the ingredient,
    *                       formatted as yyyy-MM-dd (e.g., 2025-12-31).
+   *
    * @return <code>true</code> if the ingredient already exists
      and its quantity is successfully incremented,
    *         or if a new ingredient was added with
@@ -112,8 +113,8 @@ public class FoodStorage {
   }
 
   /**
-   * Decreases the quantity of an ingredient from the food storage.
-   * If the quantity gets to 0, the ingredient will be removed from the storage.
+   * <p>Decreases the quantity of an ingredient from the food storage.
+   * If the quantity gets to 0, the ingredient will be removed from the storage.</p>
    *
    * @param ingredientName the name of the ingredient to be reduced.
    * @param quantity the quantity to be reduced from the ingredient.
@@ -189,8 +190,7 @@ public class FoodStorage {
   }
 
   /**
-   *Retrieves an ingredient object from the storage when provided with the ingredient's name.
-   *If the ingredient does not exist in the storage, the method will return <code>null</code>.
+   *<p>Retrieves an ingredient object from the food storage.</p>
    *
    * @param ingredientName the name of the ingredient to search for in the storage
    * @return the ingredient object associated with the provided name,
@@ -221,34 +221,9 @@ public class FoodStorage {
   }
 
   /**
-   * Retrieves the name of the ingredient object when provided the name (which is also the key)
-   * of the ingredient stored in the food storage.
-   *
-   * @param ingredientName the name of the ingredient (the key for the ingredient object)
-   * @return the name of the ingredient if found, otherwise <code>null</code> or an appropriate
-   *     message if the ingredient does not exist.
-   *
-    <p><b>Example of usage: </b>
-  <pre><code>foodStorage.getIngredientName("Banana");</code></pre></p>
-   */
-
-  public String getIngredientInfo(String ingredientName) {
-    String existingIngredient = null;
-    if (storage.containsKey(ingredientName)) {
-      existingIngredient = storage.get(ingredientName).getName() + " "
-          + storage.get(ingredientName).getDescription() + " "
-          + storage.get(ingredientName).getQuantity() + " "
-          + storage.get(ingredientName).getUnit() + " "
-          + storage.get(ingredientName).getPrice() + " "
-          + storage.get(ingredientName).getExpirationDate();
-    }
-    return existingIngredient;
-  }
-
-  /**
-   * Returns an iterator that can be used to retrieve the names (keys)
+   * <p>Returns an iterator that can be used to retrieve the names (keys)
    * of all ingredients in the storage.
-   * The iterator provides each ingredient name in the order they are stored in the map.
+   * The iterator provides each ingredient name in the order they are stored in the map.</p>
    *
    * @return an iterator over the set of ingredient names (keys) in the storage.
    *
@@ -256,7 +231,7 @@ public class FoodStorage {
      <pre><code>
      Iterator&lt;String&gt; ingredientsIterator = foodStorage.getListOfIngredientsAlphabetically();
      while (ingredientsIterator.hasNext()) {
-   *     System.out.println(ingredientsIterator.next());
+        System.out.println(ingredientsIterator.next());
      }
      </code></pre>
    */
@@ -265,22 +240,24 @@ public class FoodStorage {
   }
 
   /**
-   * Returns an iterator that can be used to retrieve
-   * a list of all ingredient names (keys) in the storage.
-   * The iterator first retrieves the ingredient names in the order they are stored,
-   * then sorts the names in alphabetical order using a comparator before returning the list.
-   *
+   * <p>
+   *   Returns an iterator that can be used to retrieve a list of all ingredient names (keys)
+   *   in the storage, sorted alphabetically.
+   * </p>
+
    * @return an iterator over the ingredient names (keys) in the storage, sorted alphabetically.
    *
-     <p><b>Example of usage:</b></p>
-     <pre><code>
-     Iterator&lt;String&gt; ingredientsIterator = foodStorage.getListOfIngredientsAlphabetically();
-     while (ingredientsIterator.hasNext()) {
-         System.out.println(ingredientsIterator.next());
-     }
-     </code></pre>
+     <p>
+      <b>Example of usage:</b>
+      <pre><code>
+   *    Iterator&lt;String&gt; ingredientsIterator
+   *    = foodStorage.getListOfIngredientsAlphabetically();
+   *    while (ingredientsIterator.hasNext()) {
+   *    System.out.println(ingredientsIterator.next());
+   *    }
+   *    </code></pre>
+        </p>
    */
-
   public Iterator<String> getListOfIngredientsAlphabetically() {
     return storage.keySet().stream()
         .sorted()
@@ -288,10 +265,10 @@ public class FoodStorage {
   }
 
   /**
-   * Returns an iterator that can be used to
+   * <p>Returns an iterator that can be used to
    * retrieve a list of all expired ingredient names (keys) in the storage.
    * The iterator filters the ingredients by
-   * their expiration date and only returns those that have expired.
+   * their expiration date and only returns those that have expired.</p>
    *
    * @return an iterator over the expired ingredient names (keys) in the storage.
    *
@@ -303,7 +280,6 @@ public class FoodStorage {
      }
      </code></pre>
    */
-
   public Iterator<String> getListOfExpiredIngredients() {
     return storage.values().stream()
         .filter(ingredient -> ingredient.getExpirationDate().isBefore(LocalDate.now()))
@@ -311,25 +287,26 @@ public class FoodStorage {
   }
 
   /**
-   * Returns an iterator that can be used
+   * <p>Returns an iterator that can be used
    * to retrieve a list of ingredient names (keys) in the storage
    * that have expired on or before a specific expiration date.
    * The iterator filters the ingredients
    * by the provided expiration date and only returns those that
-   * have expired by that date.
+   * have expired by that date.</p>
    *
    * @param expirationDate the specific expiration date used to filter the ingredients.
    * @return an iterator over the ingredient names (keys)
    *     in the storage that have expired on or before the given date.
    *
-     <p><b>Example of usage:</b></p>
-     <pre><code>
-     Iterator&lt;String&gt; ingredientsIterator =
-         foodStorage.getListOfIngredientsByExpirationDate(LocalDate.of(2024, 7, 10));
-     while (ingredientsIterator.hasNext()) {
-         System.out.println(ingredientsIterator.next());
-     }
-     </code></pre>
+     <p><b>Example of usage:</b>
+      <pre><code>
+       Iterator&lt;String&gt; ingredientsIterator
+  = foodStorage.getListOfIngredientsByExpirationDate("2024-07-10");
+       while (ingredientsIterator.hasNext()) {
+        System.out.println(ingredientsIterator.next());
+        }
+        </code></pre>
+      </p>
    */
   public Iterator<String> getListOfIngredientsByExpirationDate(LocalDate expirationDate) {
     return storage.values().stream()
