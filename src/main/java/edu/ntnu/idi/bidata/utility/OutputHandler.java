@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.3
+ * @version 0.1.4
  * @since 11.21.2024
  */
 public class OutputHandler {
@@ -43,8 +43,8 @@ public class OutputHandler {
   public void printMainMenu() {
     System.out.println("""
        Welcome to the Meal Planning Application.
-       Type '/food-storage' to manage your food storage
-       Type '/recipe-book' to mange your recipe book
+       Type '/storage' to manage your food storage
+       Type '/recipes' to mange your recipe book
        Press 0 to exit
         """);
   }
@@ -60,18 +60,18 @@ public class OutputHandler {
    */
   public void printFoodStorageMenu() {
     System.out.println("""
-       Type '/add-ingredient' to add an ingredient
-       Type '/remove-ingredient' to remove an ingredient
-       Type '/change-description' to change the description of an ingredient
-       Type '/change-price' to change the price of an ingredient
-       Type '/change-quantity' to change the quantity of an ingredient
-       Type '/find-ingredient' to find an ingredient and display its details
-       Type '/list-ingredients' to view all ingredients
-       Type '/sort' to view ingredients in alphabetical order
-       Type '/expired to view all expired ingredients
-       Type '/date' to view ingredients by a specific expiration date
-       Type '/value' to print value of all ingredients
-       Type '/value-expired' to print value of all expired ingredients
+       Type '/add-ing' to add an ingredient
+       Type '/remove-ing' to remove an ingredient
+       Type '/edit-desc' to change the description of an ingredient
+       Type '/edit-price' to change the price of an ingredient
+       Type '/edit-qty' to change the quantity of an ingredient
+       Type '/find-ing' to find an ingredient and display its details
+       Type '/list-ing' to view all ingredients
+       Type '/sort-ing' to view ingredients in alphabetical order
+       Type '/expired' to view all expired ingredients
+       Type '/by-date' to view ingredients by a specific expiration date
+       Type '/total-val' to print value of all ingredients
+       Type '/expired-val' to print value of all expired ingredients
         """);
   }
 
@@ -86,12 +86,12 @@ public class OutputHandler {
    */
   public void printRecipeBookMenu() {
     System.out.println("""
-       Type '/add-recipe' to add a recipe
-       Type '/remove-recipe' to remove a recipe
-       Type '/change-servings' to change the servings of a recipe
-       Type '/find-recipe' to find a recipe and display its details
-       Type '/list-recipes' to list all recipes
-       Type '/make-recipe' to make a recipe
+       Type '/add-rec' to add a recipe
+       Type '/del-rec' to remove a recipe
+       Type '/edit-serv' to change the servings of a recipe
+       Type '/find-rec' to find a recipe and display its details
+       Type '/list-rec' to list all recipes
+       Type '/check-rec' to check if a recipe can be made
         """);
   }
 
@@ -148,6 +148,22 @@ public class OutputHandler {
    */
   public void printInvalidInput(String message) {
     System.out.println("Invalid input " + message);
+  }
+
+  public void printInvalidNumberOfIngredients() {
+    System.out.println("Invalid number of ingredients. Please enter a number greater than 0.");
+  }
+
+  public void printInvalidIngredientName() {
+    System.out.println("Invalid ingredient name. Please enter a valid name.");
+  }
+
+  public void printInvalidQuantity() {
+    System.out.println("Invalid quantity. Please enter a number greater than 0.");
+  }
+
+  public void printInvalidUnit() {
+    System.out.println("Invalid unit. Please enter kg, g, ml, l or psc.");
   }
 
   /**
