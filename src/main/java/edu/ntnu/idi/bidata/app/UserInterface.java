@@ -801,7 +801,6 @@ public class UserInterface {
         case "/check-rec" -> checkIfRecipeCanBeMade();
         default -> output.printInvalidInput(userChoice);
       }
-
     }
   }
 }

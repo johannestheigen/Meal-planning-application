@@ -3,7 +3,6 @@ package edu.ntnu.idi.bidata.utility;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import edu.ntnu.idi.bidata.register.FoodStorage;
 import edu.ntnu.idi.bidata.register.RecipeBook;
-
 import java.util.Iterator;
 
 /**
@@ -13,7 +12,7 @@ import java.util.Iterator;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.2
+ * @version 0.0.3
  * @since 11.21.2024
  */
 public class InputValidator {
@@ -204,13 +203,14 @@ public class InputValidator {
   /**
    * <p>Checks if all ingredients are valid when a user
    * wants to cook a recipe.</p>
+
    * @param foodStorage The food storage
    * @param ingredients The ingredients
    * @return true if all ingredients are valid, false otherwise
-   * <p>
-   *   <b>Example of usage:</b>
-   *   <pre><code>InputValidator inputValidator = new InputValidator();</code></pre>
-   *   </p>
+     <p>
+       <b>Example of usage:</b>
+       <pre><code>InputValidator inputValidator = new InputValidator();</code></pre>
+       </p>
    */
   public boolean allIngredientsValid(FoodStorage foodStorage, Iterator<Ingredient> ingredients) {
     while (ingredients.hasNext()) {
