@@ -699,8 +699,8 @@ public class UserInterface {
         case "/change-description" -> changeDescription();
         case "/change-price" -> changePrice();
         case "/reduce" -> reduceIngredient();
-        case "/view" -> displayListOfIngredients();
-        case "/find" -> findIngredient();
+        case "/list-ingredients" -> displayListOfIngredients();
+        case "/find-ingredient" -> findIngredient();
         case "/sort" -> displayListOfIngredientsAlphabetically();
         case "/expired" -> displayListOfExpiredIngredients();
         case "/date" -> displayListOfIngredientsByExpirationDate();

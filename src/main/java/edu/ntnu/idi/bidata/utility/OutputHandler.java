@@ -65,7 +65,7 @@ public class OutputHandler {
        Type '/change-description' to change the description of an ingredient
        Type '/change-price' to change the price of an ingredient
        Type '/find-ingredient' to find an ingredient and display its details
-       Type '/list-ingredient' to view all ingredients
+       Type '/list-ingredients' to view all ingredients
        Type '/sort' to view ingredients in alphabetical order
        Type '/expired to view all expired ingredients
        Type '/date' to view ingredients by a specific expiration date
