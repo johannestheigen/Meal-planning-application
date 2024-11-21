@@ -43,7 +43,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.2.2
+ * @version 0.2.3
  * @since 11.21.2024
  */
 public class UserInterface {
@@ -285,6 +285,44 @@ public class UserInterface {
         } else {
           foodStorage.updatePrice(name, newPrice);
           output.printUpdatedPrice(name);
+        }
+      }
+    } catch (IllegalArgumentException e) {
+      output.printInvalidInput(e.getMessage());
+    } catch (Exception e) {
+      output.printError(e.getMessage());
+    }
+  }
+
+  /**
+   * <p>Allows the user to change the unit of an ingredient.</p>
+   * <p>The user is prompted to enter the name of the ingredient and
+   * a new unit for the ingredient.</p>
+   * <p>Before the change is made, the user is prompted to confirm the operation.</p>
+   * <p>If the unit provided by the user is invalid an error message is displayed
+   * with the details of the error.</p>
+   *
+   * <p>If the user confirms the operation, the unit of the ingredient is updated.</p>
+   *
+   * <p><b>Example of usage:</b>
+   * <pre><code>foodStorage.changeUnit();</code></pre>
+   * </p>
+   */
+  public void changeUnit() {
+    try {
+      output.promptForIngredientName();
+      String name = input.stringInput();
+      if (foodStorage.getIngredient(name) == null) {
+        output.printIngredient(name, false);
+      } else {
+        output.promptForNewUnit();
+        String newUnit = input.stringInput();
+        output.printWarning();
+        if (input.stringInput().equalsIgnoreCase("n")) {
+          output.printAbortOperationMessage();
+        } else {
+          foodStorage.updateUnit(name, newUnit);
+          output.printUpdatedUnit(name);
         }
       }
     } catch (IllegalArgumentException e) {
@@ -688,6 +726,7 @@ public class UserInterface {
    *   <li>Reduce the quantity of an ingredient</li>
    *   <li>Change the description of an ingredient</li>
    *   <li>Change the price of an ingredient</li>
+   *   <li>Change the unit of an ingredient</li>
    *   <li>Find an ingredient</li>
    *   <li>Display a list of all ingredients</li>
    *   <li>Display ingredients in alphabetical order</li>
@@ -697,6 +736,7 @@ public class UserInterface {
    *   <li>Display the total value of expired ingredients</li>
    *   <li>Add a recipe</li>
    *   <li>Remove a recipe</li>
+   *   <li>Change the serving size of a recipe</li>
    *   <li>Find a recipe</li>
    *   <li>Display a list of all recipes</li>
    *   <li>Check if a recipe can be made</li>
@@ -731,6 +771,7 @@ public class UserInterface {
         case "/change-description" -> changeDescription();
         case "/change-price" -> changePrice();
         case "/reduce" -> reduceIngredient();
+        case "/change-unit" -> changeUnit();
         case "/list-ingredients" -> displayListOfIngredients();
         case "/find-ingredient" -> findIngredient();
         case "/sort" -> displayListOfIngredientsAlphabetically();

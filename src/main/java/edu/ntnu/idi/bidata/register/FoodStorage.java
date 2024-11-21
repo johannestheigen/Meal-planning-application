@@ -34,7 +34,7 @@ import java.util.Map;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.5
+ * @version 0.2.6
  * @since 11.21.2024
  */
 public class FoodStorage {
@@ -190,18 +190,40 @@ public class FoodStorage {
   }
 
   /**
-   *<p>Retrieves an ingredient object from the food storage.</p>
+   * <p>Changes the unit of an ingredient in the food storage.</p>
+
+   * @param ingredientName the name of the ingredient, which is the key for the ingredient object
+   * @param newUnit the new unit to be set for the ingredient
+   * @return <code>true</code> if the ingredient exists and the unit is successfully changed,
+     and <code>false</code> if the ingredient does not exist.
    *
-   * @param ingredientName the name of the ingredient to search for in the storage
-   * @return the ingredient object associated with the provided name,
-     or <code>null</code> if not found
-   *
-   *<p><b>Example of usage: </b> <pre><code>foodStorage.getIngredient("Banana");</code></pre></p>
+     <p><b>Example of usage: </b>
+     <pre><code>foodStorage.updateUnit("Apple","kg");</code></pre>
+     </p>
+   */
+  public boolean updateUnit(String ingredientName, String newUnit) {
+    boolean ingredientFound = false;
+    Ingredient existingIngredient = storage.get(ingredientName);
+    if (existingIngredient != null) {
+      ingredientFound = true;
+      existingIngredient.setUnit(newUnit);
+    }
+    return ingredientFound;
+  }
+
+  /**
+   * <p>Retrieves an ingredient object from the food storage.</p>
+
+   * @param ingredientName the name of the ingredient to retrieve
+   * @return the ingredient object if it exists in the storage,
+     and <code>null</code> if it does not exist.
+     <p><b>Example of usage:</b>
+     <pre><code>Ingredient ingredient = foodStorage.getIngredient("Banana");</code></pre>
+     </p>
    */
   public Ingredient getIngredient(String ingredientName) {
     return storage.get(ingredientName);
   }
-
   /**
    * <p>
    *   Checks if an ingredient exists in the food storage.

@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.2
+ * @version 0.1.3
  * @since 11.21.2024
  */
 public class OutputHandler {
@@ -64,6 +64,7 @@ public class OutputHandler {
        Type '/remove-ingredient' to remove an ingredient
        Type '/change-description' to change the description of an ingredient
        Type '/change-price' to change the price of an ingredient
+       Type '/change-quantity' to change the quantity of an ingredient
        Type '/find-ingredient' to find an ingredient and display its details
        Type '/list-ingredients' to view all ingredients
        Type '/sort' to view ingredients in alphabetical order
@@ -87,6 +88,7 @@ public class OutputHandler {
     System.out.println("""
        Type '/add-recipe' to add a recipe
        Type '/remove-recipe' to remove a recipe
+       Type '/change-servings' to change the servings of a recipe
        Type '/find-recipe' to find a recipe and display its details
        Type '/list-recipes' to list all recipes
        Type '/make-recipe' to make a recipe
@@ -225,6 +227,19 @@ public class OutputHandler {
    */
   public void printUpdatedPrice(String name) {
     System.out.println("Successfully updated the price of " + name);
+  }
+
+  /**
+   * <p>Prints a message when the unit of the specified ingredient
+   * has been successfully updated.</p>
+
+   * @param name the name of the ingredient whose unit was updated successfully.
+     <p><b>Example of usage:</b></p>
+     <pre><code>OutputHandler.printUpdatedUnit("Strawberry");</code></pre>
+     </p>
+   */
+  public void printUpdatedUnit(String name) {
+    System.out.println("Successfully updated the unit of " + name);
   }
 
   /**
@@ -458,6 +473,16 @@ public class OutputHandler {
    */
   public void promptForNewPrice() {
     System.out.print("Enter a new price: ");
+  }
+
+  /**
+   * <p>Prints a message that prompts the user to enter a new quantity for an ingredient.</p>
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>outputHandler.promptForNewQuantity();</code></pre>
+   * </p>
+   */
+  public void promptForNewUnit() {
+    System.out.print("Enter a new unit: ");
   }
 
   /**
