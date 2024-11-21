@@ -1,5 +1,6 @@
 package edu.ntnu.idi.bidata.register;
 
+import edu.ntnu.idi.bidata.items.Ingredient;
 import edu.ntnu.idi.bidata.recipe.Recipe;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +25,7 @@ import java.util.Map;
  *
 
  * @author Johanens Nupen Theigen
- * @version 0.0.1
+ * @version 0.0.2
  * @since 11.21.2024
  */
 
@@ -128,6 +129,38 @@ public class RecipeBook {
    */
   public Recipe getRecipe(String recipeName) {
     return recipes.get(recipeName);
+  }
+
+  /**
+   * <p>Updates the serving size of a recipe. The required ingredients are updated
+   * to match the new serving size.</p>
+
+   * @param recipeName the name of the recipe
+   * @param newServing the new serving size
+   * @return true if the recipe was found and updated successfully,
+     false if the recipe does not exist
+
+     <p>
+       <b>Example of usage: </b>
+       <pre><code>recipeBook.updateServing("Pancakes", 6);</code></pre>
+       </p>
+   */
+  public boolean updateServing(String recipeName, double newServing) {
+    boolean recipeFound = false;
+    Recipe existingRecipe = recipes.get(recipeName);
+    if (existingRecipe != null) {
+      recipeFound = true;
+      double oldServing = existingRecipe.getServings();
+      Iterator<Ingredient> requiredIngredients = existingRecipe.getRequiredIngredients();
+
+      while (requiredIngredients.hasNext()) {
+        Ingredient requiredIngredient = requiredIngredients.next();
+        double newQuantity = requiredIngredient.getQuantity() * newServing / oldServing;
+        requiredIngredient.setQuantity(newQuantity);
+      }
+      existingRecipe.setServings(newServing);
+    }
+    return recipeFound;
   }
 
   /**

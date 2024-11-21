@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.1
+ * @version 0.1.2
  * @since 11.21.2024
  */
 public class OutputHandler {
@@ -546,6 +546,17 @@ public class OutputHandler {
   }
 
   /**
+   * <p>Prints a message that prompts the user to enter the name of an ingredient in a recipe.</p>
+   *
+     <p><b>Example of usage:</b></p>
+   * <pre><code>outputHandler.promptForIngredientNameInRecipe();</code></pre>
+   * </p>
+   */
+  public void promptForNewServing() {
+    System.out.println("Enter the new serving: ");
+  }
+
+  /**
    * <p>Prints a message that prompts the user
    * to enter the quantity of an ingredient in a recipe.</p>
 
@@ -596,6 +607,19 @@ public class OutputHandler {
    */
   public void removedRecipe(String recipeName) {
     System.out.println("Successfully removed " + recipeName + " from the recipe book");
+  }
+
+  /**
+   * <p>Prints a message that the recipe was successfully updated.</p>
+
+   * @param recipeName the name of the recipe
+   *
+     <p><b>Example of usage:</b></p>
+     <pre><code>outputHandler.updatedRecipe("Pasta");</code></pre>
+     </p>
+   */
+  public void printUpdatedServing(String recipeName) {
+    System.out.println("Successfully updated the serving of " + recipeName);
   }
 
   /**

@@ -43,7 +43,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @since 11.21.2024
  */
 public class UserInterface {
@@ -320,11 +320,11 @@ public class UserInterface {
 
   /**
    * <p>Displays a list of all ingredients present in the foodStorage.
-   *  This method uses an iterator to retrieve
-   *  and display the names of all ingredients in the storage.</p>
+   * This method uses an iterator to retrieve
+   * and display the names of all ingredients in the storage.</p>
    *
-   *  <p>If there are no ingredients in the storage, a message is displayed
-   *  to inform the user that the storage is empty.</p>
+   * <p>If there are no ingredients in the storage, a message is displayed
+   * to inform the user that the storage is empty.</p>
    *
    *
    * <p><b>Example of usage:</b></p>
@@ -456,7 +456,6 @@ public class UserInterface {
    *  <p><b>Example of usage:</b></p>
    *  <pre><code>userInterface.addRecipe();</code></pre>
    *  </p>
-   *
    */
   public void addRecipe() {
     try {
@@ -641,6 +640,39 @@ public class UserInterface {
   }
 
   /**
+   * <p>Changes the serving size of a recipe through user interaction.</p>
+   *
+   * <p>This method prompts the user for the name of the recipe and the new serving size.</p>
+   * <p>If the recipe does not exist, an error message is displayed.</p>
+   * <p>If the recipe exists, the method updates
+   * the required ingredients to match the new serving size.</p>
+   *
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>userInterface.changeServing();</code></pre>
+   * </p>
+   */
+  public void changeServing() {
+    output.promptForRecipeName();
+    String name = input.stringInput();
+    if (recipeBook.getRecipe(name) == null) {
+      output.printRecipeNotFound(name);
+    } else {
+      output.promptForNewServing();
+      double newServing = input.doubleInput();
+      output.printWarning();
+      if (input.stringInput().equalsIgnoreCase("n")) {
+        output.printAbortOperationMessage();
+      }
+      boolean recipeFound = recipeBook.updateServing(name, newServing);
+      if (recipeFound) {
+        output.printUpdatedServing(name);
+      } else {
+        output.printRecipeNotFound(name);
+      }
+    }
+  }
+
+  /**
    * Handles the interaction between the user and the application.
    * <p>
    * This method displays the main menu and processes the user's choices by calling the correct
@@ -708,6 +740,7 @@ public class UserInterface {
         case "/value-expired" -> displayValueOfExpiredIngredients();
         case "/add-recipe" -> addRecipe();
         case "/remove-recipe" -> removeRecipe();
+        case "/change-serving" -> changeServing();
         case "/find-recipe" -> findRecipe();
         case "/list-recipes" -> displayRecipes();
         case "/check-recipe" -> checkIfRecipeCanBeMade();

@@ -62,7 +62,8 @@ public class Ingredient {
   /**
    * <p>
    * Creates a new instance of Ingredient that is used when adding
-   * a new ingredient to a recipe which only requires the quantity and unit.
+   * a new ingredient to a recipe which only requires the name, quantity
+   * and unit.
    * </p>
 
    * @param quantity the quantity of an ingredient
