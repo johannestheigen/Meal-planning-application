@@ -12,6 +12,7 @@ import java.util.Scanner;
  *<p>This class provides the following methods: </p>
  * <li>stringInput: Reads a line of text from the user.</li>
  * <li>doubleInput: Reads a number and checks it's a valid double.</li>
+ * <li>intInput: Reads a number and checks it's a valid integer.</li>
  * <li>expirationDateInput: Reads a date and
  * makes sure it's in the correct format (yyyy-MM-dd).</li>
  *
@@ -22,8 +23,8 @@ import java.util.Scanner;
  * The <b>close</b> method ends the user interaction when the application finishes running.
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.2
- * @since 11.19.2024
+ * @version 0.0.3
+ * @since 11.21.2024
  */
 
 public class InputHandler {
@@ -34,13 +35,13 @@ public class InputHandler {
    * <p>Initializes a new instance of the <b>Scanner</b> class
    * for reading user input from the standard input stream (usually the keyboard).</p>
    *
-   * <p>The constructor sets up a <b>Scanner</b> object,
-   * enabling interaction between the application and the user.
+   * <p>The <b>Scanner</b> object,
+   * enables interaction between the application and the user.
    * It allows reading different types of input,
    * such as strings, numbers, and dates, from the terminal or console.</p>
    *
    * <p>The <b>Scanner</b> will remain open until the program
-   * finishes or the input stream is closed by the user.</p>
+   * finishes</p>
    *
    * <p><b>Example of usage:</b></p>
    *      <pre><code>
@@ -52,7 +53,7 @@ public class InputHandler {
   }
 
   /**
-   * Reads a line of text from the console and returns it as a string.
+   * <p>Reads a line of text from the console and returns it as a string.</p>
    *
    * @return the input string provided by the user.
    *
@@ -66,8 +67,8 @@ public class InputHandler {
   }
 
   /**
-   * Reads a line of text from the console and attempts to parse it as a double.
-   * The method keeps prompting the user until a valid double value is entered.
+   * <p>Reads a line of text from the console and attempts to parse it as a double.
+   *  The method keeps prompting the user until a valid double value is entered.</p>
    *
    * @return the input double numerical value provided by the user.
    *
@@ -88,8 +89,30 @@ public class InputHandler {
   }
 
   /**
-   * Reads a line of text from the console and attempts to parse it as a LocalDate.
-   * The method keeps prompting the user until a valid expiration date is entered.
+   * <p>Reads a line of text from the console and attempts to parse it as an integer.
+   * The method keeps prompting the user until a valid integer is entered.</p>
+   *
+   * @return the input integer value provided by the user.
+   *
+     <p><b>Example of usage:</b></p>
+     <pre><code>
+     int value = input.intInput();
+     </code></pre>
+   */
+  public int intInput() {
+    while (true) {
+      try {
+        String input = reader.nextLine();
+        return Integer.parseInt(input);
+      } catch (NumberFormatException e) {
+        System.out.println("Invalid input. Please enter a valid integer.");
+      }
+    }
+  }
+
+  /**
+   * <p>Reads a line of text from the console and attempts to parse it as a LocalDate.
+   * The method keeps prompting the user until a valid expiration date is entered.</p>
    *
    * @return the input as LocalDate provided by the user.
    *
@@ -105,7 +128,7 @@ public class InputHandler {
       try {
         expirationDate = LocalDate.parse(expirationDateStr);
       } catch (DateTimeParseException e) {
-        System.out.println("Invalid date format. Please try again.");
+        System.out.println("Invalid date format. Please enter a valid date (YYYY-MM-DD).");
       }
     }
     return expirationDate;
