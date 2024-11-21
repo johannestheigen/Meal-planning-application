@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.9
+ * @version 0.2.0
  * @since 11.21.2024
  */
 public class OutputHandler {
@@ -304,7 +304,7 @@ public class OutputHandler {
         + "\nDescription: " + description
         + "\nQuantity: " + quantity
         + "\nUnit: " + unit
-        + "\nPrice: " + price + " NOK "
+        + "\nPrice: " + price + " NOK " + " per " + unit
         + "\nExpiration Date: " + expirationDate);
   }
 
