@@ -73,7 +73,8 @@ public class Ingredient {
      <pre><code>Ingredient newIngredient = new Ingredient(1, "kg");</code></pre>
      </p>
    */
-  public Ingredient(Double quantity, String unit) {
+  public Ingredient(String name, Double quantity, String unit) {
+    setName(name);
     setQuantity(quantity);
     setUnit(unit);
   }
