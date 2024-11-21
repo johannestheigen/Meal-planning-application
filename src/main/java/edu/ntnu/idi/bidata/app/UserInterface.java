@@ -44,7 +44,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.2.7
+ * @version 0.2.8
  * @since 11.21.2024
  */
 public class UserInterface {
@@ -141,10 +141,11 @@ public class UserInterface {
       if (inputValidator.isAbortOperation(input.stringInput())) {
         output.printAbortOperationMessage();
       } else {
-        foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
         if (inputValidator.ingredientExists(foodStorage, name)) {
+          foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
           output.printUpdatedQuantity(name);
         } else {
+          foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
           output.printAddedIngredient(name);
         }
       }
@@ -182,6 +183,11 @@ public class UserInterface {
 
       output.promptForQuantity();
       double quantity = input.doubleInput();
+
+      while (!inputValidator.isPositiveDouble(quantity)) {
+        output.printInvalidQuantity();
+        quantity = input.doubleInput();
+      }
 
       if (inputValidator.ingredientNotExists(foodStorage, name)) {
         output.printIngredient(name, false);
