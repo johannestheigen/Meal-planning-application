@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.0
+ * @version 0.1.1
  * @since 11.21.2024
  */
 public class OutputHandler {

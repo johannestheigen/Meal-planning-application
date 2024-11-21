@@ -43,7 +43,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.2.0
+ * @version 0.2.1
  * @since 11.21.2024
  */
 public class UserInterface {
