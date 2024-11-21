@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.7
+ * @version 0.1.8
  * @since 11.21.2024
  */
 public class OutputHandler {
@@ -164,7 +164,7 @@ public class OutputHandler {
   }
 
   public void printInvalidUnit() {
-    System.out.println("Invalid unit. Please enter kg, g, ml, l or psc.");
+    System.out.println("Invalid unit. Please enter kg, g, ml, l or pcs.");
   }
 
   /**
@@ -447,7 +447,7 @@ public class OutputHandler {
    * <pre><code>outputHandler.promptForUnit();</code></pre>
    */
   public void promptForUnit() {
-    System.out.println("Enter valid unit: kg, g, ml and l:");
+    System.out.println("Enter valid unit: kg, g, ml, l and pcs:");
   }
 
   /**

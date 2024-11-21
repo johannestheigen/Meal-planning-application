@@ -12,7 +12,7 @@ import java.util.Iterator;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.3
+ * @version 0.0.4
  * @since 11.21.2024
  */
 public class InputValidator {
@@ -177,7 +177,7 @@ public class InputValidator {
         || unit.equalsIgnoreCase("kg")
         || unit.equalsIgnoreCase("ml")
         || unit.equalsIgnoreCase("l")
-        || unit.equalsIgnoreCase("psc"));
+        || unit.equalsIgnoreCase("pcs"));
   }
 
   /**
