@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.1.8
+ * @version 0.1.9
  * @since 11.21.2024
  */
 public class OutputHandler {
@@ -44,7 +44,7 @@ public class OutputHandler {
     System.out.println("""
        Welcome to the Meal Planning Application.
        Type '/storage' to manage your food storage
-       Type '/recipes' to mange your recipe book
+       Type '/recipes' to manage your recipe book
        Press 0 to exit
         """);
   }
