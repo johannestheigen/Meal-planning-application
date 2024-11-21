@@ -1,5 +1,6 @@
 package edu.ntnu.idi.bidata.utility;
 
+import edu.ntnu.idi.bidata.items.Ingredient;
 import edu.ntnu.idi.bidata.register.FoodStorage;
 import edu.ntnu.idi.bidata.register.RecipeBook;
 
@@ -10,7 +11,7 @@ import edu.ntnu.idi.bidata.register.RecipeBook;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.1
+ * @version 0.0.2
  * @since 11.21.2024
  */
 public class InputValidator {
@@ -176,5 +177,25 @@ public class InputValidator {
         || unit.equalsIgnoreCase("ml")
         || unit.equalsIgnoreCase("l")
         || unit.equalsIgnoreCase("psc"));
+  }
+
+  /**
+   * <p> Checks if the user has sufficient quantity of an ingredient in the food storage.</p>
+   *
+
+   * @param foodStorage The food storage
+   * @param ingredientName The name of the ingredient
+   * @param requiredQuantity The required quantity of the ingredient
+   * @return true if the user has sufficient quantity of the ingredient, false otherwise
+   *
+     <p>
+        <b>Example of usage:</b>
+        <pre><code>InputValidator inputValidator = new InputValidator();</code></pre>
+        </p>
+   */
+  public boolean hasSufficientQuantity(FoodStorage foodStorage,
+                                       String ingredientName, double requiredQuantity) {
+    Ingredient availableIngredient = foodStorage.getIngredient(ingredientName);
+    return availableIngredient.getQuantity() >= requiredQuantity;
   }
 }

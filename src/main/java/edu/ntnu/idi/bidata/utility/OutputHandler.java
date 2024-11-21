@@ -72,6 +72,7 @@ public class OutputHandler {
        Type '/by-date' to view ingredients by a specific expiration date
        Type '/total-val' to print value of all ingredients
        Type '/expired-val' to print value of all expired ingredients
+       Type '/main' to return to the main menu
         """);
   }
 
@@ -92,6 +93,7 @@ public class OutputHandler {
        Type '/find-rec' to find a recipe and display its details
        Type '/list-rec' to list all recipes
        Type '/check-rec' to check if a recipe can be made
+       Type '/main' to return to the main menu
         """);
   }
 
