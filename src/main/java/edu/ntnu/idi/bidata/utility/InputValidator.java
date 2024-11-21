@@ -12,7 +12,7 @@ import java.util.Iterator;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.4
+ * @version 0.0.5
  * @since 11.21.2024
  */
 public class InputValidator {
@@ -113,6 +113,22 @@ public class InputValidator {
    */
   public boolean recipeExists(RecipeBook recipeBook, String name) {
     return recipeBook.getRecipe(name) != null;
+  }
+
+  /**
+   * <p>Checks if a recipe does not exist in the recipe book.</p>
+
+   * @param recipeBook The recipe book
+   * @param name The name of the recipe
+   * @return true if the recipe does not exist, false otherwise
+   *
+     <p>
+        <b>Example of usage:</b>
+        <pre><code>InputValidator inputValidator = new InputValidator();</code></pre>
+        </p>
+   */
+  public boolean recipeNotExists(RecipeBook recipeBook, String name) {
+    return recipeBook.getRecipe(name) == null;
   }
 
   /**

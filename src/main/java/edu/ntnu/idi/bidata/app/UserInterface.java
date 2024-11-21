@@ -44,7 +44,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.2.8
+ * @version 0.2.9
  * @since 11.21.2024
  */
 public class UserInterface {
@@ -573,7 +573,7 @@ public class UserInterface {
     try {
       output.promptForRecipeName();
       String name = input.stringInput();
-      if (inputValidator.recipeExists(recipeBook, name)) {
+      if (inputValidator.recipeNotExists(recipeBook, name)) {
         output.printRecipeNotFound(name);
       } else {
         output.printWarning();
