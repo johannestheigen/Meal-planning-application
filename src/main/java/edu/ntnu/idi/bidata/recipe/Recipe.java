@@ -26,7 +26,7 @@ import java.util.Iterator;
  * to maintain an organized collection of recipes.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.5
+ * @version 0.0.6
  * @since 11.21.2024
  */
 public class Recipe {
@@ -196,6 +196,8 @@ public class Recipe {
    * @param name the name of the ingredient
    * @param quantity the quantity of the ingredient
    * @param unit the unit of the ingredient
+   * @throws IllegalArgumentException if the name is null or empty,
+     the quantity is less than or equal to 0, or the unit is null or empty
    *
      <p>
        <b>Example of usage: </b>
@@ -203,6 +205,15 @@ public class Recipe {
        </p>
    */
   public void addIngredient(String name, double quantity, String unit) {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("The ingredient name cannot be null or empty");
+    }
+    if (quantity <= 0) {
+      throw new IllegalArgumentException("The quantity must be greater than 0");
+    }
+    if (unit == null || unit.isEmpty()) {
+      throw new IllegalArgumentException("The unit cannot be null or empty");
+    }
     requiredIngredients.add(new Ingredient(name, quantity, unit));
   }
 
