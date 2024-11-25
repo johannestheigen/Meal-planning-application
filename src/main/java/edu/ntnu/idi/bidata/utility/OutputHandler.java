@@ -9,7 +9,7 @@ import java.util.Iterator;
  *
  * <p>This class provides methods for:</p>
  * <ul>
- *   <li>Displaying the main and extended menus.</li>
+ *   <li>Displaying the main and menus for food storage and recipe book..</li>
  *   <li>Printing warnings and error messages.</li>
  *   <li>Printing messages for successful operations.</li>
  *   <li>Printing messages for unsuccessful operations.</li>
@@ -28,7 +28,7 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.2.1
+ * @version 0.2.2
  * @since 11.25.2024
  */
 public class OutputHandler {
@@ -61,6 +61,7 @@ public class OutputHandler {
   public void printFoodStorageMenu() {
     System.out.println("""
        Type '/add-ing' to add an ingredient
+       Type '/del-ing' to remove an ingredient
        Type '/reduce-ing' to reduce the quantity of an ingredient
        Type '/edit-desc' to change the description of an ingredient
        Type '/edit-price' to change the price of an ingredient
@@ -211,6 +212,7 @@ public class OutputHandler {
      <p><b>Example of usage:</b></p>
      <pre><code>OutputHandler.printRemovedIngredient("Strawberry");</code></pre>
    */
+
 
   public void printRemovedIngredient(String name) {
     System.out.println("Successfully removed " + name

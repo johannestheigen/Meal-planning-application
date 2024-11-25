@@ -34,8 +34,8 @@ import java.util.Map;
  * </ul>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.6
- * @since 11.21.2024
+ * @version 0.2.7
+ * @since 11.22.2024
  */
 public class FoodStorage {
 
@@ -113,6 +113,21 @@ public class FoodStorage {
   }
 
   /**
+   * <p>Removes an ingredient entirely from the food storage.</p>
+   * <p>If the ingredient does not exist, the method will return <code>false</code></p>
+
+   * @param ingredientName the name of the ingredient to be removed.
+   * @return <code>true</code> if the ingredient exists and is successfully removed,
+     and <code>false</code> if the ingredient does not exist.
+
+    *<p><b>Example of usage: </b>
+     <pre><code>foodStorage.removeIngredient("Banana");</code></pre></p>
+   */
+  public boolean removeIngredient(String ingredientName) {
+    return storage.remove(ingredientName) != null;
+  }
+
+  /**
    * <p>Decreases the quantity of an ingredient from the food storage.
    * If the quantity gets to 0, the ingredient will be removed from the storage.</p>
    *
@@ -125,7 +140,7 @@ public class FoodStorage {
    *<pre><code>foodStorage.reduceIngredient("Banana");</code></pre></p>
    */
 
-  public boolean reduceIngredient(String ingredientName, double quantity) {
+  public boolean reduceQuantity(String ingredientName, double quantity) {
     boolean ingredientFound = false;
     boolean wasRemoved = false;
 

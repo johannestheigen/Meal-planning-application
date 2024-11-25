@@ -18,6 +18,7 @@ import java.util.Iterator;
  *   <li><b>init</b>: Initializes the required instances for user interaction.</li>
  *   <li><b>start</b>: Starts the application from the Main class.</li>
  *   <li><b>addIngredient</b>: Allows the user to add a new ingredient.</li>
+ *   <li><b>removeIngredient</b>: Allows the user to remove an ingredient.</li>
  *   <li><b>reduceIngredient</b>: Reduces the quantity of an existing ingredient
  *   or removes it if quantity reaches zero.</li>
  *   <li><b>changeDescription</b>: Allows the user to change the description of an ingredient.</li>
@@ -44,7 +45,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.3.2
+ * @version 0.3.3
  * @since 11.25.2024
  */
 public class UserInterface {
@@ -170,6 +171,42 @@ public class UserInterface {
   }
 
   /**
+   * <p>Removes an ingredient entirely from the storage through user interaction.</p>
+   * <p>This method prompts the user for the name of the ingredient to be removed.</p>
+
+   * <p>Before removing the ingredient the user is prompted to confirm the operation.</p>
+   * <p>If the user chooses to abort the operation, a message is displayed.</p>
+   *
+   * <p>If the ingredient does not exist, an error message is displayed.</p>
+   *
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>userInterface.removeIngredient();</code></pre>
+   * </p>
+   */
+  public void removeIngredient() {
+    try {
+      output.promptForIngredientName();
+      String name = inputParser.stringInput();
+      if (inputValidator.ingredientNotExists(foodStorage, name)) {
+        output.printIngredient(name, false);
+      } else {
+        output.printWarning();
+        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+          output.printAbortOperationMessage();
+        } else {
+          foodStorage.removeIngredient(name);
+          output.printRemovedIngredient(name);
+        }
+      }
+      pressAnyKeyToContinue();
+    } catch (IllegalArgumentException e) {
+      output.printInvalidInput(e.getMessage());
+    } catch (Exception e) {
+      output.printError(e.getMessage());
+    }
+  }
+
+  /**
    * <p>Reduces the quantity of an ingredient in the storage through user interaction.</p>
    *
    * <p>This method prompts the user for the <b>name</b> and <b>quantity</b>
@@ -209,7 +246,7 @@ public class UserInterface {
         if (inputValidator.isAbortOperation(inputParser.stringInput())) {
           output.printAbortOperationMessage();
         } else {
-          foodStorage.reduceIngredient(name, quantity);
+          foodStorage.reduceQuantity(name, quantity);
           if (inputValidator.ingredientWasReduced(foodStorage, name, quantity)) {
             output.printUpdatedQuantity(name);
           } else {
@@ -775,6 +812,7 @@ public class UserInterface {
    *   <li>Access the food storage menu</li>
    *   <li>Access the recipe book menu</li>
    *   <li>Add an ingredient</li>
+   *   <li>Remove an ingredient</li>
    *   <li>Reduce the quantity of an ingredient</li>
    *   <li>Change the description of an ingredient</li>
    *   <li>Change the price of an ingredient</li>
@@ -823,6 +861,7 @@ public class UserInterface {
         case "/add-ing" -> addIngredient();
         case "/edit-desc" -> changeDescription();
         case "/edit-price" -> changePrice();
+        case "/del-ing" -> removeIngredient();
         case "/reduce-ing" -> reduceIngredient();
         case "/edit-unit" -> changeUnit();
         case "/list-ing" -> displayListOfIngredients();

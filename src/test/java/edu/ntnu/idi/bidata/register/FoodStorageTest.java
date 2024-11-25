@@ -84,10 +84,10 @@ class FoodStorageTest {
    * and that it remains in storage after the reduction.
    */
   @Test
-  void reduceIngredientPositiveTest() {
+  void updateQuantityPositiveTest() {
     foodStorageTest.addIngredient("Apple", "Fruit", 2, "kg", 4.50, LocalDate.of(2024, 11, 1));
 
-    foodStorageTest.reduceIngredient("Apple", 1);
+    foodStorageTest.reduceQuantity("Apple", 1);
 
     Ingredient reducedIngredient = foodStorageTest.getIngredient("Apple");
 
@@ -102,10 +102,10 @@ class FoodStorageTest {
    * reaches 0.
    */
   @Test
-  void reduceIngredientNegativeTest() {
+  void updateQuantityNegativeTest() {
     foodStorageTest.addIngredient("Apple", "Fruit", 1, "kg", 4.50, LocalDate.of(2024, 11, 1));
 
-    foodStorageTest.reduceIngredient("Apple", 1);
+    foodStorageTest.reduceQuantity("Apple", 1);
 
     Ingredient removedIngredient = foodStorageTest.getIngredient("Apple");
     assertNull(removedIngredient, "Expected 'Apple' to be null after reduction, but found: " + removedIngredient);
