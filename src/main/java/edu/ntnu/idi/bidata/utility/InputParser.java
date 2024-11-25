@@ -5,7 +5,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 /**
- * <p>The InputHandler class is used to read different types of input from the user.
+ * <p>The InputParser class is used to read different types of input from the user.
  *  It helps the user provide data in various formats (strings, numbers, dates)
  *  and checks that the input is valid.</p>
  *
@@ -27,7 +27,7 @@ import java.util.Scanner;
  * @since 11.21.2024
  */
 
-public class InputHandler {
+public class InputParser {
 
   private final Scanner reader;
 
@@ -45,10 +45,10 @@ public class InputHandler {
    *
    * <p><b>Example of usage:</b></p>
    *      <pre><code>
-   *       input = new InputHandler();;
+   *       input = new InputParser();;
    *      </code></pre>
    */
-  public InputHandler() {
+  public InputParser() {
     reader = new Scanner(System.in);
   }
 
@@ -139,7 +139,7 @@ public class InputHandler {
    *
    * <p><b>Example of usage:</b></p>
    *          <pre><code>
-   *         InputHandler.close();
+   *         InputParser.close();
    *         </code></pre>
    */
   public void close() {

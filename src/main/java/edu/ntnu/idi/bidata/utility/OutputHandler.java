@@ -28,8 +28,8 @@ import java.util.Iterator;
  *   <li>Displaying the missing ingredients for a recipe.</li>
  * </ul>
  *
- * @version 0.2.0
- * @since 11.21.2024
+ * @version 0.2.1
+ * @since 11.25.2024
  */
 public class OutputHandler {
 
@@ -116,6 +116,17 @@ public class OutputHandler {
    */
   public void printWarning() {
     System.out.println("Are you sure you want to continue? (y/n)");
+  }
+
+  /**
+   * <p>Prints a message to confirm that the user has pressed any key to continue.</p>
+   *
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>OutputHandler.printPressAnyKey();</code></pre>
+   * </p>
+   */
+  public void printPressAnyKey() {
+    System.out.println("Press any key to continue...");
   }
 
   /**

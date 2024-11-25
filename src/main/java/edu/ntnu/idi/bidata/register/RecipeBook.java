@@ -65,8 +65,8 @@ public class RecipeBook {
     if (recipes.containsKey(name)) {
       return false;
     }
-    Recipe recipe = new Recipe(name, description, instruction, servings);
-    recipes.put(name, recipe);
+    Recipe newRecipe = new Recipe(name, description, instruction, servings);
+    recipes.put(name, newRecipe);
     return true;
   }
 
@@ -106,11 +106,11 @@ public class RecipeBook {
    */
   public boolean addIngredientToRecipe(String recipeName, String ingredientName,
                                        double quantity, String unit) {
-    Recipe recipe = recipes.get(recipeName);
-    if (recipe == null) {
+    Recipe existingRecipe = recipes.get(recipeName);
+    if (existingRecipe == null) {
       return false;
     } else {
-      recipe.addIngredient(ingredientName, quantity, unit);
+      existingRecipe.addIngredient(ingredientName, quantity, unit);
       return true;
     }
   }

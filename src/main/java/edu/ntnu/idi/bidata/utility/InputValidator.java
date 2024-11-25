@@ -12,8 +12,8 @@ import java.util.Iterator;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.5
- * @since 11.21.2024
+ * @version 0.0.6
+ * @since 11.25.2024
  */
 public class InputValidator {
 
@@ -48,6 +48,20 @@ public class InputValidator {
    */
   public boolean isAbortOperation(String userInput) {
     return userInput.equalsIgnoreCase("n");
+  }
+
+  /**
+   * <p>Checks if the user has pressed any key.</p>
+
+   * @param userInput The user input
+   * @return true if the user has pressed any key, false otherwise
+   *
+     <p>
+       <b>Example of usage:</b></p>
+       <pre><code> InputValidator.isAnyKeyPressed(" ");</code></pre>
+   */
+  public boolean isAnyKeyPressed(String userInput) {
+    return userInput.isEmpty();
   }
 
   /**

@@ -3,7 +3,7 @@ package edu.ntnu.idi.bidata.app;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import edu.ntnu.idi.bidata.register.FoodStorage;
 import edu.ntnu.idi.bidata.register.RecipeBook;
-import edu.ntnu.idi.bidata.utility.InputHandler;
+import edu.ntnu.idi.bidata.utility.InputParser;
 import edu.ntnu.idi.bidata.utility.InputValidator;
 import edu.ntnu.idi.bidata.utility.OutputHandler;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import java.util.Iterator;
  * <p>This class provides the following key methods:</p>
  * <ul>
  *   <li><b>init</b>: Initializes the required instances for user interaction.</li>
- *   <li><b>start</b>: Starts the application from the Launch class.</li>
+ *   <li><b>start</b>: Starts the application from the Main class.</li>
  *   <li><b>addIngredient</b>: Allows the user to add a new ingredient.</li>
  *   <li><b>reduceIngredient</b>: Reduces the quantity of an existing ingredient
  *   or removes it if quantity reaches zero.</li>
@@ -44,21 +44,21 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.3.0
- * @since 11.21.2024
+ * @version 0.3.1
+ * @since 11.25.2024
  */
 public class UserInterface {
 
   private FoodStorage foodStorage;
   private RecipeBook recipeBook;
   private OutputHandler output;
-  private InputHandler input;
+  private InputParser inputParser;
   private InputValidator inputValidator;
 
   /**
    * <p>Initializes the application at startup by creating instances of
    * <code>FoodStorage</code>, <code>RecipeBook</code>,
-   * <code>OutputHandler</code>, and <code>InputHandler</code>.</p>
+   * <code>OutputHandler</code>, and <code>InputParser</code>.</p>
    *
    * <p><b>Example of usage:</b></p>
    * <pre><code>
@@ -70,7 +70,7 @@ public class UserInterface {
     foodStorage = new FoodStorage();
     recipeBook = new RecipeBook();
     output = new OutputHandler();
-    input = new InputHandler();
+    inputParser = new InputParser();
     inputValidator = new InputValidator();
     userInput();
   }
@@ -89,6 +89,18 @@ public class UserInterface {
     init();
   }
 
+  /**
+   * <p>This method is used to after an operation is completed or aborted to
+   *  return the user to the main menu. The user is prompted to press any key</p>
+   *
+   * <p><b>Example of usage:</b></p>
+   * <pre><code>userInterface.pressAnyKeyToContinue();</code></pre>
+   */
+  public void pressAnyKeyToContinue() {
+    output.printPressAnyKey();
+    inputValidator.isAnyKeyPressed(inputParser.stringInput());
+    output.printMainMenu();
+  }
 
   /**
    * <p>Adds a new ingredient to the storage through user interaction.</p>
@@ -120,25 +132,25 @@ public class UserInterface {
   public void addIngredient() {
     try {
       output.promptForIngredientName();
-      final String name = input.stringInput();
+      final String name = inputParser.stringInput();
 
       output.promptForDescription();
-      final String description = input.stringInput();
+      final String description = inputParser.stringInput();
 
       output.promptForQuantity();
-      final double quantity = input.doubleInput();
+      final double quantity = inputParser.doubleInput();
 
       output.promptForUnit();
-      final String unit = input.stringInput();
+      final String unit = inputParser.stringInput();
 
       output.promptForPrice();
-      double price = input.doubleInput();
+      double price = inputParser.doubleInput();
 
       output.promptForExpirationDate();
-      final LocalDate expirationDate = input.expirationDateInput();
+      final LocalDate expirationDate = inputParser.expirationDateInput();
 
       output.printWarning();
-      if (inputValidator.isAbortOperation(input.stringInput())) {
+      if (inputValidator.isAbortOperation(inputParser.stringInput())) {
         output.printAbortOperationMessage();
       } else {
         if (inputValidator.ingredientExists(foodStorage, name)) {
@@ -149,6 +161,7 @@ public class UserInterface {
           output.printAddedIngredient(name);
         }
       }
+      pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
     } catch (Exception e) {
@@ -179,21 +192,21 @@ public class UserInterface {
   public void reduceIngredient() {
     try {
       output.promptForIngredientName();
-      String name = input.stringInput();
+      String name = inputParser.stringInput();
 
       output.promptForQuantity();
-      double quantity = input.doubleInput();
+      double quantity = inputParser.doubleInput();
 
       while (!inputValidator.isPositiveDouble(quantity)) {
         output.printInvalidQuantity();
-        quantity = input.doubleInput();
+        quantity = inputParser.doubleInput();
       }
 
       if (inputValidator.ingredientNotExists(foodStorage, name)) {
         output.printIngredient(name, false);
       } else {
         output.printWarning();
-        if (inputValidator.isAbortOperation(input.stringInput())) {
+        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
           output.printAbortOperationMessage();
         } else {
           foodStorage.reduceIngredient(name, quantity);
@@ -204,6 +217,7 @@ public class UserInterface {
           }
         }
       }
+      pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
     } catch (Exception e) {
@@ -231,20 +245,21 @@ public class UserInterface {
   public void changeDescription() {
     try {
       output.promptForIngredientName();
-      String name = input.stringInput();
+      String name = inputParser.stringInput();
       if (inputValidator.ingredientNotExists(foodStorage, name)) {
         output.printIngredient(name, false);
       } else {
         output.promptForNewDescription();
-        String newDescription = input.stringInput();
+        String newDescription = inputParser.stringInput();
         output.printWarning();
-        if (inputValidator.isAbortOperation(input.stringInput())) {
+        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
           output.printAbortOperationMessage();
         } else {
           foodStorage.updateDescription(name, newDescription);
           output.printUpdatedDescription(name);
         }
       }
+      pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
     } catch (Exception e) {
@@ -271,20 +286,21 @@ public class UserInterface {
   public void changePrice() {
     try {
       output.promptForIngredientName();
-      String name = input.stringInput();
+      String name = inputParser.stringInput();
       if (inputValidator.ingredientNotExists(foodStorage, name)) {
         output.printIngredient(name, false);
       } else {
         output.promptForNewPrice();
-        double newPrice = input.doubleInput();
+        double newPrice = inputParser.doubleInput();
         output.printWarning();
-        if (inputValidator.isAbortOperation(input.stringInput())) {
+        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
           output.printAbortOperationMessage();
         } else {
           foodStorage.updatePrice(name, newPrice);
           output.printUpdatedPrice(name);
         }
       }
+      pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
     } catch (Exception e) {
@@ -309,20 +325,21 @@ public class UserInterface {
   public void changeUnit() {
     try {
       output.promptForIngredientName();
-      String name = input.stringInput();
+      String name = inputParser.stringInput();
       if (inputValidator.ingredientNotExists(foodStorage, name)) {
         output.printIngredient(name, false);
       } else {
         output.promptForNewUnit();
-        String newUnit = input.stringInput();
+        String newUnit = inputParser.stringInput();
         output.printWarning();
-        if (inputValidator.isAbortOperation(input.stringInput())) {
+        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
           output.printAbortOperationMessage();
         } else {
           foodStorage.updateUnit(name, newUnit);
           output.printUpdatedUnit(name);
         }
       }
+      pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
     } catch (Exception e) {
@@ -341,7 +358,7 @@ public class UserInterface {
 
   public void findIngredient() {
     output.promptForIngredientName();
-    String ingredientName = input.stringInput();
+    String ingredientName = inputParser.stringInput();
     if (inputValidator.ingredientExists(foodStorage, ingredientName)) {
       output.printIngredientDetails(ingredientName,
           foodStorage.getIngredient(ingredientName).getDescription(),
@@ -352,6 +369,7 @@ public class UserInterface {
     } else {
       output.printIngredient(ingredientName, false);
     }
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -370,6 +388,7 @@ public class UserInterface {
     Iterator<String> ingredientsIterator = foodStorage.getListOfIngredients();
     boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
     output.printListOfIngredients(ingredientsIterator, hasIngredients);
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -387,6 +406,7 @@ public class UserInterface {
     Iterator<String> ingredientsIterator = foodStorage.getListOfIngredientsAlphabetically();
     boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
     output.printListOfIngredientsAlphabetically(ingredientsIterator, hasIngredients);
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -405,6 +425,7 @@ public class UserInterface {
     Iterator<String> ingredientsIterator = foodStorage.getListOfExpiredIngredients();
     boolean hasExpiredIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
     output.printListOfExpiredIngredients(ingredientsIterator, hasExpiredIngredients);
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -424,7 +445,7 @@ public class UserInterface {
    */
   public void displayListOfIngredientsByExpirationDate() {
     output.promptForExpirationDate();
-    LocalDate expirationDate = input.expirationDateInput();
+    LocalDate expirationDate = inputParser.expirationDateInput();
 
     Iterator<String> ingredientsIterator
         = foodStorage.getListOfIngredientsByExpirationDate(expirationDate);
@@ -432,6 +453,7 @@ public class UserInterface {
     boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
 
     output.printListOfIngredientsByExpirationDate(ingredientsIterator, hasIngredients);
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -447,6 +469,7 @@ public class UserInterface {
    */
   public void displayValueOfAllIngredients() {
     output.printValueOfAllIngredients(foodStorage.getValueOfAllIngredients());
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -463,6 +486,7 @@ public class UserInterface {
    */
   public void displayValueOfExpiredIngredients() {
     output.printValueOfExpiredIngredients(foodStorage.getValueOfExpiredIngredients());
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -496,60 +520,61 @@ public class UserInterface {
   public void addRecipe() {
     try {
       output.promptForRecipeName();
-      String name = input.stringInput();
+      String nameOfRecipe = inputParser.stringInput();
 
-      if (recipeBook.getRecipe(name) != null) {
-        output.recipeExists(name);
+      if (recipeBook.getRecipe(nameOfRecipe) != null) {
+        output.recipeExists(nameOfRecipe);
       } else {
         output.promptForRecipeDescription();
-        final String description = input.stringInput();
+        final String description = inputParser.stringInput();
 
         output.promptForRecipeInstruction();
-        String instructions = input.stringInput();
+        String instructions = inputParser.stringInput();
 
         output.promptForRecipeServings();
-        double servings = input.doubleInput();
+        double servings = inputParser.doubleInput();
 
         output.printWarning();
-        if (inputValidator.isAbortOperation(input.stringInput())) {
+        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
           output.printAbortOperationMessage();
         } else {
-          recipeBook.addRecipe(name, description, instructions, servings);
+          recipeBook.addRecipe(nameOfRecipe, description, instructions, servings);
 
           output.promptForRecipeIngredients();
-          int numberOfIngredients = input.intInput();
+          int numberOfIngredients = inputParser.intInput();
           while (!inputValidator.isPositiveInteger(numberOfIngredients)) {
             output.printInvalidNumberOfIngredients();
-            numberOfIngredients = input.intInput();
+            numberOfIngredients = inputParser.intInput();
           }
 
           for (int i = 0; i < numberOfIngredients; i++) {
             output.promptForIngredientName();
-            String ingredientName = input.stringInput();
+            String ingredientName = inputParser.stringInput();
             while (!inputValidator.isNonEmptyString(ingredientName)) {
               output.printInvalidIngredientName();
-              ingredientName = input.stringInput();
+              ingredientName = inputParser.stringInput();
             }
 
             output.promptForQuantity();
-            double quantity = input.doubleInput();
+            double quantity = inputParser.doubleInput();
             while (!inputValidator.isPositiveDouble(quantity)) {
               output.printInvalidQuantity();
-              quantity = input.doubleInput();
+              quantity = inputParser.doubleInput();
             }
 
             output.promptForUnit();
-            String unit = input.stringInput();
+            String unit = inputParser.stringInput();
             while (!inputValidator.isValidUnit(unit)) {
               output.printInvalidUnit();
-              unit = input.stringInput();
+              unit = inputParser.stringInput();
             }
 
-            recipeBook.addIngredientToRecipe(name, ingredientName, quantity, unit);
+            recipeBook.addIngredientToRecipe(nameOfRecipe, ingredientName, quantity, unit);
           }
-          output.addedRecipe(name);
+          output.addedRecipe(nameOfRecipe);
         }
       }
+      pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
     } catch (Exception e) {
@@ -572,18 +597,19 @@ public class UserInterface {
   public void removeRecipe() {
     try {
       output.promptForRecipeName();
-      String name = input.stringInput();
+      String name = inputParser.stringInput();
       if (inputValidator.recipeNotExists(recipeBook, name)) {
         output.printRecipeNotFound(name);
       } else {
         output.printWarning();
-        if (inputValidator.isAbortOperation(input.stringInput())) {
+        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
           output.printAbortOperationMessage();
         } else {
           recipeBook.removeRecipe(name);
           output.removedRecipe(name);
         }
       }
+      pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
     } catch (Exception e) {
@@ -601,7 +627,7 @@ public class UserInterface {
    */
   public void findRecipe() {
     output.promptForRecipeName();
-    String name = input.stringInput();
+    String name = inputParser.stringInput();
 
     if (inputValidator.recipeExists(recipeBook, name)) {
 
@@ -618,6 +644,7 @@ public class UserInterface {
     } else {
       output.printRecipeNotFound(name);
     }
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -635,6 +662,7 @@ public class UserInterface {
     Iterator<String> recipesIterator = recipeBook.getListOfRecipes();
     boolean hasRecipes = recipesIterator != null && recipesIterator.hasNext();
     output.printListOfRecipes(recipesIterator, hasRecipes);
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -657,7 +685,7 @@ public class UserInterface {
    */
   public void checkIfRecipeCanBeMade() {
     output.promptForRecipeName();
-    String name = input.stringInput();
+    String name = inputParser.stringInput();
 
     if (!inputValidator.recipeExists(recipeBook, name)) {
       output.printRecipeNotFound(name);
@@ -689,6 +717,7 @@ public class UserInterface {
       }
       output.printRecipeCannotBeMade(name);
     }
+    pressAnyKeyToContinue();
   }
 
   /**
@@ -706,23 +735,25 @@ public class UserInterface {
   public void changeServing() {
     try {
       output.promptForRecipeName();
-      String name = input.stringInput();
+      String name = inputParser.stringInput();
 
       if (!inputValidator.recipeExists(recipeBook, name)) {
         output.printRecipeNotFound(name);
         return;
       }
       output.promptForNewServing();
-      double newServing = input.doubleInput();
+      double newServing = inputParser.doubleInput();
 
       output.printWarning();
-      if (inputValidator.isAbortOperation(input.stringInput())) {
+      if (inputValidator.isAbortOperation(inputParser.stringInput())) {
         output.printAbortOperationMessage();
         return;
       }
 
       recipeBook.updateServing(name, newServing);
       output.printUpdatedServing(name);
+
+      pressAnyKeyToContinue();
 
     } catch (IllegalArgumentException e) {
       output.printInvalidInput(e.getMessage());
@@ -772,14 +803,14 @@ public class UserInterface {
     output.printMainMenu();
     boolean running = true;
     while (running) {
-      String userChoice = input.stringInput();
+      String userChoice = inputParser.stringInput();
 
       switch (userChoice.toLowerCase()) {
         case "0" -> {
           output.printExitWarning();
-          if (inputValidator.isExiting(input.stringInput())) {
+          if (inputValidator.isExiting(inputParser.stringInput())) {
             output.printExitMessage();
-            input.close();
+            inputParser.close();
             running = false;
           } else {
             output.printAbortOperationMessage();
@@ -807,7 +838,10 @@ public class UserInterface {
         case "/find-rec" -> findRecipe();
         case "/list-rec" -> displayRecipes();
         case "/check-rec" -> checkIfRecipeCanBeMade();
-        default -> output.printInvalidInput(userChoice);
+        default -> {
+          output.printInvalidInput(userChoice);
+          pressAnyKeyToContinue();
+        }
       }
     }
   }
