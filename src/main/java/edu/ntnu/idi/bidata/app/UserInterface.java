@@ -44,7 +44,7 @@ import java.util.Iterator;
  *
  * <p>Each method is designed to facilitate specific user actions within the application.</p>
  *
- * @version 0.3.1
+ * @version 0.3.2
  * @since 11.25.2024
  */
 public class UserInterface {
@@ -739,6 +739,7 @@ public class UserInterface {
 
       if (!inputValidator.recipeExists(recipeBook, name)) {
         output.printRecipeNotFound(name);
+        pressAnyKeyToContinue();
         return;
       }
       output.promptForNewServing();
@@ -749,7 +750,6 @@ public class UserInterface {
         output.printAbortOperationMessage();
         return;
       }
-
       recipeBook.updateServing(name, newServing);
       output.printUpdatedServing(name);
 
