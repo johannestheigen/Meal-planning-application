@@ -19,7 +19,7 @@ class IngredientTest {
    */
   @BeforeEach
   void beforeEach() {
-    testIngredient = new Ingredient("Test Ingredient", "Test Description", 10, "kg", 100, LocalDate.of(2025, 1, 1));
+    testIngredient = new Ingredient("Test Ingredient", 10, "kg", 100, LocalDate.of(2025, 1, 1));
   }
 
   /**
@@ -35,18 +35,6 @@ class IngredientTest {
   void setIngredientNameTestForNegativeInput() {
     testIngredient.setName("Tomato");
     assertNotEquals("Tomata",testIngredient.getName(),"The output should not be Tomata.");
-  }
-
-  @Test
-  void setIngredientDescriptionForPositiveInput() {
-    testIngredient.setDescription("Vegetable");
-    assertEquals("Vegetable",testIngredient.getDescription(), "The output should be Vegetable");
-  }
-
-  @Test
-  void setIngredientDescriptionForNegativeInput() {
-    testIngredient.setDescription("Dairy");
-    assertNotEquals("Baked goods",testIngredient.getDescription(),"The output should not be Baked goods");
   }
 
   @Test

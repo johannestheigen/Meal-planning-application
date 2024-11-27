@@ -13,46 +13,15 @@ import java.util.Iterator;
  * <p>The UserInterface class manages interactions between the
  * application and the user.</p>
  *
- * <p>This class provides the following key methods:</p>
- * <ul>
- *   <li><b>init</b>: Initializes the required instances for user interaction.</li>
- *   <li><b>start</b>: Starts the application from the Main class.</li>
- *   <li><b>addIngredient</b>: Allows the user to add a new ingredient.</li>
- *   <li><b>removeIngredient</b>: Allows the user to remove an ingredient.</li>
- *   <li><b>reduceIngredient</b>: Reduces the quantity of an existing ingredient
- *   or removes it if quantity reaches zero.</li>
- *   <li><b>changeDescription</b>: Allows the user to change the description of an ingredient.</li>
- *   <li><b>changePrice</b>: Allows the user to change the price of an ingredient.</li>
- *   <li><b>findIngredient</b>: Searches for an ingredient by name and displays its details</li>
- *   <li><b>displayListOfIngredients</b>: Displays a list of all ingredients.</li>
- *   <li><b>displayListOfIngredientsAlphabetically</b>:
- *   Displays a list of ingredients sorted alphabetically.</li>
- *   <li><b>displayListOfExpiredIngredients</b>: Displays a list of expired ingredients.</li>
- *   <li><b>displayListOfIngredientsByExpirationDate</b>:
- *   Displays ingredients filtered by a specific expiration date.</li>
- *   <li><b>displayValueOfAllIngredients</b>:
- *   Displays the total value of all ingredients.</li>
- *   <li><b>displayValueOfExpiredIngredients</b>:
- *   Displays the total value of expired ingredients.</li>
- *   <li><b>addRecipe</b>: Allows the user to add a new recipe.</li>
- *   <li><b>removeRecipe</b>: Allows the user to remove a recipe.</li>
- *   <li><b>findRecipe</b>: Searches for a recipe by name and displays its details.</li>
- *   <li><b>displayRecipes</b>: Displays a list of all recipes.</li>
- *   <li><b>checkIfRecipeCanBeMade</b>: Checks if a recipe can be
- *   made based on the ingredients available.</li>
- *   <li><b>userInput</b>: Captures and processes user input.</li>
- * </ul>
  *
- * <p>Each method is designed to facilitate specific user actions within the application.</p>
- *
- * @version 0.3.3
- * @since 11.25.2024
+ * @version 0.3.4
+ * @since 11.27.2024
  */
 public class UserInterface {
 
   private FoodStorage foodStorage;
   private RecipeBook recipeBook;
-  private OutputHandler output;
+  private OutputHandler outputHandler;
   private InputParser inputParser;
   private InputValidator inputValidator;
 
@@ -60,31 +29,19 @@ public class UserInterface {
    * <p>Initializes the application at startup by creating instances of
    * <code>FoodStorage</code>, <code>RecipeBook</code>,
    * <code>OutputHandler</code>, and <code>InputParser</code>.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>
-   * userInterface.init();
-   * </code></pre>
    */
 
   public void init() {
     foodStorage = new FoodStorage();
     recipeBook = new RecipeBook();
-    output = new OutputHandler();
+    outputHandler = new OutputHandler();
     inputParser = new InputParser();
     inputValidator = new InputValidator();
     userInput();
   }
 
   /**
-   * Starts interaction with the user.
-   *
-   * <p>This method calls {@link #init()} to prepare necessary resources
-   * and sets up the environment for user interaction. It serves as an entry
-   * point for starting the application's user interface.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.start();</code></pre>
+   * <p>Starts the application by initializing the application.</p>
    */
   public void start() {
     init();
@@ -93,294 +50,301 @@ public class UserInterface {
   /**
    * <p>This method is used to after an operation is completed or aborted to
    *  return the user to the main menu. The user is prompted to press any key</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.pressAnyKeyToContinue();</code></pre>
    */
   public void pressAnyKeyToContinue() {
-    output.printPressAnyKey();
+    outputHandler.printPressAnyKey();
     inputValidator.isAnyKeyPressed(inputParser.stringInput());
-    output.printMainMenu();
+    outputHandler.printMainMenu();
   }
 
   /**
    * <p>Adds a new ingredient to the storage through user interaction.</p>
-   *
-   * <p>This method prompts the user for all necessary ingredient details, including:
-   * <ul>
-   *   <li>Name</li>
-   *   <li>Description</li>
-   *   <li>IngredientQuantity</li>
-   *   <li>Unit (e.g., grams, liters)</li>
-   *   <li>Price</li>
-   *   <li>Expiration date</li>
-   * </ul>
-   *
-   * <p>The user is prompted to confirm if they want to add the ingredient.</p>
-   * <p>If the user chooses to abort the operation, a message is displayed.</p>
-   *
-   * <p>If the values provided by the user is invalid an error message is displayed
-   * with the details of the error.</p>
-   *
-   * <p>Once all details are collected, the ingredient is added to the storage.
-   * If an ingredient with the same name already exists, its quantity is incremented;
-   * otherwise, a new ingredient is created and added to the storage.</p>
-   *
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.addIngredient();</code></pre>
    */
   public void addIngredient() {
     try {
-      output.promptForIngredientName();
-      final String name = inputParser.stringInput();
+      String name = getIngredientNameInput();
 
-      output.promptForDescription();
-      final String description = inputParser.stringInput();
+      double quantity = getQuantityInput();
 
-      output.promptForQuantity();
-      final double quantity = inputParser.doubleInput();
+      String unit = getUnitInput();
 
-      output.promptForUnit();
-      final String unit = inputParser.stringInput();
+      double price = getPriceInput();
 
-      output.promptForPrice();
-      double price = inputParser.doubleInput();
+      LocalDate expirationDate = getExpirationDateInput();
 
-      output.promptForExpirationDate();
-      final LocalDate expirationDate = inputParser.expirationDateInput();
-
-      output.printWarning();
-      if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-        output.printAbortOperationMessage();
-      } else {
-        if (inputValidator.ingredientExists(foodStorage, name)) {
-          foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
-          output.printUpdatedQuantity(name);
-        } else {
-          foodStorage.addIngredient(name, description, quantity, unit, price, expirationDate);
-          output.printAddedIngredient(name);
-        }
-      }
+      handleIngredientAddition(name, quantity, unit, price, expirationDate);
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
+      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      output.printError(e.getMessage());
+      outputHandler.printError(e.getMessage());
+    }
+  }
+
+  /**
+   * <p>Prompts the user for the name of the ingredient to be added.</p>
+   * <p>If the user provides an empty string, an error message is displayed.</p>
+
+   * @return name of the ingredient
+   */
+  private String getIngredientNameInput() {
+    outputHandler.promptForIngredientName();
+    String name = inputParser.stringInput();
+    while (!inputValidator.isNonEmptyString(name)) {
+      outputHandler.printInvalidQuantity();
+      name = inputParser.stringInput();
+    }
+    return name;
+  }
+
+  /**
+   * <p>Prompts the user for the quantity of the ingredient to be added.</p>
+   * <p>If the user provides a negative value, an error message is displayed.</p>
+
+   * @return quantity of the ingredient
+   */
+  private double getQuantityInput() {
+    outputHandler.promptForQuantity();
+    double quantity = inputParser.doubleInput();
+
+    while (!inputValidator.isPositiveDouble(quantity)) {
+      outputHandler.printInvalidQuantity();
+      quantity = inputParser.doubleInput();
+    }
+    return quantity;
+  }
+
+  /**
+   * <p>Prompts the user for the unit of the ingredient to be added.</p>
+   * <p>If the user provides an invalid unit, an error message is displayed.</p>
+
+   * @return unit of the ingredient
+   */
+  private String getUnitInput() {
+    outputHandler.promptForUnit();
+    String unit = inputParser.stringInput();
+    while (!inputValidator.isValidUnit(unit)) {
+      outputHandler.printInvalidUnit();
+      unit = inputParser.stringInput();
+    }
+    return unit;
+  }
+
+  /**
+   * <p>Prompts the user for the price of the ingredient to be added.</p>
+   * <p>If the user provides a negative value, an error message is displayed.</p>
+
+   * @return price of the ingredient
+   */
+  private double getPriceInput() {
+    outputHandler.promptForPrice();
+    double price = inputParser.doubleInput();
+    while (!inputValidator.isPositiveDouble(price)) {
+      outputHandler.printInvalidPrice();
+      price = inputParser.doubleInput();
+    }
+    return price;
+  }
+
+  /**
+   * <p>Prompts the user for the expiration date of the ingredient to be added.</p>
+   * <p>If the user provides an invalid date, an error message is displayed.</p>
+
+   * @return expiration date of the ingredient
+   */
+  private LocalDate getExpirationDateInput() {
+    outputHandler.promptForExpirationDate();
+    return inputParser.expirationDateInput();
+  }
+
+  /**
+   * <p>Handles the addition of an ingredient. If the ingredient already exists in the storage,
+   * the quantity of the ingredient is updated. The user is prompted to confirm the operation.
+   * If the user chooses to abort the operation,
+   * a message is displayed. If the user confirms the operation,
+   * the quantity of the ingredient is updated.
+   * If the ingredient does not exist, it is added to the storage.</p>
+   *
+   * @param name ingredient name
+   * @param quantity ingredient quantity
+   * @param unit ingredient unit
+   * @param price ingredient price
+   * @param expirationDate ingredient expiration date
+   */
+  private void handleIngredientAddition(String name, double quantity,
+                                        String unit, double price, LocalDate expirationDate) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+      pressAnyKeyToContinue();
+    } else {
+      if (foodStorage.isIngredientExisting(name)) {
+        foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
+        outputHandler.printUpdatedQuantity(name);
+      } else {
+        foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
+        outputHandler.printAddedIngredient(name);
+      }
     }
   }
 
   /**
    * <p>Removes an ingredient entirely from the storage through user interaction.</p>
-   * <p>This method prompts the user for the name of the ingredient to be removed.</p>
-
-   * <p>Before removing the ingredient the user is prompted to confirm the operation.</p>
-   * <p>If the user chooses to abort the operation, a message is displayed.</p>
-   *
    * <p>If the ingredient does not exist, an error message is displayed.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.removeIngredient();</code></pre>
-   * </p>
    */
   public void removeIngredient() {
     try {
-      output.promptForIngredientName();
-      String name = inputParser.stringInput();
-      if (inputValidator.ingredientNotExists(foodStorage, name)) {
-        output.printIngredient(name, false);
+      String name = getIngredientNameInput();
+      if (!foodStorage.isIngredientExisting(name)) {
+        outputHandler.printIngredient(name, false);
       } else {
-        output.printWarning();
-        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-          output.printAbortOperationMessage();
-        } else {
-          foodStorage.removeIngredient(name);
-          output.printRemovedIngredient(name);
-        }
+        handleIngredientRemoval(name);
       }
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
+      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      output.printError(e.getMessage());
+      outputHandler.printError(e.getMessage());
+    }
+  }
+
+  /**
+   * <p>Handles the removal of an ingredient. If the user confirms the operation,
+   * the ingredient is removed.
+   * If the user chooses to abort the operation, a message is displayed.</p>
+
+   * @param name ingredient name
+   */
+  private void handleIngredientRemoval(String name) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+      pressAnyKeyToContinue();
+    } else {
+      foodStorage.removeIngredient(name);
+      outputHandler.printRemovedIngredient(name);
     }
   }
 
   /**
    * <p>Reduces the quantity of an ingredient in the storage through user interaction.</p>
-   *
-   * <p>This method prompts the user for the <b>name</b> and <b>quantity</b>
-   * of the ingredient to identify it in the storage.</p>
-   *
-   * <p>The user is prompted to confirm if they want to reduce the ingredient.</p>
-   * <p>If the user chooses to abort the operation, a message is displayed.</p>
-   *
-   * <p>If the values provided by the user is invalid an error message is displayed
-   * with the details of the error.</p>
-   *
-   * <p>If the ingredient is found, its quantity is reduced by 1.
-   * If the ingredient's quantity becomes less than 1 after the reduction,
-   * the ingredient is completely removed from storage.
+   * <p>If the ingredient does not exist, an error message is displayed.</p>
+   */
+  public void reduceQuantity() {
+    try {
+      String name = getIngredientNameInput();
+      double quantity = getQuantityInput();
+      
+      if (!foodStorage.isIngredientExisting(name)) {
+        outputHandler.printIngredient(name, false);
+      } else {
+        handleIngredientReduction(name, quantity);
+      }
+      pressAnyKeyToContinue();
+    } catch (IllegalArgumentException e) {
+      outputHandler.printInvalidInput(e.getMessage());
+    } catch (Exception e) {
+      outputHandler.printError(e.getMessage());
+    }
+  }
+
+  /**
+   * <p>Handles the reduction of an ingredient. If the ingredient's quantity becomes less than 1
+   * after the reduction, the ingredient is completely removed from the storage.
    * If the ingredient does not exist, an error message is displayed.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.reduceIngredient();</code></pre>
+
+   * @param name ingredient name
+   * @param quantity quantity to reduce
    */
-  public void reduceIngredient() {
-    try {
-      output.promptForIngredientName();
-      String name = inputParser.stringInput();
-
-      output.promptForQuantity();
-      double quantity = inputParser.doubleInput();
-
-      while (!inputValidator.isPositiveDouble(quantity)) {
-        output.printInvalidQuantity();
-        quantity = inputParser.doubleInput();
-      }
-
-      if (inputValidator.ingredientNotExists(foodStorage, name)) {
-        output.printIngredient(name, false);
+  private void handleIngredientReduction(String name, double quantity) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+    } else {
+      foodStorage.reduceQuantity(name, quantity);
+      if (inputValidator.ingredientWasReduced(foodStorage, name, quantity)) {
+        outputHandler.printUpdatedQuantity(name);
       } else {
-        output.printWarning();
-        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-          output.printAbortOperationMessage();
-        } else {
-          foodStorage.reduceQuantity(name, quantity);
-          if (inputValidator.ingredientWasReduced(foodStorage, name, quantity)) {
-            output.printUpdatedQuantity(name);
-          } else {
-            output.printRemovedIngredient(name);
-          }
-        }
+        outputHandler.printRemovedIngredient(name);
       }
-      pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
-    } catch (Exception e) {
-      output.printError(e.getMessage());
-    }
-  }
-
-
-  /**
-   * <p>Allows the user to change the description of an ingredient.</p>
-   *
-   * <p>The user is prompted to enter the name of the ingredient and
-   * a new description for the ingredient.</p>
-   *
-   * <p>Before the change is made, the user is prompted to confirm the operation.</p>
-   *
-   * <p>If the description provided by the user is invalid an error message is displayed
-   * with the details of the error.</p>
-   *
-   * <p>If the user confirms the operation, the description of the ingredient is updated.</p>
-   *
-   * <p><b>Example of usage:</b>
-   * <pre><code>foodStorage.changeDescription();</code></pre></p>
-   */
-  public void changeDescription() {
-    try {
-      output.promptForIngredientName();
-      String name = inputParser.stringInput();
-      if (inputValidator.ingredientNotExists(foodStorage, name)) {
-        output.printIngredient(name, false);
-      } else {
-        output.promptForNewDescription();
-        String newDescription = inputParser.stringInput();
-        output.printWarning();
-        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-          output.printAbortOperationMessage();
-        } else {
-          foodStorage.updateDescription(name, newDescription);
-          output.printUpdatedDescription(name);
-        }
-      }
-      pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
-    } catch (Exception e) {
-      output.printError(e.getMessage());
     }
   }
 
   /**
-   * <p>Allows the user to change the price of an ingredient.</p>
-   *
-   * <p>The user is prompted to enter the name of the ingredient and
-   * a new price for the ingredient.</p>
-   *
-   * <p>Before the change is made, the user is prompted to confirm the operation.</p>
-   *
-   * <p>If the price provided by the user is invalid an error message is displayed
-   * with the details of the error.</p>
-   *
-   * <p>If the user confirms the operation, the price of the ingredient is updated.</p>
-   *
-   * <p><b>Example of usage:</b>
-   * <pre><code>foodStorage.changePrice();</code></pre></p>
+   * <p>Changes the price of an ingredient through user interaction.</p>
+   * <p>If the ingredient does not exist, an error message is displayed.</p>
    */
   public void changePrice() {
     try {
-      output.promptForIngredientName();
-      String name = inputParser.stringInput();
-      if (inputValidator.ingredientNotExists(foodStorage, name)) {
-        output.printIngredient(name, false);
+      String name = getIngredientNameInput();
+      if (!foodStorage.isIngredientExisting(name)) {
+        outputHandler.printIngredient(name, false);
       } else {
-        output.promptForNewPrice();
-        double newPrice = inputParser.doubleInput();
-        output.printWarning();
-        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-          output.printAbortOperationMessage();
-        } else {
-          foodStorage.updatePrice(name, newPrice);
-          output.printUpdatedPrice(name);
-        }
+        double newPrice = getPriceInput();
+        handlePriceChange(name, newPrice);
       }
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
+      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      output.printError(e.getMessage());
+      outputHandler.printError(e.getMessage());
     }
   }
 
   /**
-   * <p>Allows the user to change the unit of an ingredient.</p>
-   * <p>The user is prompted to enter the name of the ingredient and
-   * a new unit for the ingredient.</p>
-   * <p>Before the change is made, the user is prompted to confirm the operation.</p>
-   * <p>If the unit provided by the user is invalid an error message is displayed
-   * with the details of the error.</p>
-   *
-   * <p>If the user confirms the operation, the unit of the ingredient is updated.</p>
-   *
-   * <p><b>Example of usage:</b>
-   * <pre><code>foodStorage.changeUnit();</code></pre>
-   * </p>
+   * <p>Handles the change of price for an ingredient.
+   * If the user confirms the operation, the price of the ingredient is updated.
+   * If the user chooses to abort the operation, a message is displayed.</p>
+
+   * @param name ingredient name
+   * @param newPrice new price for the ingredient
+   */
+  private void handlePriceChange(String name, double newPrice) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+    } else {
+      foodStorage.updatePrice(name, newPrice);
+      outputHandler.printUpdatedPrice(name);
+    }
+  }
+
+  /**
+   * <p>Changes the unit of an ingredient through user interaction.</p>
+   * <p>If the ingredient does not exist, an error message is displayed.</p>
    */
   public void changeUnit() {
     try {
-      output.promptForIngredientName();
-      String name = inputParser.stringInput();
-      if (inputValidator.ingredientNotExists(foodStorage, name)) {
-        output.printIngredient(name, false);
+      String name = getIngredientNameInput();
+      if (!foodStorage.isIngredientExisting(name)) {
+        outputHandler.printIngredient(name, false);
       } else {
-        output.promptForNewUnit();
-        String newUnit = inputParser.stringInput();
-        output.printWarning();
-        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-          output.printAbortOperationMessage();
-        } else {
-          foodStorage.updateUnit(name, newUnit);
-          output.printUpdatedUnit(name);
-        }
+        String newUnit = getUnitInput();
+        handleUnitChange(name, newUnit);
       }
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
+      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      output.printError(e.getMessage());
+      outputHandler.printError(e.getMessage());
+    }
+  }
+
+  /**
+   * <p>Handles the change of unit for an ingredient.
+   * If the user confirms the operation, the unit of the ingredient is updated.
+   * If the user chooses to abort the operation, a message is displayed.</p>
+
+   * @param name ingredient name
+   * @param newUnit new unit for the ingredient
+   */
+  private void handleUnitChange(String name, String newUnit) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+    } else {
+      foodStorage.updateUnit(name, newUnit);
+      outputHandler.printUpdatedUnit(name);
     }
   }
 
@@ -388,23 +352,18 @@ public class UserInterface {
    * <p>Finds an ingredient by its name.
    * If the ingredient is found, all its details is displayed.
    * If the ingredient does not exist, an error message is displayed.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.findIngredient();</code></pre>
    */
 
   public void findIngredient() {
-    output.promptForIngredientName();
-    String ingredientName = inputParser.stringInput();
-    if (inputValidator.ingredientExists(foodStorage, ingredientName)) {
-      output.printIngredientDetails(ingredientName,
-          foodStorage.getIngredient(ingredientName).getDescription(),
+    String ingredientName = getIngredientNameInput();
+    if (foodStorage.isIngredientExisting(ingredientName)) {
+      outputHandler.printIngredientDetails(ingredientName,
           foodStorage.getIngredient(ingredientName).getQuantity(),
           foodStorage.getIngredient(ingredientName).getUnit(),
           foodStorage.getIngredient(ingredientName).getPrice(),
           foodStorage.getIngredient(ingredientName).getExpirationDate());
     } else {
-      output.printIngredient(ingredientName, false);
+      outputHandler.printIngredient(ingredientName, false);
     }
     pressAnyKeyToContinue();
   }
@@ -416,72 +375,54 @@ public class UserInterface {
    *
    * <p>If there are no ingredients in the storage, a message is displayed
    * to inform the user that the storage is empty.</p>
-   *
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.displayListOfIngredients();</code></pre>
    */
   public void displayListOfIngredients() {
     Iterator<String> ingredientsIterator = foodStorage.getListOfIngredients();
     boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
-    output.printListOfIngredients(ingredientsIterator, hasIngredients);
+    outputHandler.printListOfIngredients(ingredientsIterator, hasIngredients);
     pressAnyKeyToContinue();
   }
 
   /**
    * <p>Displays a list of all ingredients present in the foodStorage in alphabetical order.
-   * This method uses an iterator to retrieve and sort the ingredient names in alphabetical order
-   * before displaying them.</p>
+   * This method uses an iterator to retrieve and
+   * sort the ingredient names in alphabetical order.</p>
    *
    * <p>If there are no ingredients in the storage, a message is displayed
    * to inform the user that the storage is empty.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.displayListOfIngredientsAlphabetically();</code></pre>
    */
   public void displayListOfIngredientsAlphabetically() {
     Iterator<String> ingredientsIterator = foodStorage.getListOfIngredientsAlphabetically();
     boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
-    output.printListOfIngredientsAlphabetically(ingredientsIterator, hasIngredients);
+    outputHandler.printListOfIngredientsAlphabetically(ingredientsIterator, hasIngredients);
     pressAnyKeyToContinue();
   }
 
   /**
    * <p>Displays a list of all expired ingredients present in the foodStorage.
    * This method uses an iterator to retrieve,
-   * filter the ingredients based on their expiration date,
-   * and then displays only those that have expired.</p>
+   * filter the ingredients based on their expiration date.</p>
    *
    * <p>If there are no expired ingredients in the storage, a message is displayed
    * to inform the user that there are no expired ingredients.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.displayListOfExpiredIngredients();</code></pre>
    */
   public void displayListOfExpiredIngredients() {
     Iterator<String> ingredientsIterator = foodStorage.getListOfExpiredIngredients();
     boolean hasExpiredIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
-    output.printListOfExpiredIngredients(ingredientsIterator, hasExpiredIngredients);
+    outputHandler.printListOfExpiredIngredients(ingredientsIterator, hasExpiredIngredients);
     pressAnyKeyToContinue();
   }
 
   /**
    * <p>Displays a list of all ingredients present
-   * in the foodStorage that have given expiration date.
-   * This method uses an iterator to retrieve,
-   * filter the ingredients based on the provided expiration date,
-   * and then displays only those that match the specific expiration date.</p>
+   * in the foodStorage that have given expiration date.</p>
    *
    * <p>If there are no ingredients with the provided expiration date in the storage,
    * a message is displayed to inform the user that
    * there are no ingredients with that expiration date.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>
-   * userInterface.displayListOfIngredientsByExpirationDate(LocalDate.of(2024, 7, 10));</code></pre>
    */
   public void displayListOfIngredientsByExpirationDate() {
-    output.promptForExpirationDate();
+    outputHandler.promptForExpirationDate();
     LocalDate expirationDate = inputParser.expirationDateInput();
 
     Iterator<String> ingredientsIterator
@@ -489,7 +430,7 @@ public class UserInterface {
 
     boolean hasIngredients = ingredientsIterator != null && ingredientsIterator.hasNext();
 
-    output.printListOfIngredientsByExpirationDate(ingredientsIterator, hasIngredients);
+    outputHandler.printListOfIngredientsByExpirationDate(ingredientsIterator, hasIngredients);
     pressAnyKeyToContinue();
   }
 
@@ -500,12 +441,9 @@ public class UserInterface {
    *
    * <p>If there are no ingredients in the storage, a message is displayed
    * to inform the user that the storage is empty.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.displayValueOfAllIngredients();</code></pre>
    */
   public void displayValueOfAllIngredients() {
-    output.printValueOfAllIngredients(foodStorage.getValueOfAllIngredients());
+    outputHandler.printValueOfAllIngredients(foodStorage.getValueOfAllIngredients());
     pressAnyKeyToContinue();
   }
 
@@ -517,140 +455,194 @@ public class UserInterface {
    *
    * <p>If there are no expired ingredients in the storage, a message is displayed
    * to inform the user that there are no expired ingredients.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.displayValueOfExpiredIngredients();</code></pre>
    */
   public void displayValueOfExpiredIngredients() {
-    output.printValueOfExpiredIngredients(foodStorage.getValueOfExpiredIngredients());
+    outputHandler.printValueOfExpiredIngredients(foodStorage.getValueOfExpiredIngredients());
     pressAnyKeyToContinue();
   }
 
   /**
    * <p>Adds a new recipe to the recipe book through user interaction.</p>
-   *
-   * <p>This method prompts the user for all necessary recipe details, including:
-   * <ul>
-   *   <li>Name</li>
-   *   <li>Description</li>
-   *   <li>Instruction</li>
-   *   <li>Servings</li>
-   *   <li>Confirmation to add the recipe</li>
-   *   <li>Amount of ingredients</li>
-   *   <li>Ingredient name</li>
-   *   <li>Ingredient quantity</li>
-   *   <li>Ingredient unit</li>
-   *  </ul>
-   *
-   *  <p>If the user chooses to abort the operation, a message is displayed.</p>
-   *
-   *  <p>If the values provided by the user is invalid an error message is displayed
-   *  with the details of the error.</p>
-   *
-   *  <p>Once all details are collected, the recipe is added to the recipe book.</p>
-   *  <p>If a recipe with the same name already exists, an error message is displayed.</p>
-   *
-   *  <p><b>Example of usage:</b></p>
-   *  <pre><code>userInterface.addRecipe();</code></pre>
-   *  </p>
+   * <p>If the recipe already exists in the recipe book, an error message is displayed.</p>
    */
   public void addRecipe() {
     try {
-      output.promptForRecipeName();
-      String nameOfRecipe = inputParser.stringInput();
+      String nameOfRecipe = getRecipeNameInput();
 
       if (recipeBook.getRecipe(nameOfRecipe) != null) {
-        output.recipeExists(nameOfRecipe);
+        outputHandler.recipeExists(nameOfRecipe);
       } else {
-        output.promptForRecipeDescription();
-        final String description = inputParser.stringInput();
+        String description = getDescriptionInput();
 
-        output.promptForRecipeInstruction();
-        String instructions = inputParser.stringInput();
+        String instruction = getInstructionInput();
 
-        output.promptForRecipeServings();
-        double servings = inputParser.doubleInput();
+        double servings = getServingsInput();
 
-        output.printWarning();
-        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-          output.printAbortOperationMessage();
-        } else {
-          recipeBook.addRecipe(nameOfRecipe, description, instructions, servings);
-
-          output.promptForRecipeIngredients();
-          int numberOfIngredients = inputParser.intInput();
-          while (!inputValidator.isPositiveInteger(numberOfIngredients)) {
-            output.printInvalidNumberOfIngredients();
-            numberOfIngredients = inputParser.intInput();
-          }
-
-          for (int i = 0; i < numberOfIngredients; i++) {
-            output.promptForIngredientName();
-            String ingredientName = inputParser.stringInput();
-            while (!inputValidator.isNonEmptyString(ingredientName)) {
-              output.printInvalidIngredientName();
-              ingredientName = inputParser.stringInput();
-            }
-
-            output.promptForQuantity();
-            double quantity = inputParser.doubleInput();
-            while (!inputValidator.isPositiveDouble(quantity)) {
-              output.printInvalidQuantity();
-              quantity = inputParser.doubleInput();
-            }
-
-            output.promptForUnit();
-            String unit = inputParser.stringInput();
-            while (!inputValidator.isValidUnit(unit)) {
-              output.printInvalidUnit();
-              unit = inputParser.stringInput();
-            }
-
-            recipeBook.addIngredientToRecipe(nameOfRecipe, ingredientName, quantity, unit);
-          }
-          output.addedRecipe(nameOfRecipe);
-        }
+        handleRecipeAddition(nameOfRecipe, description, instruction, servings);
       }
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
+      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      output.printError(e.getMessage());
+      outputHandler.printError(e.getMessage());
     }
   }
 
   /**
+   * <p>Prompts the user for the name of the recipe to be added.</p>
+   * <p>If the user provides an empty string, an error message is displayed.</p>
+
+   * @return name of the recipe
+   */
+  private String getRecipeNameInput() {
+    outputHandler.promptForRecipeName();
+    String nameOfRecipe = inputParser.stringInput();
+    while (!inputValidator.isNonEmptyString(nameOfRecipe)) {
+      outputHandler.printInvalidRecipeName();
+      nameOfRecipe = inputParser.stringInput();
+    }
+    return nameOfRecipe;
+  }
+
+  /**
+   * <p>Prompts the user for the description of the recipe to be added.</p>
+   * <p>If the user provides an empty string, an error message is displayed.</p>
+
+   * @return description of the recipe
+   */
+  private String getDescriptionInput() {
+    outputHandler.promptForRecipeDescription();
+    String description = inputParser.stringInput();
+    while (!inputValidator.isNonEmptyString(description)) {
+      outputHandler.printInvalidRecipeDescription();
+    }
+    return description;
+  }
+
+  /**
+   * <p>Prompts the user for the instructions of the recipe to be added.</p>
+   * <p>If the user provides an empty string, an error message is displayed.</p>
+
+   * @return instructions of the recipe
+   */
+  private String getInstructionInput() {
+    outputHandler.promptForRecipeInstruction();
+    String instructions = inputParser.stringInput();
+    while (!inputValidator.isNonEmptyString(instructions)) {
+      outputHandler.printInvalidRecipeInstructions();
+      instructions = inputParser.stringInput();
+    }
+    return instructions;
+  }
+
+  /**
+   * <p>Prompts the user for the number of servings for the recipe to be added.</p>
+   * <p>If the user provides a negative value, an error message is displayed.</p>
+
+   * @return number of servings for the recipe
+   */
+  private double getServingsInput() {
+    outputHandler.promptForRecipeServings();
+    double servings = inputParser.doubleInput();
+    while (!inputValidator.isPositiveDouble(servings)) {
+      outputHandler.printInvalidServings();
+      servings = inputParser.doubleInput();
+    }
+    return servings;
+  }
+
+  /**
+   * <p>Handles the addition of a recipe. If the user confirms the operation, the recipe is added.
+   * If the user chooses to abort the operation, a message is displayed.</p>
+
+   * @param nameOfRecipe name of the recipe
+   * @param description description of the recipe
+   * @param instructions instructions for the recipe
+   * @param servings number of servings for the recipe
+   */
+  private void handleRecipeAddition(String nameOfRecipe, String description,
+                                    String instructions, double servings) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+      pressAnyKeyToContinue();
+    } else {
+      recipeBook.addRecipe(nameOfRecipe, description, instructions, servings);
+      handleAdditionOfIngredients(nameOfRecipe);
+      outputHandler.addedRecipe(nameOfRecipe);
+    }
+  }
+
+  /**
+   * <p>Handles the addition of ingredients to a recipe.
+   * The user is prompted for the number of ingredients
+   * to be added to the recipe. The user is then prompted for the name,
+   * quantity, and unit of each ingredient.</p>
+   * <p>If the user provides invalid values, an error message is displayed.</p>
+   * <p>Once all ingredients are added, the recipe is updated with the new ingredients.</p>
+
+   * @param nameOfRecipe name of the recipe
+   */
+  private void handleAdditionOfIngredients(String nameOfRecipe) {
+    int numberOfIngredients = getNumberOfIngredientsInput();
+
+    for (int i = 0; i < numberOfIngredients; i++) {
+      String ingredientName = getIngredientNameInput();
+      double quantity = getQuantityInput();
+      String unit = getUnitInput();
+      recipeBook.addIngredientToRecipe(nameOfRecipe, ingredientName, quantity, unit);
+    }
+  }
+
+  /**
+   * <p>Prompts the user for the number of ingredients to be added to the recipe.</p>
+   * <p>If the user provides a negative value, an error message is displayed.</p>
+
+   * @return number of ingredients to be added to the recipe
+   */
+  private int getNumberOfIngredientsInput() {
+    outputHandler.promptForRecipeIngredients();
+    int numberOfIngredients = inputParser.intInput();
+    while (!inputValidator.isPositiveInteger(numberOfIngredients)) {
+      outputHandler.printInvalidNumberOfIngredients();
+      numberOfIngredients = inputParser.intInput();
+    }
+    return numberOfIngredients;
+  }
+
+  /**
    * <p>Removes a recipe from the recipe book through user interaction.</p>
-   *
-   * <p>This method prompts the user for the name of the recipe to be removed.</p>
-   * <p>If the recipe is found, the user is prompted to confirm the operation.</p>
-   * <p>If the user chooses to abort the operation, a message is displayed.</p>
    * <p>If the recipe does not exist, an error message is displayed.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.removeRecipe();</code></pre>
-   * </p>
    */
   public void removeRecipe() {
     try {
-      output.promptForRecipeName();
-      String name = inputParser.stringInput();
-      if (inputValidator.recipeNotExists(recipeBook, name)) {
-        output.printRecipeNotFound(name);
+      String name = getRecipeNameInput();
+      if (!recipeBook.isRecipeExisting(name)) {
+        outputHandler.printRecipeNotFound(name);
       } else {
-        output.printWarning();
-        if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-          output.printAbortOperationMessage();
-        } else {
-          recipeBook.removeRecipe(name);
-          output.removedRecipe(name);
-        }
+        handleRecipeRemoval(name);
       }
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
+      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      output.printError(e.getMessage());
+      outputHandler.printError(e.getMessage());
+    }
+  }
+
+  /**
+   * <p>Handles the removal of a recipe. If the user confirms the operation, the recipe is removed.
+   * If the user chooses to abort the operation, a message is displayed.</p>
+
+   * @param name recipe name
+   */
+  private void handleRecipeRemoval(String name) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+    } else {
+      recipeBook.removeRecipe(name);
+      outputHandler.removedRecipe(name);
     }
   }
 
@@ -658,28 +650,23 @@ public class UserInterface {
    * <p>Finds a recipe by its name.
    * If the recipe is found, all its details are displayed.
    * If the recipe does not exist, an error message is displayed.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.findRecipe();</code></pre>
    */
   public void findRecipe() {
-    output.promptForRecipeName();
-    String name = inputParser.stringInput();
+    String name = getRecipeNameInput();
 
-    if (inputValidator.recipeExists(recipeBook, name)) {
-
-      output.printRecipeDetails(
+    if (!recipeBook.isRecipeExisting(name)) {
+      outputHandler.printRecipeNotFound(name);
+    } else {
+      outputHandler.printRecipeDetails(
           recipeBook.getRecipe(name).getName(),
           recipeBook.getRecipe(name).getDescription(),
           recipeBook.getRecipe(name).getInstruction(),
           recipeBook.getRecipe(name).getServings());
 
       recipeBook.getRecipe(name).getRequiredIngredients().forEachRemaining(ingredient ->
-          output.printRecipeIngredients(ingredient.getName(),
+          outputHandler.printRecipeIngredients(ingredient.getName(),
               ingredient.getQuantity(), ingredient.getUnit())
       );
-    } else {
-      output.printRecipeNotFound(name);
     }
     pressAnyKeyToContinue();
   }
@@ -690,112 +677,112 @@ public class UserInterface {
    *
    * <p>If there are no recipes in the book, a message is displayed
    * to inform the user that the book is empty.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.displayRecipes();</code></pre>
-   * </p>
    */
   public void displayRecipes() {
     Iterator<String> recipesIterator = recipeBook.getListOfRecipes();
     boolean hasRecipes = recipesIterator != null && recipesIterator.hasNext();
-    output.printListOfRecipes(recipesIterator, hasRecipes);
+    outputHandler.printListOfRecipes(recipesIterator, hasRecipes);
     pressAnyKeyToContinue();
   }
 
   /**
    * <p>Checks if a recipe can be made based on the ingredients available in the storage.</p>
-   *
-   * <p>This method prompts the user for the name of the recipe to be checked.</p>
    * <p>If the recipe does not exist, an error message is displayed.</p>
-   * <p>If the recipe exists, the method checks if all the required ingredients are available
-   * in the storage and in the required quantity.</p>
-   *
-   * <p>If all ingredients are available in the required quantity, a message is displayed
-   * to inform the user that the recipe can be made.</p>
-   * <p>If any ingredient is missing or not available in
-   * the required quantity, a message is displayed
-   * to inform the user that the recipe cannot be made.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.checkIfRecipeCanBeMade();</code></pre>
-   * </p>
    */
   public void checkIfRecipeCanBeMade() {
-    output.promptForRecipeName();
-    String name = inputParser.stringInput();
+    String name = getRecipeNameInput();
 
-    if (!inputValidator.recipeExists(recipeBook, name)) {
-      output.printRecipeNotFound(name);
+    if (!recipeBook.isRecipeExisting(name)) {
+      outputHandler.printRecipeNotFound(name);
       return;
     }
-    Iterator<Ingredient> requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients();
+    evaluateRecipeAvailability(name);
+  }
 
-    if (inputValidator.allIngredientsValid(foodStorage, requiredIngredients)) {
-      output.printRecipeCanBeMade(name);
+  /**
+   * <p>Evaluates if a recipe can be made based on the ingredients available in the storage.
+   * If the recipe can be made, a message is displayed
+   * to inform the user that the recipe can be made.
+   * If the recipe cannot be made, a message is displayed
+   * to inform the user that the recipe cannot be made.</p>
+
+   * @param name recipe name
+   */
+  private void evaluateRecipeAvailability(String name) {
+    if (recipeBook.canRecipeBeMade(name, foodStorage)) {
+      outputHandler.printRecipeCanBeMade(name);
     } else {
-      requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients(); // Reset iterator
-      while (requiredIngredients.hasNext()) {
-        Ingredient requiredIngredient = requiredIngredients.next();
-        String ingredientName = requiredIngredient.getName();
-        double requiredQuantity = requiredIngredient.getQuantity();
-        String requiredUnit = requiredIngredient.getUnit();
-
-        if (!inputValidator.ingredientExists(foodStorage, ingredientName)) {
-          output.printMissingIngredient(requiredQuantity, requiredUnit, ingredientName);
-        } else if (!inputValidator.hasSufficientQuantity(foodStorage,
-            ingredientName, requiredQuantity)) {
-          Ingredient availableIngredient = foodStorage.getIngredient(ingredientName);
-          double availableQuantity = availableIngredient.getQuantity();
-          String availableUnit = availableIngredient.getUnit();
-
-          output.printInsufficientIngredientAmount(
-              requiredQuantity, requiredUnit, ingredientName, availableQuantity, availableUnit);
-        }
-      }
-      output.printRecipeCannotBeMade(name);
+      outputHandler.printRecipeCannotBeMade(name);
+      processMissingIngredients(name);
     }
-    pressAnyKeyToContinue();
+  }
+
+  /**
+   * <p>Processes missing ingredients for a recipe.
+   * If an ingredient is missing, a message is displayed to inform the user
+   * that the ingredient is missing.
+   * If an ingredient is insufficient, a message
+   * is displayed to inform the user that the ingredient is insufficient.</p>
+
+   * @param name recipe name
+   */
+  private void processMissingIngredients(String name) {
+    Iterator<Ingredient> requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients();
+    while (requiredIngredients.hasNext()) {
+      Ingredient requiredIngredient = requiredIngredients.next();
+
+      if (recipeBook.isIngredientMissing(requiredIngredient, foodStorage)) {
+        outputHandler.printMissingIngredient(
+            requiredIngredient.getQuantity(),
+            requiredIngredient.getUnit(),
+            requiredIngredient.getName()
+        );
+      } else if (recipeBook.isIngredientInsufficient(requiredIngredient, foodStorage)) {
+        Ingredient availableIngredient = foodStorage.getIngredient(requiredIngredient.getName());
+        outputHandler.printInsufficientIngredientAmount(
+            requiredIngredient.getQuantity(),
+            requiredIngredient.getUnit(),
+            requiredIngredient.getName(),
+            availableIngredient.getQuantity(),
+            availableIngredient.getUnit()
+        );
+      }
+    }
   }
 
   /**
    * <p>Changes the serving size of a recipe through user interaction.</p>
-   *
-   * <p>This method prompts the user for the name of the recipe and the new serving size.</p>
    * <p>If the recipe does not exist, an error message is displayed.</p>
-   * <p>If the recipe exists, the method updates
-   * the required ingredients to match the new serving size.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.changeServing();</code></pre>
-   * </p>
    */
   public void changeServing() {
     try {
-      output.promptForRecipeName();
-      String name = inputParser.stringInput();
+      String name = getRecipeNameInput();
 
-      if (!inputValidator.recipeExists(recipeBook, name)) {
-        output.printRecipeNotFound(name);
+      if (!recipeBook.isRecipeExisting(name)) {
+        outputHandler.printRecipeNotFound(name);
         pressAnyKeyToContinue();
         return;
       }
-      output.promptForNewServing();
-      double newServing = inputParser.doubleInput();
+      double newServing = getServingsInput();
 
-      output.printWarning();
-      if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-        output.printAbortOperationMessage();
-        return;
-      }
-      recipeBook.updateServing(name, newServing);
-      output.printUpdatedServing(name);
-
+      handleNewServing(name, newServing);
       pressAnyKeyToContinue();
 
     } catch (IllegalArgumentException e) {
-      output.printInvalidInput(e.getMessage());
+      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      output.printError(e.getMessage());
+      outputHandler.printError(e.getMessage());
+    }
+  }
+
+  private void handleNewServing(String name, double newServing) {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+      pressAnyKeyToContinue();
+    } else {
+      recipeBook.updateServing(name, newServing);
+      outputHandler.printUpdatedServing(name);
     }
   }
 
@@ -806,63 +793,33 @@ public class UserInterface {
    * methods based on the user's input.
    * The application will keep running until the user chooses to exit.
    * </p>
-   * <p>
-   * The available options allow the user to:
-   * <ul>
-   *   <li>Access the food storage menu</li>
-   *   <li>Access the recipe book menu</li>
-   *   <li>Add an ingredient</li>
-   *   <li>Remove an ingredient</li>
-   *   <li>Reduce the quantity of an ingredient</li>
-   *   <li>Change the description of an ingredient</li>
-   *   <li>Change the price of an ingredient</li>
-   *   <li>Change the unit of an ingredient</li>
-   *   <li>Find an ingredient</li>
-   *   <li>Display a list of all ingredients</li>
-   *   <li>Display ingredients in alphabetical order</li>
-   *   <li>Display expired ingredients</li>
-   *   <li>Display ingredients based on a specific expiration date</li>
-   *   <li>Display the total value of all ingredients</li>
-   *   <li>Display the total value of expired ingredients</li>
-   *   <li>Add a recipe</li>
-   *   <li>Remove a recipe</li>
-   *   <li>Change the serving size of a recipe</li>
-   *   <li>Find a recipe</li>
-   *   <li>Display a list of all recipes</li>
-   *   <li>Check if a recipe can be made</li>
-   *   <li>Exit the application</li>
-   * </ul>
-   * </p>
    *
-   * <p><b>Example of usage:</b></p>
-   * <pre><code>userInterface.userInput();</code></pre>
    */
   public void userInput() {
-    output.printMainMenu();
+    outputHandler.printMainMenu();
     boolean running = true;
     while (running) {
       String userChoice = inputParser.stringInput();
 
       switch (userChoice.toLowerCase()) {
         case "0" -> {
-          output.printExitWarning();
+          outputHandler.printExitWarning();
           if (inputValidator.isExiting(inputParser.stringInput())) {
-            output.printExitMessage();
+            outputHandler.printExitMessage();
             inputParser.close();
             running = false;
           } else {
-            output.printAbortOperationMessage();
-            output.printMainMenu();
+            outputHandler.printAbortOperationMessage();
+            outputHandler.printMainMenu();
           }
         }
-        case "/main" -> output.printMainMenu();
-        case "/storage" -> output.printFoodStorageMenu();
-        case "/recipes" -> output.printRecipeBookMenu();
+        case "/main" -> outputHandler.printMainMenu();
+        case "/storage" -> outputHandler.printFoodStorageMenu();
+        case "/recipes" -> outputHandler.printRecipeBookMenu();
         case "/add-ing" -> addIngredient();
-        case "/edit-desc" -> changeDescription();
         case "/edit-price" -> changePrice();
         case "/del-ing" -> removeIngredient();
-        case "/reduce-ing" -> reduceIngredient();
+        case "/reduce-ing" -> reduceQuantity();
         case "/edit-unit" -> changeUnit();
         case "/list-ing" -> displayListOfIngredients();
         case "/find-ing" -> findIngredient();
@@ -878,7 +835,7 @@ public class UserInterface {
         case "/list-rec" -> displayRecipes();
         case "/check-rec" -> checkIfRecipeCanBeMade();
         default -> {
-          output.printInvalidInput(userChoice);
+          outputHandler.printInvalidInput(userChoice);
           pressAnyKeyToContinue();
         }
       }

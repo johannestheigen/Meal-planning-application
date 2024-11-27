@@ -8,23 +8,10 @@ import java.util.Scanner;
  * <p>The InputParser class is used to read different types of input from the user.
  *  It helps the user provide data in various formats (strings, numbers, dates)
  *  and checks that the input is valid.</p>
- *
- *<p>This class provides the following methods: </p>
- * <li>stringInput: Reads a line of text from the user.</li>
- * <li>doubleInput: Reads a number and checks it's a valid double.</li>
- * <li>intInput: Reads a number and checks it's a valid integer.</li>
- * <li>expirationDateInput: Reads a date and
- * makes sure it's in the correct format (yyyy-MM-dd).</li>
- *
- *
- * <p>The input methods validates the user input, and if the input is invalid
- * (e.g., incorrect date format),
- * the method will continue prompting the user until valid input is provided.</p>
- * The <b>close</b> method ends the user interaction when the application finishes running.
- *
+
  * @author Johannes Nupen Theigen
- * @version 0.0.3
- * @since 11.21.2024
+ * @version 0.0.4
+ * @since 11.27.2024
  */
 
 public class InputParser {
@@ -42,11 +29,6 @@ public class InputParser {
    *
    * <p>The <b>Scanner</b> will remain open until the program
    * finishes</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   *      <pre><code>
-   *       input = new InputParser();;
-   *      </code></pre>
    */
   public InputParser() {
     reader = new Scanner(System.in);
@@ -56,11 +38,6 @@ public class InputParser {
    * <p>Reads a line of text from the console and returns it as a string.</p>
    *
    * @return the input string provided by the user.
-   *
-     <p><b>Example of usage:</b></p>
-     <pre><code>
-     String userInput = input.stringInput();
-     </code></pre>
    */
   public String stringInput() {
     return reader.nextLine();
@@ -71,11 +48,6 @@ public class InputParser {
    *  The method keeps prompting the user until a valid double value is entered.</p>
    *
    * @return the input double numerical value provided by the user.
-   *
-     <p><b>Example of usage:</b></p>
-   *          <pre><code>
-   *         double value = input.doubleInput();
-   *         </code></pre>
    */
   public double doubleInput() {
     while (true) {
@@ -93,11 +65,6 @@ public class InputParser {
    * The method keeps prompting the user until a valid integer is entered.</p>
    *
    * @return the input integer value provided by the user.
-   *
-     <p><b>Example of usage:</b></p>
-     <pre><code>
-     int value = input.intInput();
-     </code></pre>
    */
   public int intInput() {
     while (true) {
@@ -115,11 +82,6 @@ public class InputParser {
    * The method keeps prompting the user until a valid expiration date is entered.</p>
    *
    * @return the input as LocalDate provided by the user.
-   *
-      <p><b>Example of usage:</b></p>
-         <pre><code>
-        LocalDate expirationDate = input.expirationDateInput();
-        </code></pre>
    */
   public LocalDate expirationDateInput() {
     LocalDate expirationDate = null;
@@ -135,12 +97,7 @@ public class InputParser {
   }
 
   /**
-   * <p>Closes the Scanner when the application is finished running.</p>
-   *
-   * <p><b>Example of usage:</b></p>
-   *          <pre><code>
-   *         InputParser.close();
-   *         </code></pre>
+   * <p>Closes the Scanner object when the application is finished running.</p>
    */
   public void close() {
     reader.close();
