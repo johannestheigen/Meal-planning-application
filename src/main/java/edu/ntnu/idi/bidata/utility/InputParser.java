@@ -10,8 +10,8 @@ import java.util.Scanner;
  *  and checks that the input is valid.</p>
 
  * @author Johannes Nupen Theigen
- * @version 0.0.5
- * @since 11.28.2024
+ * @version 0.0.4
+ * @since 11.27.2024
  */
 
 public class InputParser {

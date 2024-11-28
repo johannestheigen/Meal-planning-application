@@ -1,7 +1,5 @@
 package edu.ntnu.idi.bidata.register;
 
-import edu.ntnu.idi.bidata.common.Unit;
-import edu.ntnu.idi.bidata.common.UnitConverter;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -16,8 +14,8 @@ import java.util.Map;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.9
- * @since 11.28.2024
+ * @version 0.2.8
+ * @since 11.27.2024
  */
 public class FoodStorage {
 
@@ -46,19 +44,17 @@ public class FoodStorage {
      and <code>false</code> if the ingredient already exists in the storage.
    */
   public boolean addIngredient(String name, double quantity,
-                               Unit unit, double price, LocalDate expirationDate) {
+                               String unit, double price, LocalDate expirationDate) {
 
     Ingredient newIngredient = new Ingredient(name,
         quantity, unit, price, expirationDate);
     String ingredientName = newIngredient.getName();
 
     if (storage.containsKey(ingredientName)) {
-      handleExistingIngredient(ingredientName, newIngredient, expirationDate);
-    } else {
-      storage.put(ingredientName, newIngredient);
+      return handleExistingIngredient(ingredientName, newIngredient, quantity, expirationDate);
     }
-    UnitConverter.adjustUnitIfNeeded(newIngredient);
-    return true;
+    storage.put(ingredientName, newIngredient);
+    return false;
   }
 
   /**
@@ -72,12 +68,13 @@ public class FoodStorage {
 
    * @param ingredientName the name of the ingredient
    * @param newIngredient the new ingredient to be added
+   * @param quantity the quantity of the new ingredient
    * @param expirationDate the expiration date of the new ingredient
    * @return <code>true</code> if the existing ingredient is successfully handled,
      and <code>false</code> if the existing ingredient is null.
    */
   private boolean handleExistingIngredient(String ingredientName, Ingredient newIngredient,
-                                           LocalDate expirationDate) {
+                                           double quantity, LocalDate expirationDate) {
     Ingredient existingIngredient = storage.get(ingredientName);
     LocalDate existingExpirationDate = existingIngredient.getExpirationDate();
 
@@ -89,62 +86,33 @@ public class FoodStorage {
       String newKeyForNewIngredient = ingredientName + "_" + expirationDate;
       storage.put(newKeyForNewIngredient, newIngredient);
     } else {
-      mergeIngredient(existingIngredient, newIngredient);
+      mergeIngredient(quantity, existingIngredient, newIngredient);
     }
     return true;
   }
 
   /**
-   * <p>Merges an existing ingredient with a new ingredient.
-   * The method calculates the new price of the ingredient based on the weighted average price
-   * of the existing and new ingredient.</p>
-   * <p>The method also adjusts the unit of the existing ingredient if needed.</p>
-   *
+   * <p>Merges two ingredients together by updating the quantity and
+   * price of the existing ingredient.</p>
+   * <p>The new quantity is the sum of the existing quantity and the new quantity.
+   * The new price is the average of the existing price and the new price.</p>
+
+   * @param quantity the quantity of the new ingredient
    * @param existingIngredient the existing ingredient
    * @param newIngredient the new ingredient
-   * @return <code>true</code> if the existing ingredient is successfully
-     merged with the new ingredient,
-     and <code>false</code> if the existing ingredient is null.
+   * @return <code>true</code> if the ingredients are successfully merged,
+     and <code>false</code> if either of the ingredients is null.
    */
-  private boolean mergeIngredient(Ingredient existingIngredient, Ingredient newIngredient) {
-    if (existingIngredient == null) {
+  private boolean mergeIngredient(double quantity, Ingredient existingIngredient,
+                                  Ingredient newIngredient) {
+    if (existingIngredient == null || newIngredient == null) {
       return false;
     }
-    if (!UnitConverter.isValidConversion(existingIngredient.getUnit(), newIngredient.getUnit())) {
-      return false;
-    }
-    calculateNewPrice(existingIngredient, newIngredient);
-    UnitConverter.adjustUnitIfNeeded(existingIngredient);
+    double updatedQuantity = existingIngredient.getQuantity() + quantity;
+    double updatedPrice = (existingIngredient.getPrice() + newIngredient.getPrice()) / 2.0;
+    existingIngredient.setQuantity(updatedQuantity);
+    existingIngredient.setPrice(updatedPrice);
     return true;
-  }
-
-  /**
-   * <p>Calculates the new price of an ingredient based on the weighted average price
-   * of the existing and new ingredient.</p>
-   * <p>The method calculates the price per base unit for both ingredients,
-   * sums the total quantity in base units, and calculates the weighted price per base unit.</p>
-   * <p>The total quantity and price are then updated for the existing ingredient.</p>
-
-   * @param existingIngredient the existing ingredient
-   * @param newIngredient the new ingredient
-   */
-  private static void calculateNewPrice(Ingredient existingIngredient, Ingredient newIngredient) {
-    double existingQuantityInBase =
-        existingIngredient.getUnit().toBase(existingIngredient.getQuantity());
-    double newQuantityInBase = newIngredient.getUnit().toBase(newIngredient.getQuantity());
-
-    double existingPricePerBaseUnit = existingIngredient.getPrice() / existingQuantityInBase;
-    double newPricePerBaseUnit = newIngredient.getPrice() / newQuantityInBase;
-
-    double totalQuantityInBase = existingQuantityInBase + newQuantityInBase;
-
-    double totalPriceInBase = (existingPricePerBaseUnit * existingQuantityInBase)
-        + (newPricePerBaseUnit * newQuantityInBase);
-
-    double weightedPricePerBaseUnit = totalPriceInBase / totalQuantityInBase;
-
-    existingIngredient.setQuantity(existingIngredient.getUnit().fromBase(totalQuantityInBase));
-    existingIngredient.setPrice(weightedPricePerBaseUnit * totalQuantityInBase);
   }
 
   /**
@@ -170,21 +138,24 @@ public class FoodStorage {
    */
 
   public boolean reduceQuantity(String ingredientName, double quantity) {
+    boolean ingredientFound = false;
+    boolean wasRemoved = false;
+
     Ingredient existingIngredient = storage.get(ingredientName);
 
-    if (existingIngredient == null) {
-      return false;
-    }
-    double newQuantity = existingIngredient.getQuantity() - quantity;
-    if (newQuantity <= 0) {
-      storage.remove(ingredientName);
-      return false;
-    }
-    existingIngredient.setQuantity(newQuantity);
-    UnitConverter.adjustUnitIfNeeded(existingIngredient);
-    return true;
-  }
+    if (existingIngredient != null) {
+      ingredientFound = true;
+      double newQuantity = existingIngredient.getQuantity() - quantity;
 
+      if (newQuantity <= 0) {
+        storage.remove(ingredientName);
+        wasRemoved = true;
+      } else {
+        existingIngredient.setQuantity(newQuantity);
+      }
+    }
+    return ingredientFound && !wasRemoved;
+  }
 
   /**
    * <p>Changes the price of an ingredient in the food storage.</p>
@@ -213,14 +184,12 @@ public class FoodStorage {
    * @return <code>true</code> if the ingredient exists and the unit is successfully changed,
      and <code>false</code> if the ingredient does not exist.
    */
-  public boolean updateUnit(String ingredientName, Unit newUnit) {
+  public boolean updateUnit(String ingredientName, String newUnit) {
     boolean ingredientFound = false;
     Ingredient existingIngredient = storage.get(ingredientName);
-
-    if (existingIngredient != null
-        && UnitConverter.isValidConversion(existingIngredient.getUnit(), newUnit)) {
+    if (existingIngredient != null) {
       ingredientFound = true;
-      UnitConverter.convertAmountBasedOnUnit(existingIngredient);
+      existingIngredient.setUnit(newUnit);
     }
     return ingredientFound;
   }
@@ -315,22 +284,6 @@ public class FoodStorage {
       totalValue += ingredient.getPrice() * ingredient.getQuantity();
     }
     return totalValue;
-  }
-
-  /**
-   * <p>Retrieves the total value of a single ingredient in the storage.</p>
-   * <p>The total value is calculated by multiplying the price of the ingredient
-   * with the quantity of the ingredient.</p>
-
-   * @param ingredientName the name of the ingredient
-   * @return the total value of the ingredient
-   */
-  public double getValueOfSingleIngredient(String ingredientName) {
-    Ingredient ingredient = storage.get(ingredientName);
-    if (ingredient == null) {
-      return 0;
-    }
-    return ingredient.getPrice() * ingredient.getQuantity();
   }
 
   /**
