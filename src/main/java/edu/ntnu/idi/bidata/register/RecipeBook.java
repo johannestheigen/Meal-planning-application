@@ -1,5 +1,6 @@
 package edu.ntnu.idi.bidata.register;
 
+import edu.ntnu.idi.bidata.common.Unit;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import edu.ntnu.idi.bidata.recipe.Recipe;
 import java.util.HashMap;
@@ -15,10 +16,9 @@ import java.util.Map;
  * <p>Instances of RecipeBook can be used to manage a collection of recipes.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.3
- * @since 11.27.2024
+ * @version 0.0.4
+ * @since 11.28.2024
  */
-
 public class RecipeBook {
   private final Map<String, Recipe> recipes;
 
@@ -73,7 +73,7 @@ public class RecipeBook {
    * @return true if the ingredient was added successfully, false if the recipe does not exist
    */
   public boolean addIngredientToRecipe(String recipeName, String ingredientName,
-                                       double quantity, String unit) {
+                                       double quantity, Unit unit) {
     Recipe existingRecipe = recipes.get(recipeName);
     if (existingRecipe == null) {
       return false;
@@ -189,7 +189,6 @@ public class RecipeBook {
     return availableIngredient.getQuantity() < requiredIngredient.getQuantity()
         || !availableIngredient.getUnit().equals(requiredIngredient.getUnit());
   }
-
 
   /**
    * <p>Return an Iterator that retrieves

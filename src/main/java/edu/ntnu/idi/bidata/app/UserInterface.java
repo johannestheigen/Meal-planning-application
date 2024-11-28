@@ -1,5 +1,7 @@
 package edu.ntnu.idi.bidata.app;
 
+import edu.ntnu.idi.bidata.common.Unit;
+import edu.ntnu.idi.bidata.common.UnitConverter;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import edu.ntnu.idi.bidata.register.FoodStorage;
 import edu.ntnu.idi.bidata.register.RecipeBook;
@@ -14,8 +16,8 @@ import java.util.Iterator;
  * application and the user.</p>
  *
  *
- * @version 0.3.4
- * @since 11.27.2024
+ * @version 0.3.5
+ * @since 11.28.2024
  */
 public class UserInterface {
 
@@ -37,6 +39,7 @@ public class UserInterface {
     outputHandler = new OutputHandler();
     inputParser = new InputParser();
     inputValidator = new InputValidator();
+    foodStorage.addIngredient("Milk", 900, Unit.MILLILITER, 0.2, LocalDate.of(2024, 12, 1));
     userInput();
   }
 
@@ -66,7 +69,7 @@ public class UserInterface {
 
       double quantity = getQuantityInput();
 
-      String unit = getUnitInput();
+      Unit unit = getUnitInput();
 
       double price = getPriceInput();
 
@@ -120,15 +123,20 @@ public class UserInterface {
 
    * @return unit of the ingredient
    */
-  private String getUnitInput() {
-    outputHandler.promptForUnit();
-    String unit = inputParser.stringInput();
-    while (!inputValidator.isValidUnit(unit)) {
+  private Unit getUnitInput() {
+    while (true) {
+      outputHandler.promptForUnit();
+      String input = inputParser.stringInput().trim();
+
+      for (Unit unit : Unit.values()) {
+        if (unit.name().equalsIgnoreCase(input) || unit.getSymbol().equalsIgnoreCase(input)) {
+          return unit;
+        }
+      }
       outputHandler.printInvalidUnit();
-      unit = inputParser.stringInput();
     }
-    return unit;
   }
+
 
   /**
    * <p>Prompts the user for the price of the ingredient to be added.</p>
@@ -172,19 +180,25 @@ public class UserInterface {
    * @param expirationDate ingredient expiration date
    */
   private void handleIngredientAddition(String name, double quantity,
-                                        String unit, double price, LocalDate expirationDate) {
+                                        Unit unit, double price, LocalDate expirationDate) {
     outputHandler.printWarning();
     if (inputValidator.isAbortOperation(inputParser.stringInput())) {
       outputHandler.printAbortOperationMessage();
       pressAnyKeyToContinue();
-    } else {
-      if (foodStorage.isIngredientExisting(name)) {
-        foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
-        outputHandler.printUpdatedQuantity(name);
-      } else {
-        foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
-        outputHandler.printAddedIngredient(name);
+      return;
+    }
+
+    if (foodStorage.isIngredientExisting(name)) {
+      Ingredient existingIngredient = foodStorage.getIngredient(name);
+      if (!UnitConverter.isValidConversion(existingIngredient.getUnit(), unit)) {
+        outputHandler.printInvalidUnitConversion(existingIngredient.getUnit(), unit);
+        return;
       }
+      foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
+      outputHandler.printUpdatedQuantity(name);
+    } else {
+      foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
+      outputHandler.printAddedIngredient(name);
     }
   }
 
@@ -234,7 +248,7 @@ public class UserInterface {
     try {
       String name = getIngredientNameInput();
       double quantity = getQuantityInput();
-      
+
       if (!foodStorage.isIngredientExisting(name)) {
         outputHandler.printIngredient(name, false);
       } else {
@@ -310,18 +324,20 @@ public class UserInterface {
   }
 
   /**
-   * <p>Changes the unit of an ingredient through user interaction.</p>
-   * <p>If the ingredient does not exist, an error message is displayed.</p>
+   * Changes the unit of an ingredient through user interaction.
+   * If the ingredient does not exist, an error message is displayed.
    */
   public void changeUnit() {
     try {
       String name = getIngredientNameInput();
+      Unit newUnit = getUnitInput();
+
       if (!foodStorage.isIngredientExisting(name)) {
         outputHandler.printIngredient(name, false);
-      } else {
-        String newUnit = getUnitInput();
-        handleUnitChange(name, newUnit);
+        return;
       }
+      Unit currentUnit = foodStorage.getIngredient(name).getUnit();
+      handleUnitChange(currentUnit, newUnit, name);
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
       outputHandler.printInvalidInput(e.getMessage());
@@ -338,7 +354,12 @@ public class UserInterface {
    * @param name ingredient name
    * @param newUnit new unit for the ingredient
    */
-  private void handleUnitChange(String name, String newUnit) {
+  private void handleUnitChange(Unit currentUnit, Unit newUnit, String name) {
+    if (!UnitConverter.isValidConversion(currentUnit, newUnit)) {
+      outputHandler.printInvalidUnitConversion(currentUnit, newUnit);
+      pressAnyKeyToContinue();
+      return;
+    }
     outputHandler.printWarning();
     if (inputValidator.isAbortOperation(inputParser.stringInput())) {
       outputHandler.printAbortOperationMessage();
@@ -359,7 +380,7 @@ public class UserInterface {
     if (foodStorage.isIngredientExisting(ingredientName)) {
       outputHandler.printIngredientDetails(ingredientName,
           foodStorage.getIngredient(ingredientName).getQuantity(),
-          foodStorage.getIngredient(ingredientName).getUnit(),
+          foodStorage.getIngredient(ingredientName).getUnit().getSymbol(),
           foodStorage.getIngredient(ingredientName).getPrice(),
           foodStorage.getIngredient(ingredientName).getExpirationDate());
     } else {
@@ -442,8 +463,22 @@ public class UserInterface {
    * <p>If there are no ingredients in the storage, a message is displayed
    * to inform the user that the storage is empty.</p>
    */
-  public void displayValueOfAllIngredients() {
-    outputHandler.printValueOfAllIngredients(foodStorage.getValueOfAllIngredients());
+  public void displayTotalValueOfAllIngredients() {
+    outputHandler.printTotalValueOfAllIngredients(foodStorage.getValueOfAllIngredients());
+    pressAnyKeyToContinue();
+  }
+
+  /**
+   * <p>Displays the value of a single ingredient present in the storage.
+   * This method calculates the total value of the ingredient based on its price and quantity,
+   * and then outputs the result.</p>
+   *
+   * <p>If the ingredient does not exist, an error message is displayed.</p>
+   */
+  public void displayTotalValueOfIngredient() {
+    String ingredientName = getIngredientNameInput();
+    outputHandler.printTotalValueOfIngredient(foodStorage
+        .getValueOfSingleIngredient(ingredientName));
     pressAnyKeyToContinue();
   }
 
@@ -456,8 +491,8 @@ public class UserInterface {
    * <p>If there are no expired ingredients in the storage, a message is displayed
    * to inform the user that there are no expired ingredients.</p>
    */
-  public void displayValueOfExpiredIngredients() {
-    outputHandler.printValueOfExpiredIngredients(foodStorage.getValueOfExpiredIngredients());
+  public void displayTotalValueOfExpiredIngredients() {
+    outputHandler.printTotalValueOfExpiredIngredients(foodStorage.getValueOfExpiredIngredients());
     pressAnyKeyToContinue();
   }
 
@@ -589,7 +624,7 @@ public class UserInterface {
     for (int i = 0; i < numberOfIngredients; i++) {
       String ingredientName = getIngredientNameInput();
       double quantity = getQuantityInput();
-      String unit = getUnitInput();
+      Unit unit = getUnitInput();
       recipeBook.addIngredientToRecipe(nameOfRecipe, ingredientName, quantity, unit);
     }
   }
@@ -826,8 +861,9 @@ public class UserInterface {
         case "/sort-ing" -> displayListOfIngredientsAlphabetically();
         case "/expired" -> displayListOfExpiredIngredients();
         case "/by-date" -> displayListOfIngredientsByExpirationDate();
-        case "/total-val" -> displayValueOfAllIngredients();
-        case "/expired-val" -> displayValueOfExpiredIngredients();
+        case "/total-val" -> displayTotalValueOfAllIngredients();
+        case "single-val" -> displayTotalValueOfIngredient();
+        case "/expired-val" -> displayTotalValueOfExpiredIngredients();
         case "/add-rec" -> addRecipe();
         case "/del-rec" -> removeRecipe();
         case "/edit-serv" -> changeServing();

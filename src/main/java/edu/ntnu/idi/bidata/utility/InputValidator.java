@@ -7,10 +7,9 @@ import edu.ntnu.idi.bidata.register.FoodStorage;
  * <p>It checks if the user input is valid or not.</p>
  * <p>It checks if the user input is in the correct format or not.</p>
  *
- *
  * @author Johannes Nupen Theigen
- * @version 0.0.7
- * @since 11.27.2024
+ * @version 0.0.8
+ * @since 11.28.2024
  */
 public class InputValidator {
 
@@ -87,20 +86,5 @@ public class InputValidator {
    */
   public boolean isNonEmptyString(String value) {
     return value != null && !value.trim().isEmpty();
-  }
-
-  /**
-   * <p>Checks if the provided String is a valid unit.</p>
-
-   * @param unit The unit to check
-   * @return true if the unit is valid, false otherwise
-   */
-  public boolean isValidUnit(String unit) {
-    return unit != null
-        && (unit.equalsIgnoreCase("g")
-        || unit.equalsIgnoreCase("kg")
-        || unit.equalsIgnoreCase("ml")
-        || unit.equalsIgnoreCase("l")
-        || unit.equalsIgnoreCase("pcs"));
   }
 }

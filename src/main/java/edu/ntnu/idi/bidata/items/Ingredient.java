@@ -1,5 +1,7 @@
 package edu.ntnu.idi.bidata.items;
 
+import edu.ntnu.idi.bidata.common.Unit;
+
 import java.time.LocalDate;
 
 /**
@@ -13,14 +15,14 @@ import java.time.LocalDate;
  * an organized collection of ingredients.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.5
- * @since 11.27.2024
+ * @version 0.1.6
+ * @since 11.28.2024
  */
 
 public class Ingredient {
   private String name;
   private double quantity;
-  private String unit;
+  private Unit unit;
   private double price;
   private LocalDate expirationDate;
 
@@ -35,7 +37,7 @@ public class Ingredient {
    * @param expirationDate the expiration date of an ingredient.
    */
   public Ingredient(String name,
-                    double quantity, String unit, double price, LocalDate expirationDate) {
+                    double quantity, Unit unit, double price, LocalDate expirationDate) {
     setName(name);
     setQuantity(quantity);
     setUnit(unit);
@@ -53,7 +55,7 @@ public class Ingredient {
    * @param quantity the quantity of an ingredient
    * @param unit the unit of an ingredient (gram, liter, etc.)
    */
-  public Ingredient(String name, Double quantity, String unit) {
+  public Ingredient(String name, Double quantity, Unit unit) {
     setName(name);
     setQuantity(quantity);
     setUnit(unit);
@@ -108,7 +110,7 @@ public class Ingredient {
 
    * @return the unit of an ingredient
    */
-  public String getUnit() {
+  public Unit getUnit() {
     return unit;
   }
 
@@ -118,17 +120,11 @@ public class Ingredient {
    * @param unit The unit cannot be null empty, and it must be kg, g, l or ml.
    * @throws IllegalArgumentException If the unit null, empty or invalid.
    */
-  public void setUnit(String unit) {
-    if (unit == null || unit.isEmpty()) {
+  public void setUnit(Unit unit) {
+    if (unit == null) {
       throw new IllegalArgumentException("The unit cannot be null or empty");
     }
-    if (unit.equalsIgnoreCase("kg") || unit.equalsIgnoreCase("g")
-        || unit.equalsIgnoreCase("l") || unit.equalsIgnoreCase("ml")
-        || unit.equalsIgnoreCase("pcs")) {
-      this.unit = unit;
-    } else {
-      throw new IllegalArgumentException("The unit must be kg, g, l, ml or pcs");
-    }
+    this.unit = unit;
   }
 
   /**

@@ -7,6 +7,8 @@
 package edu.ntnu.idi.bidata.items;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import edu.ntnu.idi.bidata.common.Unit;
 import org.junit.jupiter.api.*;
 import java.time.LocalDate;
 
@@ -19,7 +21,7 @@ class IngredientTest {
    */
   @BeforeEach
   void beforeEach() {
-    testIngredient = new Ingredient("Test Ingredient", 10, "kg", 100, LocalDate.of(2025, 1, 1));
+    testIngredient = new Ingredient("Test Ingredient", 10, Unit.KILOGRAM, 100, LocalDate.of(2025, 1, 1));
   }
 
   /**
@@ -51,14 +53,14 @@ class IngredientTest {
 
   @Test
   void setUnitForPositiveInput() {
-    testIngredient.setUnit("kg");
-    assertEquals("kg",testIngredient.getUnit(),"The output should be kg");
+    testIngredient.setUnit(Unit.KILOGRAM);
+    assertEquals(Unit.KILOGRAM,testIngredient.getUnit(),"The output should be" + Unit.KILOGRAM);
   }
 
   @Test
   void setUnitForNegativeInput() {
-    testIngredient.setUnit("kg");
-    assertNotEquals("mg",testIngredient.getUnit(),"The output should not be g");
+    testIngredient.setUnit(Unit.KILOGRAM);
+    assertNotEquals(Unit.GRAM,testIngredient.getUnit(),"The output should not be" + Unit.GRAM);
   }
 
   @Test

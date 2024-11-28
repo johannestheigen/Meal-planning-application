@@ -1,6 +1,8 @@
 package edu.ntnu.idi.bidata.recipe;
 
 import edu.ntnu.idi.bidata.items.Ingredient;
+import edu.ntnu.idi.bidata.common.Unit;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,8 +18,8 @@ import java.util.Iterator;
  * to maintain an organized collection of recipes.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.7
- * @since 11.27.2024
+ * @version 0.0.8
+ * @since 11.28.2024
  */
 public class Recipe {
   private String name;
@@ -130,14 +132,14 @@ public class Recipe {
    * @throws IllegalArgumentException if the name is null or empty,
      the quantity is less than or equal to 0, or the unit is null or empty.
    */
-  public void addIngredient(String name, double quantity, String unit) {
+  public void addIngredient(String name, double quantity, Unit unit) {
     if (name == null || name.isEmpty()) {
       throw new IllegalArgumentException("The ingredient name cannot be null or empty");
     }
     if (quantity <= 0) {
       throw new IllegalArgumentException("The quantity must be greater than 0");
     }
-    if (unit == null || unit.isEmpty()) {
+    if (unit == null) {
       throw new IllegalArgumentException("The unit cannot be null or empty");
     }
     requiredIngredients.add(new Ingredient(name, quantity, unit));

@@ -1,5 +1,7 @@
 package edu.ntnu.idi.bidata.utility;
 
+import edu.ntnu.idi.bidata.common.Unit;
+
 import java.time.LocalDate;
 import java.util.Iterator;
 
@@ -7,8 +9,8 @@ import java.util.Iterator;
  * Handles all printing tasks for the user interface, organizing messages into sections
  * for easy understanding and maintainability.
 
- * @version 0.2.3
- * @since 11.27.2024
+ * @version 0.2.4
+ * @since 11.28.2024
  */
 public class OutputHandler {
 
@@ -123,7 +125,7 @@ public class OutputHandler {
   }
 
   public void printInvalidUnit() {
-    System.out.println("Invalid unit. Please enter kg, g, ml, l or pcs.");
+    System.out.println("Invalid unit. Please enter kg, g, ml, or l.");
   }
 
   /**
@@ -159,6 +161,13 @@ public class OutputHandler {
    */
   public void printInvalidServings() {
     System.out.println("Invalid servings. Please enter a number greater than 0.");
+  }
+
+  /**
+   * <p>Prints a message that the conversion between two units is invalid.</p>
+   */
+  public void printInvalidUnitConversion(Unit currentUnit, Unit newUnit) {
+    System.out.println("Invalid unit conversion from " + currentUnit + " to " + newUnit);
   }
 
   /**
@@ -362,7 +371,7 @@ public class OutputHandler {
    * <p>Prints a message that prompts the user to enter the quantity of an ingredient.</p>
    */
   public void promptForUnit() {
-    System.out.println("Enter valid unit: kg, g, ml, l and pcs:");
+    System.out.println("Enter valid unit: kg, g, ml, or l:");
   }
 
   /**
@@ -387,8 +396,12 @@ public class OutputHandler {
    *
    * @param totalValue the calculated total value of all ingredients in storage.
    */
-  public void printValueOfAllIngredients(double totalValue) {
+  public void printTotalValueOfAllIngredients(double totalValue) {
     System.out.println("The value of your ingredients is: " + totalValue);
+  }
+
+  public void printTotalValueOfIngredient(double totalValue) {
+    System.out.println("The value of your ingredient is: " + totalValue);
   }
 
   /**
@@ -399,7 +412,7 @@ public class OutputHandler {
    *
    * @param totalValue the calculated total value of all expired ingredients in storage.
    */
-  public void printValueOfExpiredIngredients(double totalValue) {
+  public void printTotalValueOfExpiredIngredients(double totalValue) {
     System.out.println("The value of your expired ingredients is: " + totalValue);
   }
 
@@ -511,7 +524,7 @@ public class OutputHandler {
    * @param quantity the quantity of the ingredient
    * @param unit the unit of the ingredient
    */
-  public void printRecipeIngredients(String ingredientName, double quantity, String unit) {
+  public void printRecipeIngredients(String ingredientName, double quantity, Unit unit) {
     System.out.println("Ingredients: " + ingredientName + " " + quantity + " " + unit);
   }
 
@@ -542,9 +555,9 @@ public class OutputHandler {
    * @param requiredQuantity the required quantity of the ingredient
    * @param requiredUnit the required unit of the ingredient
    */
-  public void printInsufficientIngredientAmount(double availableQuantity, String availableUnit,
+  public void printInsufficientIngredientAmount(double availableQuantity, Unit availableUnit,
                                                 String ingredientName, double requiredQuantity,
-                                                String requiredUnit) {
+                                                Unit requiredUnit) {
     System.out.println("You have " + availableQuantity + " " + availableUnit
         + " of " + ingredientName + " but you need " + requiredQuantity + " " + requiredUnit);
   }
@@ -556,7 +569,7 @@ public class OutputHandler {
    * @param requiredUnit the required unit of the ingredient
    * @param ingredientName the name of the ingredient
    */
-  public void printMissingIngredient(double requiredQuantity, String requiredUnit,
+  public void printMissingIngredient(double requiredQuantity, Unit requiredUnit,
                                      String ingredientName) {
     System.out.println("You are missing " + requiredQuantity + " "
         + requiredUnit + " of " + ingredientName);

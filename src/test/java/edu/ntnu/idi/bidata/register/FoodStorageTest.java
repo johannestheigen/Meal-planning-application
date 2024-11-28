@@ -29,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import edu.ntnu.idi.bidata.items.Ingredient;
 import java.time.LocalDate;
 import java.util.Iterator;
+
+import edu.ntnu.idi.bidata.common.Unit;
 import org.junit.jupiter.api.*;
 
 class FoodStorageTest {
@@ -52,8 +54,8 @@ class FoodStorageTest {
    */
   @Test
   void addIngredientPositiveTest() {
-    foodStorageTest.addIngredient("Tomato",  1, "kg", 15.50, LocalDate.of(2024, 12, 1));
-    foodStorageTest.addIngredient("Tomato", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
+    foodStorageTest.addIngredient("Tomato",  1, Unit.KILOGRAM, 15.50, LocalDate.of(2024, 12, 1));
+    foodStorageTest.addIngredient("Tomato", 1, Unit.KILOGRAM, 15.50, LocalDate.of(2024, 12, 1));
 
     Ingredient addedIngredient = foodStorageTest.getIngredient("Tomato");
 
@@ -70,7 +72,7 @@ class FoodStorageTest {
    */
   @Test
   void addIngredientNegativeTest() {
-    foodStorageTest.addIngredient("Tomato", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
+    foodStorageTest.addIngredient("Tomato", 1, Unit.KILOGRAM, 15.50, LocalDate.of(2024, 12, 1));
 
     assertNotEquals("Tomata", foodStorageTest.getIngredient("Tomato").getName(), "The name should not be 'Tomata'.");
 
@@ -85,7 +87,7 @@ class FoodStorageTest {
    */
   @Test
   void updateQuantityPositiveTest() {
-    foodStorageTest.addIngredient("Apple",  2, "kg", 4.50, LocalDate.of(2024, 11, 1));
+    foodStorageTest.addIngredient("Apple",  2, Unit.KILOGRAM, 4.50, LocalDate.of(2024, 11, 1));
 
     foodStorageTest.reduceQuantity("Apple", 1);
 
@@ -103,7 +105,7 @@ class FoodStorageTest {
    */
   @Test
   void updateQuantityNegativeTest() {
-    foodStorageTest.addIngredient("Apple", 1, "kg", 4.50, LocalDate.of(2024, 11, 1));
+    foodStorageTest.addIngredient("Apple", 1, Unit.KILOGRAM, 4.50, LocalDate.of(2024, 11, 1));
 
     foodStorageTest.reduceQuantity("Apple", 1);
 
@@ -116,7 +118,7 @@ class FoodStorageTest {
    */
   @Test
   void updatePricePositiveTest() {
-    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,01,01));
+    foodStorageTest.addIngredient("Banana",1,Unit.KILOGRAM,5.50,LocalDate.of(2025,01,01));
 
     Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
     assertEquals(5.50,ingredientBeforeUpdate.getPrice(),"Expected the price of the ingredient to be 5.50 before the update");
@@ -133,7 +135,7 @@ class FoodStorageTest {
    */
   @Test
   void updatePriceNegativeTest() {
-    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,01,01));
+    foodStorageTest.addIngredient("Banana",1,Unit.KILOGRAM,5.50,LocalDate.of(2025,01,01));
 
     Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
     assertEquals(5.50,ingredientBeforeUpdate.getPrice(),"Expected the price of the ingredient to be 5.50 before the update");
@@ -155,7 +157,7 @@ class FoodStorageTest {
    */
   @Test
   void getIngredientPositiveTest() {
-    foodStorageTest.addIngredient("Tomato", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
+    foodStorageTest.addIngredient("Tomato", 1, Unit.KILOGRAM, 15.50, LocalDate.of(2024, 12, 1));
 
     Ingredient ingredient = foodStorageTest.getIngredient("Tomato");
 
@@ -180,8 +182,8 @@ class FoodStorageTest {
    */
   @Test
   void getListOfIngredientsPositiveTest() {
-    foodStorageTest.addIngredient("Tomato", 1, "kg", 2.50, LocalDate.of(2028, 1, 1));
-    foodStorageTest.addIngredient("Apple", 1, "kg", 1.50, LocalDate.of(2025, 1, 1));
+    foodStorageTest.addIngredient("Tomato", 1, Unit.KILOGRAM, 2.50, LocalDate.of(2028, 1, 1));
+    foodStorageTest.addIngredient("Apple", 1, Unit.KILOGRAM, 1.50, LocalDate.of(2025, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfIngredients();
 
@@ -202,8 +204,8 @@ class FoodStorageTest {
    */
   @Test
   void getListOfIngredientsNegativeTest() {
-    foodStorageTest.addIngredient("Tomato", 1, "kg", 2.50, LocalDate.of(2028, 1, 1));
-    foodStorageTest.addIngredient("Apple", 1, "kg", 1.50, LocalDate.of(2025, 1, 1));
+    foodStorageTest.addIngredient("Tomato", 1, Unit.KILOGRAM, 2.50, LocalDate.of(2028, 1, 1));
+    foodStorageTest.addIngredient("Apple", 1, Unit.KILOGRAM, 1.50, LocalDate.of(2025, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfIngredients();
 
@@ -225,8 +227,8 @@ class FoodStorageTest {
    */
   @Test
   void getListOfIngredientsAlphabeticallyPositiveTest() {
-    foodStorageTest.addIngredient("Avocado",  1, "kg", 5.50, LocalDate.of(2028, 1, 1));
-    foodStorageTest.addIngredient("Lemon", 1, "kg", 7.50, LocalDate.of(2024, 1, 1));
+    foodStorageTest.addIngredient("Avocado",  1, Unit.KILOGRAM, 5.50, LocalDate.of(2028, 1, 1));
+    foodStorageTest.addIngredient("Lemon", 1, Unit.KILOGRAM, 7.50, LocalDate.of(2024, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfIngredientsAlphabetically();
 
@@ -244,8 +246,8 @@ class FoodStorageTest {
 
   @Test
   void getListOfIngredientsAlphabeticallyNegativeTest() {
-    foodStorageTest.addIngredient("Avocado",  1, "kg", 5.50, LocalDate.of(2028, 1, 1));
-    foodStorageTest.addIngredient("Lemon",  1, "kg", 7.50, LocalDate.of(2024, 1, 1));
+    foodStorageTest.addIngredient("Avocado",  1, Unit.KILOGRAM, 5.50, LocalDate.of(2028, 1, 1));
+    foodStorageTest.addIngredient("Lemon",  1, Unit.KILOGRAM, 7.50, LocalDate.of(2024, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfIngredientsAlphabetically();
 
@@ -261,8 +263,8 @@ class FoodStorageTest {
    */
   @Test
   void getListOfExpiredIngredientsPositiveTest() {
-    foodStorageTest.addIngredient("Chocolate",  1, "kg", 10.50, LocalDate.of(2015, 1, 1));
-    foodStorageTest.addIngredient("Bread",  1, "kg", 7.50, LocalDate.of(2011, 1, 1));
+    foodStorageTest.addIngredient("Chocolate",  1, Unit.KILOGRAM, 10.50, LocalDate.of(2015, 1, 1));
+    foodStorageTest.addIngredient("Bread",  1, Unit.KILOGRAM, 7.50, LocalDate.of(2011, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfExpiredIngredients();
 
@@ -278,8 +280,8 @@ class FoodStorageTest {
    */
   @Test
   void getListOfExpiredIngredientsNegativeTest() {
-    foodStorageTest.addIngredient("Chocolate", 1, "kg", 10.50, LocalDate.of(2029, 1, 1));
-    foodStorageTest.addIngredient("Bread", 1, "kg", 7.50, LocalDate.of(2025, 1, 1));
+    foodStorageTest.addIngredient("Chocolate", 1, Unit.KILOGRAM, 10.50, LocalDate.of(2029, 1, 1));
+    foodStorageTest.addIngredient("Bread", 1, Unit.KILOGRAM, 7.50, LocalDate.of(2025, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfExpiredIngredients();
 
@@ -294,8 +296,8 @@ class FoodStorageTest {
   @Test
   void getListOfIngredientsByExpirationDatePositiveTest()
   {
-    foodStorageTest.addIngredient("Strawberry",  1, "kg", 5.50, LocalDate.of(2021, 1, 1));
-    foodStorageTest.addIngredient("Orange",  1, "kg", 7.50, LocalDate.of(2021, 1, 1));
+    foodStorageTest.addIngredient("Strawberry",  1, Unit.KILOGRAM, 5.50, LocalDate.of(2021, 1, 1));
+    foodStorageTest.addIngredient("Orange",  1, Unit.KILOGRAM, 7.50, LocalDate.of(2021, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfIngredientsByExpirationDate(LocalDate.of(2021, 1, 1));
 
@@ -314,8 +316,8 @@ class FoodStorageTest {
   @Test
   void getListOfIngredientsByExpirationDateNegativeTest() {
 
-    foodStorageTest.addIngredient("Strawberry", 1, "kg", 5.50, LocalDate.of(2026, 1, 1));
-    foodStorageTest.addIngredient("Orange",  1, "kg", 7.50, LocalDate.of(2026, 1, 1));
+    foodStorageTest.addIngredient("Strawberry", 1, Unit.KILOGRAM, 5.50, LocalDate.of(2026, 1, 1));
+    foodStorageTest.addIngredient("Orange",  1, Unit.KILOGRAM, 7.50, LocalDate.of(2026, 1, 1));
 
     Iterator<String> iterator = foodStorageTest.getListOfIngredientsByExpirationDate(LocalDate.of(2006, 1, 1));
 
@@ -328,8 +330,8 @@ class FoodStorageTest {
      */
   @Test
   void getValueOfAllIngredientsPositiveTest() {
-    foodStorageTest.addIngredient("Bacon",  13, "kg", 25.50, LocalDate.of(2026, 1, 1));
-    foodStorageTest.addIngredient("Milk",  5, "kg", 47.50, LocalDate.of(2026, 1, 1));
+    foodStorageTest.addIngredient("Bacon",  13, Unit.KILOGRAM, 25.50, LocalDate.of(2026, 1, 1));
+    foodStorageTest.addIngredient("Milk",  5, Unit.KILOGRAM, 47.50, LocalDate.of(2026, 1, 1));
 
     double expectedTotalValue = (13 * 25.50) + (5 * 47.50); // Total value of ingredients
 
@@ -344,8 +346,8 @@ class FoodStorageTest {
    */
   @Test
   void getValueOfAllIngredientsNegativeTest() {
-    foodStorageTest.addIngredient("Bacon", 13, "kg", 25.50, LocalDate.of(2026, 1, 1));
-    foodStorageTest.addIngredient("Milk",  5, "kg", 47.50, LocalDate.of(2026, 1, 1));
+    foodStorageTest.addIngredient("Bacon", 13, Unit.KILOGRAM, 25.50, LocalDate.of(2026, 1, 1));
+    foodStorageTest.addIngredient("Milk",  5, Unit.KILOGRAM, 47.50, LocalDate.of(2026, 1, 1));
 
     double expectedTotalValue = (13 * 25.50) + (5 * 47.50); // Total value of ingredients
 
@@ -362,8 +364,8 @@ class FoodStorageTest {
    */
   @Test
   void getValueOfExpiredIngredientsPositiveTest() {
-    foodStorageTest.addIngredient("Chocolate", 2, "kg", 10.00, LocalDate.of(2020, 1, 1));
-    foodStorageTest.addIngredient("Bread",  1, "kg", 3.50, LocalDate.of(2020, 1, 1));
+    foodStorageTest.addIngredient("Chocolate", 2, Unit.KILOGRAM, 10.00, LocalDate.of(2020, 1, 1));
+    foodStorageTest.addIngredient("Bread",  1, Unit.KILOGRAM, 3.50, LocalDate.of(2020, 1, 1));
 
     double expectedTotalValue = (2 * 10.00) + (1 * 3.50);
 
@@ -379,8 +381,8 @@ class FoodStorageTest {
    */
   @Test
   void getValueOfExpiredIngredientsNegativeTest() {
-    foodStorageTest.addIngredient("Chocolate", 2, "kg", 10.00, LocalDate.of(2025, 1, 1));
-    foodStorageTest.addIngredient("Bread", 1, "kg", 3.50, LocalDate.of(2025, 6, 1));
+    foodStorageTest.addIngredient("Chocolate", 2, Unit.KILOGRAM, 10.00, LocalDate.of(2025, 1, 1));
+    foodStorageTest.addIngredient("Bread", 1, Unit.KILOGRAM, 3.50, LocalDate.of(2025, 6, 1));
 
     double expectedTotalValue = 0.0;
 
