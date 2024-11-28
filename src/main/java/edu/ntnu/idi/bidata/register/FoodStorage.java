@@ -14,8 +14,8 @@ import java.util.Map;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.8
- * @since 11.27.2024
+ * @version 0.2.9
+ * @since 11.28.2024
  */
 public class FoodStorage {
 
@@ -57,21 +57,14 @@ public class FoodStorage {
     return false;
   }
 
-  /**
-   * <p>Handles the case where an ingredient already exists in the storage.
+  /*
+   * Handles the case where an ingredient already exists in the storage.
    * If the expiration date of the new ingredient is after the existing ingredient,
    * the existing ingredient is moved to a new key with the old expiration date.
    * If the expiration date of the new ingredient is before the existing ingredient,
    * the new ingredient is added to a new key with the new expiration date.
    * If the expiration date of the new ingredient is the same as the existing ingredient,
-   * the quantity of the existing ingredient is updated.</p>
-
-   * @param ingredientName the name of the ingredient
-   * @param newIngredient the new ingredient to be added
-   * @param quantity the quantity of the new ingredient
-   * @param expirationDate the expiration date of the new ingredient
-   * @return <code>true</code> if the existing ingredient is successfully handled,
-     and <code>false</code> if the existing ingredient is null.
+   * the quantity of the existing ingredient is updated.
    */
   private boolean handleExistingIngredient(String ingredientName, Ingredient newIngredient,
                                            double quantity, LocalDate expirationDate) {
@@ -91,17 +84,11 @@ public class FoodStorage {
     return true;
   }
 
-  /**
-   * <p>Merges two ingredients together by updating the quantity and
-   * price of the existing ingredient.</p>
-   * <p>The new quantity is the sum of the existing quantity and the new quantity.
-   * The new price is the average of the existing price and the new price.</p>
-
-   * @param quantity the quantity of the new ingredient
-   * @param existingIngredient the existing ingredient
-   * @param newIngredient the new ingredient
-   * @return <code>true</code> if the ingredients are successfully merged,
-     and <code>false</code> if either of the ingredients is null.
+  /*
+   * Merges two ingredients together by updating the quantity and
+   * price of the existing ingredient.
+   * The new quantity is the sum of the existing quantity and the new quantity.
+   * The new price is the average of the existing price and the new price.
    */
   private boolean mergeIngredient(double quantity, Ingredient existingIngredient,
                                   Ingredient newIngredient) {
@@ -119,7 +106,6 @@ public class FoodStorage {
    * <p>Removes an ingredient entirely from the food storage.</p>
    * <p>If the ingredient does not exist, the method will return <code>false</code></p>
 
-   * @param ingredientName the name of the ingredient to be removed.
    * @return <code>true</code> if the ingredient exists and is successfully removed,
      and <code>false</code> if the ingredient does not exist.
    */
@@ -228,10 +214,8 @@ public class FoodStorage {
   }
 
   /**
-   * <p>
-   *   Returns an iterator that can be used to retrieve a list of all ingredient names (keys)
-   *   in the storage, sorted alphabetically.
-   * </p>
+   * <p>Returns an iterator that can be used to retrieve a list of all ingredient names (keys)
+   * in the storage, sorted alphabetically.</p>
 
    * @return an iterator over the ingredient names (keys) in the storage, sorted alphabetically.
    */

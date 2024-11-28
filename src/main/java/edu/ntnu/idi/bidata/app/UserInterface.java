@@ -14,8 +14,8 @@ import java.util.Iterator;
  * application and the user.</p>
  *
  *
- * @version 0.3.4
- * @since 11.27.2024
+ * @version 0.3.5
+ * @since 11.28.2024
  */
 public class UserInterface {
 
@@ -81,11 +81,9 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Prompts the user for the name of the ingredient to be added.</p>
-   * <p>If the user provides an empty string, an error message is displayed.</p>
-
-   * @return name of the ingredient
+  /*
+   * Prompts the user for the name of the ingredient to be added.
+   * If the user provides an empty string, an error message is displayed.
    */
   private String getIngredientNameInput() {
     outputHandler.promptForIngredientName();
@@ -97,11 +95,10 @@ public class UserInterface {
     return name;
   }
 
-  /**
-   * <p>Prompts the user for the quantity of the ingredient to be added.</p>
-   * <p>If the user provides a negative value, an error message is displayed.</p>
+  /*
+   * Prompts the user for the quantity of the ingredient to be added.
+   * If the user provides a negative value, an error message is displayed.
 
-   * @return quantity of the ingredient
    */
   private double getQuantityInput() {
     outputHandler.promptForQuantity();
@@ -114,11 +111,9 @@ public class UserInterface {
     return quantity;
   }
 
-  /**
-   * <p>Prompts the user for the unit of the ingredient to be added.</p>
-   * <p>If the user provides an invalid unit, an error message is displayed.</p>
-
-   * @return unit of the ingredient
+  /*
+   * Prompts the user for the unit of the ingredient to be added.
+   * If the user provides an invalid unit, an error message is displayed.
    */
   private String getUnitInput() {
     outputHandler.promptForUnit();
@@ -130,11 +125,9 @@ public class UserInterface {
     return unit;
   }
 
-  /**
-   * <p>Prompts the user for the price of the ingredient to be added.</p>
-   * <p>If the user provides a negative value, an error message is displayed.</p>
-
-   * @return price of the ingredient
+  /*
+   * Prompts the user for the price of the ingredient to be added.
+   * If the user provides a negative value, an error message is displayed.
    */
   private double getPriceInput() {
     outputHandler.promptForPrice();
@@ -146,30 +139,20 @@ public class UserInterface {
     return price;
   }
 
-  /**
-   * <p>Prompts the user for the expiration date of the ingredient to be added.</p>
-   * <p>If the user provides an invalid date, an error message is displayed.</p>
-
-   * @return expiration date of the ingredient
+  /*
+   * Prompts the user for the expiration date of the ingredient to be added.
+   * If the user provides an invalid date, an error message is displayed.
    */
   private LocalDate getExpirationDateInput() {
     outputHandler.promptForExpirationDate();
     return inputParser.expirationDateInput();
   }
 
-  /**
-   * <p>Handles the addition of an ingredient. If the ingredient already exists in the storage,
-   * the quantity of the ingredient is updated. The user is prompted to confirm the operation.
-   * If the user chooses to abort the operation,
-   * a message is displayed. If the user confirms the operation,
-   * the quantity of the ingredient is updated.
-   * If the ingredient does not exist, it is added to the storage.</p>
-   *
-   * @param name ingredient name
-   * @param quantity ingredient quantity
-   * @param unit ingredient unit
-   * @param price ingredient price
-   * @param expirationDate ingredient expiration date
+
+  /*
+    * Handles the addition of an ingredient. If the user confirms the operation,
+    * the ingredient is added. If the user chooses to abort the operation, a message is displayed.
+    * If the ingredient already exists, the quantity of the ingredient is updated.
    */
   private void handleIngredientAddition(String name, double quantity,
                                         String unit, double price, LocalDate expirationDate) {
@@ -208,10 +191,10 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Handles the removal of an ingredient. If the user confirms the operation,
+  /*
+   * Handles the removal of an ingredient. If the user confirms the operation,
    * the ingredient is removed.
-   * If the user chooses to abort the operation, a message is displayed.</p>
+   * If the user chooses to abort the operation, a message is displayed.
 
    * @param name ingredient name
    */
@@ -227,8 +210,8 @@ public class UserInterface {
   }
 
   /**
-   * <p>Reduces the quantity of an ingredient in the storage through user interaction.</p>
-   * <p>If the ingredient does not exist, an error message is displayed.</p>
+   * <p>Reduces the quantity of an ingredient in the storage through user interaction.
+   * If the ingredient does not exist, an error message is displayed.</p>
    */
   public void reduceQuantity() {
     try {
@@ -248,13 +231,10 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Handles the reduction of an ingredient. If the ingredient's quantity becomes less than 1
+  /*
+   * Handles the reduction of an ingredient. If the ingredient's quantity becomes less than 1
    * after the reduction, the ingredient is completely removed from the storage.
-   * If the ingredient does not exist, an error message is displayed.</p>
-
-   * @param name ingredient name
-   * @param quantity quantity to reduce
+   * If the ingredient does not exist, an error message is displayed.
    */
   private void handleIngredientReduction(String name, double quantity) {
     outputHandler.printWarning();
@@ -291,13 +271,10 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Handles the change of price for an ingredient.
+  /*
+   * Handles the change of price for an ingredient.
    * If the user confirms the operation, the price of the ingredient is updated.
-   * If the user chooses to abort the operation, a message is displayed.</p>
-
-   * @param name ingredient name
-   * @param newPrice new price for the ingredient
+   * If the user chooses to abort the operation, a message is displayed.
    */
   private void handlePriceChange(String name, double newPrice) {
     outputHandler.printWarning();
@@ -330,14 +307,11 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Handles the change of unit for an ingredient.
+  /*
+   * Handles the change of unit for an ingredient.
    * If the user confirms the operation, the unit of the ingredient is updated.
-   * If the user chooses to abort the operation, a message is displayed.</p>
-
-   * @param name ingredient name
-   * @param newUnit new unit for the ingredient
-   */
+   * If the user chooses to abort the operation, a message is displayed.
+   * */
   private void handleUnitChange(String name, String newUnit) {
     outputHandler.printWarning();
     if (inputValidator.isAbortOperation(inputParser.stringInput())) {
@@ -353,7 +327,6 @@ public class UserInterface {
    * If the ingredient is found, all its details is displayed.
    * If the ingredient does not exist, an error message is displayed.</p>
    */
-
   public void findIngredient() {
     String ingredientName = getIngredientNameInput();
     if (foodStorage.isIngredientExisting(ingredientName)) {
@@ -488,11 +461,9 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Prompts the user for the name of the recipe to be added.</p>
-   * <p>If the user provides an empty string, an error message is displayed.</p>
-
-   * @return name of the recipe
+  /*
+   * Prompts the user for the name of the recipe to be added.
+   * If the user provides an empty string, an error message is displayed
    */
   private String getRecipeNameInput() {
     outputHandler.promptForRecipeName();
@@ -504,11 +475,9 @@ public class UserInterface {
     return nameOfRecipe;
   }
 
-  /**
-   * <p>Prompts the user for the description of the recipe to be added.</p>
-   * <p>If the user provides an empty string, an error message is displayed.</p>
-
-   * @return description of the recipe
+  /*
+   *Prompts the user for the description of the recipe to be added.
+   * If the user provides an empty string, an error message is displayed.
    */
   private String getDescriptionInput() {
     outputHandler.promptForRecipeDescription();
@@ -519,11 +488,9 @@ public class UserInterface {
     return description;
   }
 
-  /**
-   * <p>Prompts the user for the instructions of the recipe to be added.</p>
-   * <p>If the user provides an empty string, an error message is displayed.</p>
-
-   * @return instructions of the recipe
+  /*
+   * Prompts the user for the instructions of the recipe to be added.
+   * If the user provides an empty string, an error message is displayed.
    */
   private String getInstructionInput() {
     outputHandler.promptForRecipeInstruction();
@@ -535,11 +502,9 @@ public class UserInterface {
     return instructions;
   }
 
-  /**
-   * <p>Prompts the user for the number of servings for the recipe to be added.</p>
-   * <p>If the user provides a negative value, an error message is displayed.</p>
-
-   * @return number of servings for the recipe
+  /*
+   * Prompts the user for the number of servings for the recipe to be added.
+   * If the user provides a negative value, an error message is displayed.
    */
   private double getServingsInput() {
     outputHandler.promptForRecipeServings();
@@ -551,14 +516,9 @@ public class UserInterface {
     return servings;
   }
 
-  /**
-   * <p>Handles the addition of a recipe. If the user confirms the operation, the recipe is added.
-   * If the user chooses to abort the operation, a message is displayed.</p>
-
-   * @param nameOfRecipe name of the recipe
-   * @param description description of the recipe
-   * @param instructions instructions for the recipe
-   * @param servings number of servings for the recipe
+  /*
+   * Handles the addition of a recipe. If the user confirms the operation, the recipe is added.
+   * If the user chooses to abort the operation, a message is displayed.
    */
   private void handleRecipeAddition(String nameOfRecipe, String description,
                                     String instructions, double servings) {
@@ -573,16 +533,13 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Handles the addition of ingredients to a recipe.
+  /*
+   * Handles the addition of ingredients to a recipe.
    * The user is prompted for the number of ingredients
    * to be added to the recipe. The user is then prompted for the name,
-   * quantity, and unit of each ingredient.</p>
-   * <p>If the user provides invalid values, an error message is displayed.</p>
-   * <p>Once all ingredients are added, the recipe is updated with the new ingredients.</p>
-
-   * @param nameOfRecipe name of the recipe
-   */
+   * quantity, and unit of each ingredient.
+   * If the user provides invalid values, an error message is displayed.
+   * */
   private void handleAdditionOfIngredients(String nameOfRecipe) {
     int numberOfIngredients = getNumberOfIngredientsInput();
 
@@ -594,11 +551,9 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Prompts the user for the number of ingredients to be added to the recipe.</p>
-   * <p>If the user provides a negative value, an error message is displayed.</p>
-
-   * @return number of ingredients to be added to the recipe
+  /*
+   * Prompts the user for the number of ingredients to be added to the recipe.
+   * If the user provides a negative value, an error message is displayed.
    */
   private int getNumberOfIngredientsInput() {
     outputHandler.promptForRecipeIngredients();
@@ -630,11 +585,9 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Handles the removal of a recipe. If the user confirms the operation, the recipe is removed.
-   * If the user chooses to abort the operation, a message is displayed.</p>
-
-   * @param name recipe name
+  /*
+   * Handles the removal of a recipe. If the user confirms the operation, the recipe is removed.
+   * If the user chooses to abort the operation, a message is displayed.
    */
   private void handleRecipeRemoval(String name) {
     outputHandler.printWarning();
@@ -699,14 +652,12 @@ public class UserInterface {
     evaluateRecipeAvailability(name);
   }
 
-  /**
-   * <p>Evaluates if a recipe can be made based on the ingredients available in the storage.
+  /*
+   * Evaluates if a recipe can be made based on the ingredients available in the storage.
    * If the recipe can be made, a message is displayed
    * to inform the user that the recipe can be made.
    * If the recipe cannot be made, a message is displayed
-   * to inform the user that the recipe cannot be made.</p>
-
-   * @param name recipe name
+   * to inform the user that the recipe cannot be made.
    */
   private void evaluateRecipeAvailability(String name) {
     if (recipeBook.canRecipeBeMade(name, foodStorage)) {
@@ -717,14 +668,12 @@ public class UserInterface {
     }
   }
 
-  /**
-   * <p>Processes missing ingredients for a recipe.
+  /*
+   * Processes missing ingredients for a recipe.
    * If an ingredient is missing, a message is displayed to inform the user
    * that the ingredient is missing.
    * If an ingredient is insufficient, a message
-   * is displayed to inform the user that the ingredient is insufficient.</p>
-
-   * @param name recipe name
+   * is displayed to inform the user that the ingredient is insufficient.
    */
   private void processMissingIngredients(String name) {
     Iterator<Ingredient> requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients();
@@ -775,6 +724,11 @@ public class UserInterface {
     }
   }
 
+  /*
+   * Handles the change of serving size for a recipe.
+   * If the user confirms the operation, the serving size of the recipe is updated.
+   * If the user chooses to abort the operation, a message is displayed.
+   */
   private void handleNewServing(String name, double newServing) {
     outputHandler.printWarning();
     if (inputValidator.isAbortOperation(inputParser.stringInput())) {
