@@ -1,7 +1,5 @@
 package edu.ntnu.idi.bidata.utility;
 
-import edu.ntnu.idi.bidata.register.FoodStorage;
-
 /**
  *<p>This class is responsible for validating user input.</p>
  * <p>It checks if the user input is valid or not.</p>
@@ -9,8 +7,8 @@ import edu.ntnu.idi.bidata.register.FoodStorage;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.0.7
- * @since 11.27.2024
+ * @version 0.0.8
+ * @since 11.29.2024
  */
 public class InputValidator {
 
@@ -45,18 +43,6 @@ public class InputValidator {
    */
   public boolean isAnyKeyPressed(String userInput) {
     return userInput.isEmpty();
-  }
-
-  /**
-   * <p>Checks if an ingredient was reduced.</p>
-
-   * @param foodStorage The food storage
-   * @param name The name of the ingredient
-   * @param amount The amount of the ingredient
-   * @return true if the ingredient was reduced, false otherwise
-   */
-  public boolean ingredientWasReduced(FoodStorage foodStorage, String name, double amount) {
-    return foodStorage.getIngredient(name) != null;
   }
 
   /**
