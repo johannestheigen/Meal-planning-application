@@ -14,8 +14,8 @@ import java.util.Map;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.9
- * @since 11.28.2024
+ * @version 0.3.0
+ * @since 11.29.2024
  */
 public class FoodStorage {
 
@@ -51,7 +51,7 @@ public class FoodStorage {
     String ingredientName = newIngredient.getName();
 
     if (storage.containsKey(ingredientName)) {
-      return handleExistingIngredient(ingredientName, newIngredient, quantity, expirationDate);
+      handleExistingIngredient(ingredientName, newIngredient, quantity, expirationDate);
     }
     storage.put(ingredientName, newIngredient);
     return false;
@@ -70,14 +70,11 @@ public class FoodStorage {
                                            double quantity, LocalDate expirationDate) {
     Ingredient existingIngredient = storage.get(ingredientName);
     LocalDate existingExpirationDate = existingIngredient.getExpirationDate();
-
-    if (expirationDate.isAfter(existingExpirationDate)) {
-      String newKeyForExistingIngredient = ingredientName + "_" + existingExpirationDate;
-      storage.put(newKeyForExistingIngredient, existingIngredient);
+    if (expirationDate.isAfter(existingIngredient.getExpirationDate())) {
+      storage.put(ingredientName + "_" + existingExpirationDate, existingIngredient);
       storage.put(ingredientName, newIngredient);
     } else if (expirationDate.isBefore(existingExpirationDate)) {
-      String newKeyForNewIngredient = ingredientName + "_" + expirationDate;
-      storage.put(newKeyForNewIngredient, newIngredient);
+      storage.put(ingredientName + "_" + expirationDate, newIngredient);
     } else {
       mergeIngredient(quantity, existingIngredient, newIngredient);
     }
@@ -89,17 +86,19 @@ public class FoodStorage {
    * price of the existing ingredient.
    * The new quantity is the sum of the existing quantity and the new quantity.
    * The new price is the average of the existing price and the new price.
+   * If the units of the ingredients do not match, an exception is thrown.
    */
   private boolean mergeIngredient(double quantity, Ingredient existingIngredient,
                                   Ingredient newIngredient) {
     if (existingIngredient == null || newIngredient == null) {
       return false;
+    } else if (!existingIngredient.getUnit().equals(newIngredient.getUnit())) {
+      throw new IllegalArgumentException("The units of the ingredients do not match" + existingIngredient.getUnit() + " " + newIngredient.getUnit());
+    } else {
+      existingIngredient.setQuantity(existingIngredient.getQuantity() + quantity);
+      existingIngredient.setPrice((existingIngredient.getPrice() + newIngredient.getPrice()) / 2.0);
+      return true;
     }
-    double updatedQuantity = existingIngredient.getQuantity() + quantity;
-    double updatedPrice = (existingIngredient.getPrice() + newIngredient.getPrice()) / 2.0;
-    existingIngredient.setQuantity(updatedQuantity);
-    existingIngredient.setPrice(updatedPrice);
-    return true;
   }
 
   /**
