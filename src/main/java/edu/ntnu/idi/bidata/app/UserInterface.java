@@ -13,9 +13,8 @@ import java.util.Iterator;
  * <p>The UserInterface class manages interactions between the
  * application and the user.</p>
  *
- *
- * @version 0.3.5
- * @since 11.28.2024
+ * @version 0.3.6
+ * @since 11.29.2024
  */
 public class UserInterface {
 
@@ -37,6 +36,7 @@ public class UserInterface {
     outputHandler = new OutputHandler();
     inputParser = new InputParser();
     inputValidator = new InputValidator();
+    foodStorage.addIngredient("Milk", 1.0, "l", 20.0, LocalDate.of(2024, 12, 1));
     userInput();
   }
 
@@ -48,8 +48,25 @@ public class UserInterface {
   }
 
   /**
+   * <p>Aborts the operation if the user chooses to abort the operation.</p>
+   * <p>If the user chooses to abort the operation, a message is displayed.</p>
+
+   * @return true if the user chooses to abort the operation, false otherwise
+   */
+  private boolean abort() {
+    outputHandler.printWarning();
+    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
+      outputHandler.printAbortOperationMessage();
+      pressAnyKeyToContinue();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
    * <p>This method is used to after an operation is completed or aborted to
-   *  return the user to the main menu. The user is prompted to press any key</p>
+   * return the user to the main menu. The user is prompted to press any key</p>
    */
   public void pressAnyKeyToContinue() {
     outputHandler.printPressAnyKey();
@@ -94,6 +111,7 @@ public class UserInterface {
     }
     return name;
   }
+
 
   /*
    * Prompts the user for the quantity of the ingredient to be added.
@@ -150,24 +168,41 @@ public class UserInterface {
 
 
   /*
-    * Handles the addition of an ingredient. If the user confirms the operation,
-    * the ingredient is added. If the user chooses to abort the operation, a message is displayed.
-    * If the ingredient already exists, the quantity of the ingredient is updated.
+   * Handles the addition of an ingredient. If the user confirms the operation,
+   * the ingredient is added. If the user chooses to abort the operation, a message is displayed.
+   * If the ingredient already exists, the quantity of the ingredient is updated.
    */
   private void handleIngredientAddition(String name, double quantity,
                                         String unit, double price, LocalDate expirationDate) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
-      pressAnyKeyToContinue();
+    if (abort()) {
+      return;
+    }
+    if (foodStorage.isIngredientExisting(name)) {
+      Ingredient existingIngredient = foodStorage.getIngredient(name);
+      LocalDate existingExpirationDate = existingIngredient.getExpirationDate();
+
+      handleExpirationDate(existingExpirationDate, expirationDate);
+
+      foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
+      outputHandler.printUpdatedQuantity(name);
     } else {
-      if (foodStorage.isIngredientExisting(name)) {
-        foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
-        outputHandler.printUpdatedQuantity(name);
-      } else {
-        foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
-        outputHandler.printAddedIngredient(name);
-      }
+      foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
+      outputHandler.printAddedIngredient(name);
+    }
+  }
+
+  /*
+    * Handles the expiration date of an ingredient.
+    * If the new expiration date is before the existing expiration date,
+    * a message notifying the user that the user should smell or taste the ingredient is displayed.
+    * If the new expiration date is after the existing expiration date,
+    * a message is displayed to inform the user that the expiration date has been updated.
+   */
+  private void handleExpirationDate(LocalDate existingExpirationDate, LocalDate newExpirationDate) {
+    if (newExpirationDate.isBefore(existingExpirationDate)) {
+      outputHandler.printExpirationDateWarning(newExpirationDate, existingExpirationDate);
+    } else if (newExpirationDate.isAfter(existingExpirationDate)) {
+      outputHandler.printNewerExpirationDateUpdate(newExpirationDate, existingExpirationDate);
     }
   }
 
@@ -199,14 +234,11 @@ public class UserInterface {
    * @param name ingredient name
    */
   private void handleIngredientRemoval(String name) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
-      pressAnyKeyToContinue();
-    } else {
-      foodStorage.removeIngredient(name);
-      outputHandler.printRemovedIngredient(name);
+    if (abort()) {
+      return;
     }
+    foodStorage.removeIngredient(name);
+    outputHandler.printRemovedIngredient(name);
   }
 
   /**
@@ -217,7 +249,7 @@ public class UserInterface {
     try {
       String name = getIngredientNameInput();
       double quantity = getQuantityInput();
-      
+
       if (!foodStorage.isIngredientExisting(name)) {
         outputHandler.printIngredient(name, false);
       } else {
@@ -237,16 +269,14 @@ public class UserInterface {
    * If the ingredient does not exist, an error message is displayed.
    */
   private void handleIngredientReduction(String name, double quantity) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
+    if (abort()) {
+      return;
+    }
+    foodStorage.reduceQuantity(name, quantity);
+    if (foodStorage.getIngredient(name).getQuantity() > 0) {
+      outputHandler.printUpdatedQuantity(name);
     } else {
-      foodStorage.reduceQuantity(name, quantity);
-      if (inputValidator.ingredientWasReduced(foodStorage, name, quantity)) {
-        outputHandler.printUpdatedQuantity(name);
-      } else {
-        outputHandler.printRemovedIngredient(name);
-      }
+      outputHandler.printRemovedIngredient(name);
     }
   }
 
@@ -277,13 +307,11 @@ public class UserInterface {
    * If the user chooses to abort the operation, a message is displayed.
    */
   private void handlePriceChange(String name, double newPrice) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
-    } else {
-      foodStorage.updatePrice(name, newPrice);
-      outputHandler.printUpdatedPrice(name);
+    if (abort()) {
+      return;
     }
+    foodStorage.updatePrice(name, newPrice);
+    outputHandler.printUpdatedPrice(name);
   }
 
   /**
@@ -313,13 +341,11 @@ public class UserInterface {
    * If the user chooses to abort the operation, a message is displayed.
    * */
   private void handleUnitChange(String name, String newUnit) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
-    } else {
-      foodStorage.updateUnit(name, newUnit);
-      outputHandler.printUpdatedUnit(name);
+    if (abort()) {
+      return;
     }
+    foodStorage.updateUnit(name, newUnit);
+    outputHandler.printUpdatedUnit(name);
   }
 
   /**
@@ -522,15 +548,12 @@ public class UserInterface {
    */
   private void handleRecipeAddition(String nameOfRecipe, String description,
                                     String instructions, double servings) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
-      pressAnyKeyToContinue();
-    } else {
-      recipeBook.addRecipe(nameOfRecipe, description, instructions, servings);
-      handleAdditionOfIngredients(nameOfRecipe);
-      outputHandler.addedRecipe(nameOfRecipe);
+    if (abort()) {
+      return;
     }
+    recipeBook.addRecipe(nameOfRecipe, description, instructions, servings);
+    handleAdditionOfIngredients(nameOfRecipe);
+    outputHandler.addedRecipe(nameOfRecipe);
   }
 
   /*
@@ -590,13 +613,11 @@ public class UserInterface {
    * If the user chooses to abort the operation, a message is displayed.
    */
   private void handleRecipeRemoval(String name) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
-    } else {
-      recipeBook.removeRecipe(name);
-      outputHandler.removedRecipe(name);
+    if (abort()) {
+      return;
     }
+    recipeBook.removeRecipe(name);
+    outputHandler.removedRecipe(name);
   }
 
   /**
@@ -730,14 +751,11 @@ public class UserInterface {
    * If the user chooses to abort the operation, a message is displayed.
    */
   private void handleNewServing(String name, double newServing) {
-    outputHandler.printWarning();
-    if (inputValidator.isAbortOperation(inputParser.stringInput())) {
-      outputHandler.printAbortOperationMessage();
-      pressAnyKeyToContinue();
-    } else {
-      recipeBook.updateServing(name, newServing);
-      outputHandler.printUpdatedServing(name);
+    if (abort()) {
+      return;
     }
+    recipeBook.updateServing(name, newServing);
+    outputHandler.printUpdatedServing(name);
   }
 
   /**
