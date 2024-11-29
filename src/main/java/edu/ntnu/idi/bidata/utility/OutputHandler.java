@@ -7,8 +7,8 @@ import java.util.Iterator;
  * Handles all printing tasks for the user interface, organizing messages into sections
  * for easy understanding and maintainability.
 
- * @version 0.2.3
- * @since 11.27.2024
+ * @version 0.2.4
+ * @since 11.29.2024
  */
 public class OutputHandler {
 
@@ -178,6 +178,34 @@ public class OutputHandler {
    */
   public void printAddedIngredient(String name) {
     System.out.println("Successfully added " + name + " to the storage");
+  }
+
+  /**
+   *  <p>Prints a message when an ingredient as an expiration
+   *  date that is older than the current date.</p>
+
+   * @param newExpirationDate the new expiration date
+   * @param existingExpirationDate the existing expiration date
+   */
+  public void printExpirationDateWarning(LocalDate newExpirationDate,
+                                         LocalDate existingExpirationDate) {
+    System.out.println("The new expiration date "
+        + newExpirationDate + " is older than the current date "
+        + existingExpirationDate + " Remember to smell and taste the ingredient before using it.");
+  }
+
+  /**
+   * <p>Prints a message when an ingredient has
+   * an expiration date that is newer than the current date.</p>
+
+   * @param newExpirationDate the new expiration date
+   * @param existingExpirationDate the existing expiration date
+   */
+  public void printNewerExpirationDateUpdate(LocalDate newExpirationDate,
+                                             LocalDate existingExpirationDate) {
+    System.out.println("The new expiration date " + newExpirationDate
+        + " is newer than the current date " + existingExpirationDate
+        + "Remember to check if the old ingredient is still good.");
   }
 
   /**
