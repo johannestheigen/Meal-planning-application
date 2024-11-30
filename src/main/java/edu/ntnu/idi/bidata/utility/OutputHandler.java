@@ -7,8 +7,8 @@ import java.util.Iterator;
  * Handles all printing tasks for the user interface, organizing messages into sections
  * for easy understanding and maintainability.
 
- * @version 0.2.4
- * @since 11.29.2024
+ * @version 0.2.5
+ * @since 11.30.2024
  */
 public class OutputHandler {
 
@@ -19,9 +19,12 @@ public class OutputHandler {
    * <p><b>Example of usage:</b></p>
    * <pre><code>OutputHandler.printMainMenu();</code></pre>
    */
+
   public void printMainMenu() {
     System.out.println("""
+       -------------------------------------------
        Welcome to the Meal Planning Application.
+       -------------------------------------------
        Type '/storage' to manage your food storage
        Type '/recipes' to manage your recipe book
        Press 0 to exit
@@ -82,7 +85,7 @@ public class OutputHandler {
    * <p>Prints a warning when a user wants to perform
    * an operation that may have unintended consequences.</p>
    */
-  public void printWarning() {
+  public void printContinuationWarning() {
     System.out.println("Are you sure you want to continue? (y/n)");
   }
 
@@ -97,7 +100,7 @@ public class OutputHandler {
    * <p>Prints a message to confirm that the user has exited the application.</p>
    */
   public void printExitMessage() {
-    System.out.println("Exiting the program...");
+    System.out.println("Thank you for using the Meal Planning Application. Goodbye!");
   }
 
   /**
