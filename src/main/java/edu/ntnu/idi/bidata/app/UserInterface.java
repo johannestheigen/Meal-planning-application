@@ -13,8 +13,8 @@ import java.util.Iterator;
  * <p>The UserInterface class manages interactions between the
  * application and the user.</p>
  *
- * @version 0.3.6
- * @since 11.29.2024
+ * @version 0.3.7
+ * @since 11.30.2024
  */
 public class UserInterface {
 
@@ -29,15 +29,18 @@ public class UserInterface {
    * <code>FoodStorage</code>, <code>RecipeBook</code>,
    * <code>OutputHandler</code>, and <code>InputParser</code>.</p>
    */
-
   public void init() {
-    foodStorage = new FoodStorage();
-    recipeBook = new RecipeBook();
-    outputHandler = new OutputHandler();
-    inputParser = new InputParser();
-    inputValidator = new InputValidator();
-    foodStorage.addIngredient("Milk", 1.0, "l", 20.0, LocalDate.of(2024, 12, 1));
-    userInput();
+    try {
+      foodStorage = new FoodStorage();
+      recipeBook = new RecipeBook();
+      outputHandler = new OutputHandler();
+      inputParser = new InputParser();
+      inputValidator = new InputValidator();
+    } catch (Exception e) {
+      handleException(e);
+    } finally {
+      userInput();
+    }
   }
 
   /**
@@ -50,11 +53,11 @@ public class UserInterface {
   /**
    * <p>Aborts the operation if the user chooses to abort the operation.</p>
    * <p>If the user chooses to abort the operation, a message is displayed.</p>
-
+   *
    * @return true if the user chooses to abort the operation, false otherwise
    */
   private boolean abort() {
-    outputHandler.printWarning();
+    outputHandler.printContinuationWarning();
     if (inputValidator.isAbortOperation(inputParser.stringInput())) {
       outputHandler.printAbortOperationMessage();
       pressAnyKeyToContinue();
@@ -63,6 +66,37 @@ public class UserInterface {
     return false;
   }
 
+  /*
+    * Prompts the user to confirm if they want to exit the program.
+    * If the user confirms the exit operation, the program is terminated.
+    * If the user chooses to abort the exit operation, a message is displayed.
+   */
+  private boolean exitProgram() {
+    outputHandler.printExitWarning();
+
+    String confirmation = inputParser.stringInput(); // Get user input
+    if (inputValidator.isExiting(confirmation)) {
+      outputHandler.printExitMessage();
+      inputParser.close();
+      return true;
+    }
+    outputHandler.printAbortOperationMessage();
+    outputHandler.printMainMenu();
+    return false;
+  }
+
+  /*
+   * Handles exceptions that occur during the execution of the application.
+   * If an exception occurs, an error message is displayed to the user.
+   * The user is then prompted to press any key to continue.
+   */
+  private void handleException(Exception e) {
+    if (e instanceof IllegalArgumentException) {
+      outputHandler.printInvalidInput(e.getMessage());
+    } else {
+      outputHandler.printError(e.getMessage());
+    }
+  }
 
   /**
    * <p>This method is used to after an operation is completed or aborted to
@@ -92,9 +126,7 @@ public class UserInterface {
       handleIngredientAddition(name, quantity, unit, price, expirationDate);
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
-    } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -111,7 +143,6 @@ public class UserInterface {
     }
     return name;
   }
-
 
   /*
    * Prompts the user for the quantity of the ingredient to be added.
@@ -166,7 +197,6 @@ public class UserInterface {
     return inputParser.expirationDateInput();
   }
 
-
   /*
    * Handles the addition of an ingredient. If the user confirms the operation,
    * the ingredient is added. If the user chooses to abort the operation, a message is displayed.
@@ -192,11 +222,11 @@ public class UserInterface {
   }
 
   /*
-    * Handles the expiration date of an ingredient.
-    * If the new expiration date is before the existing expiration date,
-    * a message notifying the user that the user should smell or taste the ingredient is displayed.
-    * If the new expiration date is after the existing expiration date,
-    * a message is displayed to inform the user that the expiration date has been updated.
+   * Handles the expiration date of an ingredient.
+   * If the new expiration date is before the existing expiration date,
+   * a message notifying the user that the user should smell or taste the ingredient is displayed.
+   * If the new expiration date is after the existing expiration date,
+   * a message is displayed to inform the user that the expiration date has been updated.
    */
   private void handleExpirationDate(LocalDate existingExpirationDate, LocalDate newExpirationDate) {
     if (newExpirationDate.isBefore(existingExpirationDate)) {
@@ -219,10 +249,8 @@ public class UserInterface {
         handleIngredientRemoval(name);
       }
       pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -256,10 +284,8 @@ public class UserInterface {
         handleIngredientReduction(name, quantity);
       }
       pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -294,10 +320,8 @@ public class UserInterface {
         handlePriceChange(name, newPrice);
       }
       pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -328,10 +352,8 @@ public class UserInterface {
         handleUnitChange(name, newUnit);
       }
       pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -480,10 +502,8 @@ public class UserInterface {
         handleRecipeAddition(nameOfRecipe, description, instruction, servings);
       }
       pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
     } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -602,9 +622,7 @@ public class UserInterface {
       }
       pressAnyKeyToContinue();
     } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
-    } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -739,9 +757,7 @@ public class UserInterface {
       pressAnyKeyToContinue();
 
     } catch (IllegalArgumentException e) {
-      outputHandler.printInvalidInput(e.getMessage());
-    } catch (Exception e) {
-      outputHandler.printError(e.getMessage());
+      handleException(e);
     }
   }
 
@@ -769,46 +785,40 @@ public class UserInterface {
   public void userInput() {
     outputHandler.printMainMenu();
     boolean running = true;
-    while (running) {
-      String userChoice = inputParser.stringInput();
 
-      switch (userChoice.toLowerCase()) {
-        case "0" -> {
-          outputHandler.printExitWarning();
-          if (inputValidator.isExiting(inputParser.stringInput())) {
-            outputHandler.printExitMessage();
-            inputParser.close();
-            running = false;
-          } else {
-            outputHandler.printAbortOperationMessage();
-            outputHandler.printMainMenu();
+    while (running) {
+      try {
+        String userChoice = inputParser.stringInput();
+        switch (userChoice.toLowerCase()) {
+          case "0" -> running = !exitProgram();
+          case "/main" -> outputHandler.printMainMenu();
+          case "/storage" -> outputHandler.printFoodStorageMenu();
+          case "/recipes" -> outputHandler.printRecipeBookMenu();
+          case "/add-ing" -> addIngredient();
+          case "/edit-price" -> changePrice();
+          case "/del-ing" -> removeIngredient();
+          case "/reduce-ing" -> reduceQuantity();
+          case "/edit-unit" -> changeUnit();
+          case "/list-ing" -> displayListOfIngredients();
+          case "/find-ing" -> findIngredient();
+          case "/sort-ing" -> displayListOfIngredientsAlphabetically();
+          case "/expired" -> displayListOfExpiredIngredients();
+          case "/by-date" -> displayListOfIngredientsByExpirationDate();
+          case "/total-val" -> displayValueOfAllIngredients();
+          case "/expired-val" -> displayValueOfExpiredIngredients();
+          case "/add-rec" -> addRecipe();
+          case "/del-rec" -> removeRecipe();
+          case "/edit-serv" -> changeServing();
+          case "/find-rec" -> findRecipe();
+          case "/list-rec" -> displayRecipes();
+          case "/check-rec" -> checkIfRecipeCanBeMade();
+          default -> {
+            outputHandler.printInvalidInput(userChoice);
+            pressAnyKeyToContinue();
           }
         }
-        case "/main" -> outputHandler.printMainMenu();
-        case "/storage" -> outputHandler.printFoodStorageMenu();
-        case "/recipes" -> outputHandler.printRecipeBookMenu();
-        case "/add-ing" -> addIngredient();
-        case "/edit-price" -> changePrice();
-        case "/del-ing" -> removeIngredient();
-        case "/reduce-ing" -> reduceQuantity();
-        case "/edit-unit" -> changeUnit();
-        case "/list-ing" -> displayListOfIngredients();
-        case "/find-ing" -> findIngredient();
-        case "/sort-ing" -> displayListOfIngredientsAlphabetically();
-        case "/expired" -> displayListOfExpiredIngredients();
-        case "/by-date" -> displayListOfIngredientsByExpirationDate();
-        case "/total-val" -> displayValueOfAllIngredients();
-        case "/expired-val" -> displayValueOfExpiredIngredients();
-        case "/add-rec" -> addRecipe();
-        case "/del-rec" -> removeRecipe();
-        case "/edit-serv" -> changeServing();
-        case "/find-rec" -> findRecipe();
-        case "/list-rec" -> displayRecipes();
-        case "/check-rec" -> checkIfRecipeCanBeMade();
-        default -> {
-          outputHandler.printInvalidInput(userChoice);
-          pressAnyKeyToContinue();
-        }
+      } catch (Exception e) {
+        handleException(e);
       }
     }
   }
