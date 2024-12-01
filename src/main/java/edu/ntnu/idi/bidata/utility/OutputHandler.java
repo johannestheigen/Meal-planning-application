@@ -7,8 +7,8 @@ import java.util.Iterator;
  * Handles all printing tasks for the user interface, organizing messages into sections
  * for easy understanding and maintainability.
 
- * @version 0.2.5
- * @since 11.30.2024
+ * @version 0.2.6
+ * @since 12.01.2024
  */
 public class OutputHandler {
 
@@ -207,8 +207,8 @@ public class OutputHandler {
   public void printNewerExpirationDateUpdate(LocalDate newExpirationDate,
                                              LocalDate existingExpirationDate) {
     System.out.println("The new expiration date " + newExpirationDate
-        + " is newer than the current date " + existingExpirationDate
-        + "Remember to check if the old ingredient is still good.");
+        + " is newer than the current date " + " " + existingExpirationDate
+        + "." + "Remember to check if the old ingredient is still good.");
   }
 
   /**
