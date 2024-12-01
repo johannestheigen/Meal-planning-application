@@ -7,6 +7,7 @@ import java.util.Iterator;
  * Handles all printing tasks for the user interface, organizing messages into sections
  * for easy understanding and maintainability.
  *
+ * @author Johannes Nupen Theigen
  * @version 0.2.7
  * @since 12.01.2024
  */

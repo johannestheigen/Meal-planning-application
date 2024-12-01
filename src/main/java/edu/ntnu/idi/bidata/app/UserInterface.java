@@ -13,6 +13,7 @@ import java.util.Iterator;
  * <p>The UserInterface class manages interactions between the
  * application and the user.</p>
  *
+ * @author Johannes Nupen Theigen
  * @version 0.4.0
  * @since 12.01.2024
  */
