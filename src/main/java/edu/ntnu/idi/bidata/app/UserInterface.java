@@ -13,7 +13,7 @@ import java.util.Iterator;
  * <p>The UserInterface class manages interactions between the
  * application and the user.</p>
  *
- * @version 0.3.8
+ * @version 0.3.9
  * @since 12.01.2024
  */
 public class UserInterface {
@@ -301,10 +301,12 @@ public class UserInterface {
       return;
     }
     foodStorage.reduceQuantity(name, quantity);
-    if (foodStorage.getIngredient(name).getQuantity() > 0) {
-      outputHandler.printUpdatedQuantity(name);
-    } else {
+
+    Ingredient ingredient = foodStorage.getIngredient(name);
+    if (ingredient == null || ingredient.getQuantity() <= 0) {
       outputHandler.printRemovedIngredient(name);
+    } else {
+      outputHandler.printUpdatedQuantity(name);
     }
   }
 
