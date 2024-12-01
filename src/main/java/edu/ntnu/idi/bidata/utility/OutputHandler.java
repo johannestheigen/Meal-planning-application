@@ -8,7 +8,7 @@ import java.util.Iterator;
  * for easy understanding and maintainability.
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.7
+ * @version 0.2.8
  * @since 12.01.2024
  */
 public class OutputHandler {
@@ -25,9 +25,11 @@ public class OutputHandler {
     System.out.println("""
         -------------------------------------------
         Welcome to the Meal Planning Application.
+        
+        Made by Johannes Nupen Theigen
         -------------------------------------------
-        Type '/storage' to manage your food storage
-        Type '/recipes' to manage your recipe book
+        Type /storage to manage your food storage
+        Type /recipes to manage your recipe book
         Press 0 to exit
         """);
   }
@@ -43,19 +45,19 @@ public class OutputHandler {
    */
   public void printFoodStorageMenu() {
     System.out.println("""
-        Type '/add-ing' to add an ingredient
-        Type '/del-ing' to remove an ingredient
-        Type '/reduce-ing' to reduce the quantity of an ingredient
-        Type '/edit-price' to change the price of an ingredient
-        Type '/edit-unit' to change the unit of an ingredient
-        Type '/find-ing' to find an ingredient and display its details
-        Type '/list-ing' to view all ingredients
-        Type '/sort-ing' to view ingredients in alphabetical order
-        Type '/expired' to view all expired ingredients
-        Type '/by-date' to view ingredients by a specific expiration date
-        Type '/total-val' to print value of all ingredients
-        Type '/expired-val' to print value of all expired ingredients
-        Type '/main' to return to the main menu
+        Type /add-ing to add an ingredient
+        Type /del-ing to remove an ingredient
+        Type /reduce-ing to reduce the quantity of an ingredient
+        Type /edit-price to change the price of an ingredient
+        Type /edit-unit to change the unit of an ingredient
+        Type /find-ing to find an ingredient and display its details
+        Type /list-ing to view all ingredients
+        Type /sort-ing to view ingredients in alphabetical order
+        Type /expired to view all expired ingredients
+        Type /by-date to view ingredients by a specific expiration date
+        Type /total-val to print value of all ingredients
+        Type /expired-val to print value of all expired ingredients
+        Type /main to return to the main menu
         """);
   }
 
@@ -66,13 +68,13 @@ public class OutputHandler {
    */
   public void printRecipeBookMenu() {
     System.out.println("""
-        Type '/add-rec' to add a recipe
-        Type '/del-rec' to remove a recipe
-        Type '/edit-serv' to change the servings of a recipe
-        Type '/find-rec' to find a recipe and display its details
-        Type '/list-rec' to list all recipes
-        Type '/check-rec' to check if a recipe can be made
-        Type '/main' to return to the main menu
+        Type /add-rec to add a recipe
+        Type /del-rec to remove a recipe
+        Type /edit-serv to change the servings of a recipe
+        Type /find-rec to find a recipe and display its details
+        Type /list-rec to list all recipes
+        Type /check-rec to check if a recipe can be made
+        Type /main to return to the main menu
         """);
   }
 
