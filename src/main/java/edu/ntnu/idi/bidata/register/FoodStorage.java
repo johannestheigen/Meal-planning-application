@@ -14,7 +14,7 @@ import java.util.Map;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.3.1
+ * @version 0.3.2
  * @since 12.01.2024
  */
 public class FoodStorage {
@@ -41,7 +41,7 @@ public class FoodStorage {
    *                       formatted as yyyy-MM-dd (e.g., 2025-12-31).
    *
    * @return <code>true</code> if the ingredient is successfully added to the storage,
-     and <code>false</code> if the ingredient already exists in the storage.
+  and <code>false</code> if the ingredient already exists in the storage.
    */
   public boolean addIngredient(String name, double quantity,
                                String unit, double price, LocalDate expirationDate) {
@@ -51,7 +51,7 @@ public class FoodStorage {
     String ingredientName = newIngredient.getName();
 
     if (storage.containsKey(ingredientName)) {
-      handleExistingIngredient(ingredientName, newIngredient, quantity, expirationDate);
+      return handleExistingIngredient(ingredientName, newIngredient, quantity, expirationDate);
     }
     storage.put(ingredientName, newIngredient);
     return false;
@@ -70,11 +70,14 @@ public class FoodStorage {
                                            double quantity, LocalDate expirationDate) {
     Ingredient existingIngredient = storage.get(ingredientName);
     LocalDate existingExpirationDate = existingIngredient.getExpirationDate();
-    if (expirationDate.isAfter(existingIngredient.getExpirationDate())) {
-      storage.put(ingredientName + "_" + existingExpirationDate, existingIngredient);
+
+    if (expirationDate.isAfter(existingExpirationDate)) {
+      String newKeyForExistingIngredient = ingredientName + "_" + existingExpirationDate;
+      storage.put(newKeyForExistingIngredient, existingIngredient);
       storage.put(ingredientName, newIngredient);
     } else if (expirationDate.isBefore(existingExpirationDate)) {
-      storage.put(ingredientName + "_" + expirationDate, newIngredient);
+      String newKeyForNewIngredient = ingredientName + "_" + expirationDate;
+      storage.put(newKeyForNewIngredient, newIngredient);
     } else {
       mergeIngredient(quantity, existingIngredient, newIngredient);
     }
@@ -92,13 +95,17 @@ public class FoodStorage {
                                   Ingredient newIngredient) {
     if (existingIngredient == null || newIngredient == null) {
       return false;
-    } else if (!existingIngredient.getUnit().equals(newIngredient.getUnit())) {
-      throw new IllegalArgumentException("The units of the ingredients do not match" + " " + existingIngredient.getUnit() + " " + newIngredient.getUnit());
-    } else {
-      existingIngredient.setQuantity(existingIngredient.getQuantity() + quantity);
-      existingIngredient.setPrice((existingIngredient.getPrice() + newIngredient.getPrice()) / 2.0);
-      return true;
     }
+    if (!existingIngredient.getUnit().equals(newIngredient.getUnit())) {
+      throw new IllegalArgumentException("The units of the "
+          + "ingredients do not match" + " "
+          + existingIngredient.getUnit() + " " + newIngredient.getUnit());
+    }
+    double updatedQuantity = existingIngredient.getQuantity() + quantity;
+    double updatedPrice = (existingIngredient.getPrice() + newIngredient.getPrice()) / 2.0;
+    existingIngredient.setQuantity(updatedQuantity);
+    existingIngredient.setPrice(updatedPrice);
+    return true;
   }
 
   /**
