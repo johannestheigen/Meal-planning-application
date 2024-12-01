@@ -14,8 +14,8 @@ import java.util.Map;
  *
  *
  * @author Johannes Nupen Theigen
- * @version 0.3.0
- * @since 11.29.2024
+ * @version 0.3.1
+ * @since 12.01.2024
  */
 public class FoodStorage {
 
@@ -93,7 +93,7 @@ public class FoodStorage {
     if (existingIngredient == null || newIngredient == null) {
       return false;
     } else if (!existingIngredient.getUnit().equals(newIngredient.getUnit())) {
-      throw new IllegalArgumentException("The units of the ingredients do not match" + existingIngredient.getUnit() + " " + newIngredient.getUnit());
+      throw new IllegalArgumentException("The units of the ingredients do not match" + " " + existingIngredient.getUnit() + " " + newIngredient.getUnit());
     } else {
       existingIngredient.setQuantity(existingIngredient.getQuantity() + quantity);
       existingIngredient.setPrice((existingIngredient.getPrice() + newIngredient.getPrice()) / 2.0);
