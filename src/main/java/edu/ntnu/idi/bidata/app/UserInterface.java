@@ -13,8 +13,8 @@ import java.util.Iterator;
  * <p>The UserInterface class manages interactions between the
  * application and the user.</p>
  *
- * @version 0.3.7
- * @since 11.30.2024
+ * @version 0.3.8
+ * @since 12.01.2024
  */
 public class UserInterface {
 
@@ -93,8 +93,10 @@ public class UserInterface {
   private void handleException(Exception e) {
     if (e instanceof IllegalArgumentException) {
       outputHandler.printInvalidInput(e.getMessage());
+      pressAnyKeyToContinue();
     } else {
       outputHandler.printError(e.getMessage());
+      pressAnyKeyToContinue();
     }
   }
 
