@@ -13,7 +13,7 @@ import java.util.Iterator;
  * <p>The UserInterface class manages interactions between the
  * application and the user.</p>
  *
- * @version 0.3.9
+ * @version 0.4.0
  * @since 12.01.2024
  */
 public class UserInterface {
@@ -708,39 +708,52 @@ public class UserInterface {
     } else {
       outputHandler.printRecipeCannotBeMade(name);
       processMissingIngredients(name);
+      pressAnyKeyToContinue();
     }
   }
 
   /*
-   * Processes missing ingredients for a recipe.
-   * If an ingredient is missing, a message is displayed to inform the user
-   * that the ingredient is missing.
-   * If an ingredient is insufficient, a message
-   * is displayed to inform the user that the ingredient is insufficient.
+    * Processes missing ingredients for a recipe. It uses an iterator to retrieve
+    * the required ingredients for the recipe and checks if the ingredients are available.
    */
   private void processMissingIngredients(String name) {
     Iterator<Ingredient> requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients();
+
     while (requiredIngredients.hasNext()) {
       Ingredient requiredIngredient = requiredIngredients.next();
+      Ingredient availableIngredient = foodStorage.getIngredient(requiredIngredient.getName());
 
-      if (recipeBook.isIngredientMissing(requiredIngredient, foodStorage)) {
-        outputHandler.printMissingIngredient(
-            requiredIngredient.getQuantity(),
-            requiredIngredient.getUnit(),
-            requiredIngredient.getName()
-        );
-      } else if (recipeBook.isIngredientInsufficient(requiredIngredient, foodStorage)) {
-        Ingredient availableIngredient = foodStorage.getIngredient(requiredIngredient.getName());
-        outputHandler.printInsufficientIngredientAmount(
-            requiredIngredient.getQuantity(),
-            requiredIngredient.getUnit(),
-            requiredIngredient.getName(),
-            availableIngredient.getQuantity(),
-            availableIngredient.getUnit()
-        );
-      }
+      processIngredient(requiredIngredient, availableIngredient);
     }
   }
+
+  /*
+   *Processes an ingredient for a recipe.
+   *If the ingredient is missing, a message is displayed to
+   * inform the user that the ingredient is missing.
+   * If the unit of the ingredient is incompatible,
+   * a message is displayed to inform the user that the unit is incompatible.
+   * If the ingredient is insufficient, a message is displayed
+   * to inform the user that the ingredient is insufficient.
+   */
+  private void processIngredient(Ingredient required, Ingredient available) {
+    if (available == null) {
+      outputHandler.printMissingIngredient(
+          required.getQuantity(), required.getUnit(), required.getName()
+      );
+    } else if (!required.getUnit().equalsIgnoreCase(available.getUnit())) {
+      outputHandler.printIncompatibleUnits(
+          required.getName(), required.getUnit(), required.getQuantity(),
+          available.getQuantity(), available.getUnit()
+      );
+    } else if (available.getQuantity() < required.getQuantity()) {
+      outputHandler.printInsufficientIngredientAmount(
+          available.getQuantity(), available.getUnit(),
+          required.getName(), required.getQuantity(), required.getUnit()
+      );
+    }
+  }
+
 
   /**
    * <p>Changes the serving size of a recipe through user interaction.</p>
