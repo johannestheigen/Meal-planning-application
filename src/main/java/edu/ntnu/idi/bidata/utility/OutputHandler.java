@@ -6,8 +6,8 @@ import java.util.Iterator;
 /**
  * Handles all printing tasks for the user interface, organizing messages into sections
  * for easy understanding and maintainability.
-
- * @version 0.2.6
+ *
+ * @version 0.2.7
  * @since 12.01.2024
  */
 public class OutputHandler {
@@ -22,12 +22,12 @@ public class OutputHandler {
 
   public void printMainMenu() {
     System.out.println("""
-       -------------------------------------------
-       Welcome to the Meal Planning Application.
-       -------------------------------------------
-       Type '/storage' to manage your food storage
-       Type '/recipes' to manage your recipe book
-       Press 0 to exit
+        -------------------------------------------
+        Welcome to the Meal Planning Application.
+        -------------------------------------------
+        Type '/storage' to manage your food storage
+        Type '/recipes' to manage your recipe book
+        Press 0 to exit
         """);
   }
 
@@ -42,18 +42,19 @@ public class OutputHandler {
    */
   public void printFoodStorageMenu() {
     System.out.println("""
-       Type '/add-ing' to add an ingredient
-       Type '/del-ing' to remove an ingredient
-       Type '/reduce-ing' to reduce the quantity of an ingredient
-       Type '/edit-price' to change the price of an ingredient
-       Type '/find-ing' to find an ingredient and display its details
-       Type '/list-ing' to view all ingredients
-       Type '/sort-ing' to view ingredients in alphabetical order
-       Type '/expired' to view all expired ingredients
-       Type '/by-date' to view ingredients by a specific expiration date
-       Type '/total-val' to print value of all ingredients
-       Type '/expired-val' to print value of all expired ingredients
-       Type '/main' to return to the main menu
+        Type '/add-ing' to add an ingredient
+        Type '/del-ing' to remove an ingredient
+        Type '/reduce-ing' to reduce the quantity of an ingredient
+        Type '/edit-price' to change the price of an ingredient
+        Type '/edit-unit' to change the unit of an ingredient
+        Type '/find-ing' to find an ingredient and display its details
+        Type '/list-ing' to view all ingredients
+        Type '/sort-ing' to view ingredients in alphabetical order
+        Type '/expired' to view all expired ingredients
+        Type '/by-date' to view ingredients by a specific expiration date
+        Type '/total-val' to print value of all ingredients
+        Type '/expired-val' to print value of all expired ingredients
+        Type '/main' to return to the main menu
         """);
   }
 
@@ -64,13 +65,13 @@ public class OutputHandler {
    */
   public void printRecipeBookMenu() {
     System.out.println("""
-       Type '/add-rec' to add a recipe
-       Type '/del-rec' to remove a recipe
-       Type '/edit-serv' to change the servings of a recipe
-       Type '/find-rec' to find a recipe and display its details
-       Type '/list-rec' to list all recipes
-       Type '/check-rec' to check if a recipe can be made
-       Type '/main' to return to the main menu
+        Type '/add-rec' to add a recipe
+        Type '/del-rec' to remove a recipe
+        Type '/edit-serv' to change the servings of a recipe
+        Type '/find-rec' to find a recipe and display its details
+        Type '/list-rec' to list all recipes
+        Type '/check-rec' to check if a recipe can be made
+        Type '/main' to return to the main menu
         """);
   }
 
@@ -167,7 +168,7 @@ public class OutputHandler {
   /**
    * <p>Prints an error message when an unexpected error occurs.</p>
    * <p>This method is used to alert the user when an unexpected error occurs.</p>
-
+   *
    * @param message the error message to be displayed.
    */
   public void printError(String message) {
@@ -184,10 +185,10 @@ public class OutputHandler {
   }
 
   /**
-   *  <p>Prints a message when an ingredient as an expiration
-   *  date that is older than the current date.</p>
-
-   * @param newExpirationDate the new expiration date
+   * <p>Prints a message when an ingredient as an expiration
+   * date that is older than the current date.</p>
+   *
+   * @param newExpirationDate      the new expiration date
    * @param existingExpirationDate the existing expiration date
    */
   public void printExpirationDateWarning(LocalDate newExpirationDate,
@@ -200,8 +201,8 @@ public class OutputHandler {
   /**
    * <p>Prints a message when an ingredient has
    * an expiration date that is newer than the current date.</p>
-
-   * @param newExpirationDate the new expiration date
+   *
+   * @param newExpirationDate      the new expiration date
    * @param existingExpirationDate the existing expiration date
    */
   public void printNewerExpirationDateUpdate(LocalDate newExpirationDate,
@@ -237,7 +238,7 @@ public class OutputHandler {
   /**
    * <p>Prints a message when the price of the specified ingredient
    * has been successfully updated.</p>
-
+   *
    * @param name the name of the ingredient whose price was updated successfully.
    */
   public void printUpdatedPrice(String name) {
@@ -247,7 +248,7 @@ public class OutputHandler {
   /**
    * <p>Prints a message when the unit of the specified ingredient
    * has been successfully updated.</p>
-
+   *
    * @param name the name of the ingredient whose unit was updated successfully.
    */
   public void printUpdatedUnit(String name) {
@@ -262,8 +263,7 @@ public class OutputHandler {
    * If the ingredient is not found, it displays an error message.</p>
    *
    * @param ingredientName the name of the ingredient to be printed.
-   * @param found a boolean value indicating whether the ingredient was found or not.
-   *
+   * @param found          a boolean value indicating whether the ingredient was found or not.
    */
   public void printIngredient(String ingredientName, boolean found) {
     if (found) {
@@ -275,11 +275,11 @@ public class OutputHandler {
 
   /**
    * <p>Prints the details of the specified ingredient.</p>
-
+   *
    * @param ingredientName the name of the ingredient
-   * @param quantity the quantity of the ingredient
-   * @param unit the unit of the ingredient
-   * @param price the price of the ingredient
+   * @param quantity       the quantity of the ingredient
+   * @param unit           the unit of the ingredient
+   * @param price          the price of the ingredient
    * @param expirationDate the expiration date of the ingredient
    */
   public void printIngredientDetails(String ingredientName,
@@ -297,7 +297,7 @@ public class OutputHandler {
    * <p>This method takes an iterator of ingredient names and prints each one on a new line.</p>
    *
    * @param ingredientsIterator the iterator of ingredients to be printed.
-   * @param hasIngredients a boolean value indicating whether there are ingredients or not
+   * @param hasIngredients      a boolean value indicating whether there are ingredients or not
    */
   public void printListOfIngredients(Iterator<String> ingredientsIterator, boolean hasIngredients) {
     if (hasIngredients && ingredientsIterator != null) {
@@ -316,7 +316,7 @@ public class OutputHandler {
    * each one on a new line.</p>
    *
    * @param ingredientsIterator the iterator of ingredients to be printed.
-   * @param hasIngredients a boolean value indicating whether there are ingredients or not.
+   * @param hasIngredients      a boolean value indicating whether there are ingredients or not.
    */
   public void printListOfIngredientsAlphabetically(Iterator<String> ingredientsIterator,
                                                    boolean hasIngredients) {
@@ -337,7 +337,7 @@ public class OutputHandler {
    * <p>This method takes an iterator of ingredients
    * and filters them to display only those that are expired.
    *
-   * @param ingredientsIterator the iterator of ingredients to be printed.
+   * @param ingredientsIterator   the iterator of ingredients to be printed.
    * @param hasExpiredIngredients a boolean value indicating whether there are expired ingredients.
    */
 
@@ -356,15 +356,14 @@ public class OutputHandler {
   /**
    * <p>Prints a list of ingredients by a specific expiration date.</p>
    * <p>This method takes an iterator of ingredients
-   *  and filters them to display only those that are expiring on the specified date.</p>
-   *
+   * and filters them to display only those that are expiring on the specified date.</p>
    *
    * @param ingredientsIterator the iterator of ingredients to be printed.
-   * @param ingredientsFound a boolean value indicating whether
-   *                         there are ingredients on the specified expiration date.
+   * @param ingredientsFound    a boolean value indicating whether
+   *                            there are ingredients on the specified expiration date.
    */
   public void printListOfIngredientsByExpirationDate(Iterator<String> ingredientsIterator,
-                                            boolean ingredientsFound) {
+                                                     boolean ingredientsFound) {
     if (ingredientsFound && ingredientsIterator != null) {
       System.out.println("These are the ingredients expiring on the specified date:");
       while (ingredientsIterator.hasNext()) {
@@ -472,7 +471,7 @@ public class OutputHandler {
   /**
    * <p>Prints a message that prompts the user
    * to enter the quantity of an ingredient in a recipe.</p>
-
+   *
    * @param recipeName the name of the recipe
    */
   public void addedRecipe(String recipeName) {
@@ -481,7 +480,7 @@ public class OutputHandler {
 
   /**
    * <p>Prints a message that the recipe already exists in the recipe book.</p>
-
+   *
    * @param recipeName the name of the recipe
    */
   public void recipeExists(String recipeName) {
@@ -490,7 +489,7 @@ public class OutputHandler {
 
   /**
    * <p>Prints a message that the recipe was not found in the recipe book.</p>
-
+   *
    * @param recipeName the name of the recipe
    */
   public void printRecipeNotFound(String recipeName) {
@@ -499,7 +498,7 @@ public class OutputHandler {
 
   /**
    * <p>Prints a message that the recipe was successfully removed from the recipe book.</p>
-
+   *
    * @param recipeName the name of the recipe
    */
   public void removedRecipe(String recipeName) {
@@ -508,7 +507,7 @@ public class OutputHandler {
 
   /**
    * <p>Prints a message that the recipe was successfully updated.</p>
-
+   *
    * @param recipeName the name of the recipe
    */
   public void printUpdatedServing(String recipeName) {
@@ -519,11 +518,11 @@ public class OutputHandler {
    * <p>Prints the details of the specified recipe.</p>
    * <p>This method takes the name, description, instruction, and servings of a recipe
    * and prints them to the terminal.</p>
-
-   * @param recipeName the name of the recipe
+   *
+   * @param recipeName  the name of the recipe
    * @param description the description of the recipe
    * @param instruction the instruction of the recipe
-   * @param servings the servings of the recipe
+   * @param servings    the servings of the recipe
    */
   public void printRecipeDetails(String recipeName, String description,
                                  String instruction, double servings) {
@@ -537,10 +536,10 @@ public class OutputHandler {
    * <p>Prints the ingredients of the specified recipe.</p>
    * <p>This method takes the name, quantity, and unit of an ingredient in a recipe
    * and prints them to the terminal.</p>
-
+   *
    * @param ingredientName the name of the ingredient
-   * @param quantity the quantity of the ingredient
-   * @param unit the unit of the ingredient
+   * @param quantity       the quantity of the ingredient
+   * @param unit           the unit of the ingredient
    */
   public void printRecipeIngredients(String ingredientName, double quantity, String unit) {
     System.out.println("Ingredients: " + ingredientName + " " + quantity + " " + unit);
@@ -549,14 +548,14 @@ public class OutputHandler {
   /**
    * <p>Prints a list of all recipes present in the recipe book.</p>
    * <p>This method takes an iterator of recipe names and prints each one on a new line.</p>
-
+   *
    * @param recipesIterator the iterator of recipes to be printed
-   * @param hasRecipes a boolean value indicating whether there are recipes or not
+   * @param hasRecipes      a boolean value indicating whether there are recipes or not
    */
   public void printListOfRecipes(Iterator<String> recipesIterator, boolean hasRecipes) {
-    System.out.println("These are your recipes: ");
     if (hasRecipes && recipesIterator != null) {
       while (recipesIterator.hasNext()) {
+        System.out.println("These are your recipes: ");
         System.out.println(recipesIterator.next());
       }
     } else {
@@ -566,12 +565,12 @@ public class OutputHandler {
 
   /**
    * <p>Prints a message that the recipe cannot be made due to insufficient ingredient amount.</p>
-
+   *
    * @param availableQuantity the available quantity of the ingredient
-   * @param availableUnit the available unit of the ingredient
-   * @param ingredientName the name of the ingredient
-   * @param requiredQuantity the required quantity of the ingredient
-   * @param requiredUnit the required unit of the ingredient
+   * @param availableUnit     the available unit of the ingredient
+   * @param ingredientName    the name of the ingredient
+   * @param requiredQuantity  the required quantity of the ingredient
+   * @param requiredUnit      the required unit of the ingredient
    */
   public void printInsufficientIngredientAmount(double availableQuantity, String availableUnit,
                                                 String ingredientName, double requiredQuantity,
@@ -582,10 +581,10 @@ public class OutputHandler {
 
   /**
    * <p>Prints a message that the recipe cannot be made due to missing ingredients.</p>
-
+   *
    * @param requiredQuantity the required quantity of the ingredient
-   * @param requiredUnit the required unit of the ingredient
-   * @param ingredientName the name of the ingredient
+   * @param requiredUnit     the required unit of the ingredient
+   * @param ingredientName   the name of the ingredient
    */
   public void printMissingIngredient(double requiredQuantity, String requiredUnit,
                                      String ingredientName) {
@@ -594,8 +593,27 @@ public class OutputHandler {
   }
 
   /**
-   * <p>Prints a message that the recipe can be made due to all ingredients being available.</p>
+   * <p>Prints a message that the recipe cannot be made due to incompatible units.</p>
 
+   * @param requiredIngredientName the name of the required ingredient
+   * @param requiredUnit the required unit
+   * @param requiredQuantity the required quantity
+   * @param availableQuantity the available quantity
+   * @param availableUnit the available unit
+   */
+  public void printIncompatibleUnits(String requiredIngredientName,
+                                     String requiredUnit, double requiredQuantity,
+                                     double availableQuantity, String availableUnit) {
+    System.out.println("Unit conflict for: "
+        + requiredIngredientName
+        + ". requires: " + requiredQuantity + " " + requiredUnit
+        + ", available: " + availableQuantity + " " + availableUnit
+        + ". Please update the unit of the ingredient.");
+  }
+
+  /**
+   * <p>Prints a message that the recipe can be made due to all ingredients being available.</p>
+   *
    * @param recipeName the name of the recipe
    */
   public void printRecipeCanBeMade(String recipeName) {
@@ -604,7 +622,7 @@ public class OutputHandler {
 
   /**
    * <p>Prints a message that the recipe cannot be made due to missing ingredients.</p>
-
+   *
    * @param recipeName the name of the recipe
    */
   public void printRecipeCannotBeMade(String recipeName) {
