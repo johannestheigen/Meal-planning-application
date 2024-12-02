@@ -7,36 +7,35 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * <p>The recipe book class represents a register of recipes. A recipe book
- * The recipes are stored in a HashMap with the recipe name as the key and the
- * Recipe object as value. The Recipe object consists of name, description,
- * instruction, servings, and required ingredients.</p>
- *
- * <p>Instances of RecipeBook can be used to manage a collection of recipes.</p>
+ * <p>The recipe book class represents a register of recipes.
+ * The recipes are stored in a HashMap where the key is the name of the recipe
+ * and the the value is the Recipe object.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.3
- * @since 11.27.2024
+ * @version 0.0.4
+ * @since 12.02.2024
  */
 
 public class RecipeBook {
   private final Map<String, Recipe> recipes;
 
   /**
-   * <p>Creates a new instance of RecipeBook with an empty collection of recipes.</p>
+   * <p>Initializes a new Instance of the RecipeBook class.
+   * with an empty collection of recipes.</p>
    */
   public RecipeBook() {
     recipes = new HashMap<>();
   }
 
   /**
-   * <p>Adds a recipe to the recipe book. The recipe is stored in the recipe book
-   * with the recipe name as the key and the Recipe object as value.</p>
-
-   * @param name the name of the recipe
-   * @param description the description of the recipe
-   * @param instruction the instruction of the recipe
-   * @param servings the amount of people the recipe serves
+   * <p>Adds a new recipe to the recipe book.</p>
+   * <p>The recipe is stored in a HashMap where the key is the name of the recipe
+   * and the value is the Recipe object.</p>
+   *
+   * @param name        the name of the recipe (e.g. "Chocolate Cake")
+   * @param description the description of the recipe (e.g. "A delicious cake")
+   * @param instruction the instruction of the recipe (e.g. "Mix all ingredients together")
+   * @param servings    the amount of people the recipe serves (e.g. 4)
    * @return true if the recipe was added successfully, false if the recipe already exists
    */
   public boolean addRecipe(String name, String description, String instruction, double servings) {
@@ -50,7 +49,8 @@ public class RecipeBook {
 
   /**
    * <p>Removes a recipe from the recipe book.</p>
-
+   * <p>The recipe is removed from the recipe book using the name of the recipe.</p>
+   *
    * @param name the name of the recipe to remove
    * @return true if the recipe was removed successfully, false if the recipe does not exist
    */
@@ -64,12 +64,13 @@ public class RecipeBook {
   }
 
   /**
-   * <p>Adds an ingredient to a recipe. The ingredient is stored in the recipe.</p>
+   * <p>Adds a new ingredient to the recipe.
+   * The ingredients are stored in an ArrayList in the Recipe object.</p>
 
-   * @param recipeName the name of the recipe
-   * @param ingredientName the name of the ingredient
-   * @param quantity the quantity of the ingredient
-   * @param unit the unit of the ingredient
+   * @param recipeName     the name of the recipe (e.g. "Chocolate Cake")
+   * @param ingredientName the name of the ingredient (e.g. "Flour")
+   * @param quantity       the quantity of the ingredient (e.g. 2)
+   * @param unit           the unit of the ingredient (e.g. "kg")
    * @return true if the ingredient was added successfully, false if the recipe does not exist
    */
   public boolean addIngredientToRecipe(String recipeName, String ingredientName,
@@ -85,7 +86,8 @@ public class RecipeBook {
 
   /**
    * <p>Retrieves a recipe from the recipe book.</p>
-
+   * <p>The recipe is retrieved from the recipe book using the name of the recipe.</p>
+   *
    * @param recipeName the name of the recipe to retrieve
    * @return the recipe object if the recipe exists, null if the recipe does not exist
    */
@@ -95,7 +97,8 @@ public class RecipeBook {
 
   /**
    * <p>Checks if a recipe exists in the recipe book.</p>
-
+   * <p>The recipe is checked for existence in the recipe book using the name of the recipe.</p>
+   *
    * @param recipeName the name of the recipe
    * @return true if the recipe exists, false if the recipe does not exist
    */
@@ -104,9 +107,9 @@ public class RecipeBook {
   }
 
   /**
-   * <p>Updates the serving size of a recipe. The required ingredients are updated
-   * to match the new serving size.</p>
-
+   * <p>Updates the serving size of a recipe. The quantity of
+   * the required ingredients are updated to match the new serving size.</p>
+   *
    * @param recipeName the name of the recipe
    * @param newServing the new serving size
    * @return true if the recipe was found and updated successfully,
@@ -131,70 +134,52 @@ public class RecipeBook {
   }
 
   /**
-   * <p>Checks if a recipe can be made with the available ingredients in the food storage.</p>
-
-   * @param recipeName the name of the recipe
-   * @param foodStorage the food storage
-   * @return true if the recipe can be made, false if the recipe cannot be made
-   */
-  public boolean canRecipeBeMade(String recipeName, FoodStorage foodStorage) {
-    if (!isRecipeExisting(recipeName)) {
-      return false;
-    }
-    Iterator<Ingredient> requiredIngredients = getRecipe(recipeName).getRequiredIngredients();
-    while (requiredIngredients.hasNext()) {
-      Ingredient requiredIngredient = requiredIngredients.next();
-      if (!isIngredientAvailable(requiredIngredient, foodStorage)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * <p>Checks if an ingredient is available in the food storage.</p>
+   * <p>Checks if the required ingredients for a recipe are available in the food storage.</p>
 
    * @param requiredIngredient the required ingredient
    * @param foodStorage the food storage
-   * @return true if the ingredient is available, false if the ingredient is missing or insufficient
+   * @return true if the required ingredients are available,
+     false if the required ingredients are missing
    */
-  public boolean isIngredientAvailable(Ingredient requiredIngredient, FoodStorage foodStorage) {
-    return !isIngredientMissing(requiredIngredient, foodStorage)
-        && !isIngredientInsufficient(requiredIngredient, foodStorage);
-  }
-
-  /**
-   * <p>Checks if an ingredient is missing in the food storage.</p>
-
-   * @param requiredIngredient the required ingredient
-   * @param foodStorage the food storage
-   * @return true if the ingredient is missing, false if the ingredient is available
-   */
-  public boolean isIngredientMissing(Ingredient requiredIngredient, FoodStorage foodStorage) {
+  public boolean hasMissingIngredient(Ingredient requiredIngredient, FoodStorage foodStorage) {
     return !foodStorage.isIngredientExisting(requiredIngredient.getName());
   }
 
   /**
-   * <p>Checks if an ingredient is insufficient in the food storage.</p>
+   * <p>Checks if the unit of the required ingredient and the available ingredient
+   * are mismatched.</p>
 
-   * @param requiredIngredient the required ingredient
-   * @param foodStorage the food storage
-   * @return true if the ingredient is insufficient, false if the ingredient is available
+   * @param required the required ingredient (e.g. "Flour", 4, "kg",)
+   * @param available the available ingredient (e.g. "Flour", 2, "kg")
+   * @return true if the unit of the required ingredient
+     and the available ingredient are mismatched, false if the units match
    */
-  public boolean isIngredientInsufficient(Ingredient requiredIngredient, FoodStorage foodStorage) {
-    if (isIngredientMissing(requiredIngredient, foodStorage)) {
+  public boolean hasUnitMismatch(Ingredient required, Ingredient available) {
+    return !required.getUnit().equalsIgnoreCase(available.getUnit());
+  }
+
+  /**
+   * <p>Checks if the the quantity of the available ingredient is
+   * less than the required quantity.</p>
+
+   * @param requiredIngredient the required ingredient (e.g. "Flour", 4, "kg")
+   * @param foodStorage the food storage
+   * @return true if the quantity of the available ingredient is less than the required quantity,
+     false if the quantity of the available ingredient is greater than
+     or equal to the required quantity
+   */
+  public boolean hasInsufficientIngredient(Ingredient requiredIngredient, FoodStorage foodStorage) {
+    if (hasMissingIngredient(requiredIngredient, foodStorage)) {
       return true;
     }
     Ingredient availableIngredient = foodStorage.getIngredient(requiredIngredient.getName());
-    return availableIngredient.getQuantity() < requiredIngredient.getQuantity()
-        || !availableIngredient.getUnit().equals(requiredIngredient.getUnit());
+    return availableIngredient.getQuantity() < requiredIngredient.getQuantity();
   }
 
-
   /**
-   * <p>Return an Iterator that retrieves
+   * <p>Returns an Iterator that retrieves
    * the names of the recipes in the recipe book.</p>
-
+   *
    * @return an Iterator that retrieves the names of the recipes in the recipe book,
      if the recipe book is empty, the Iterator will not return any elements
    */
