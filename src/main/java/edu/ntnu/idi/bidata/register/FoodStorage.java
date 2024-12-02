@@ -8,8 +8,7 @@ import java.util.Map;
 
 /**
  * <p>The FoodStorage class is responsible for storing Ingredient objects.
- * It uses a HashMap to store
- * ingredient objects, where the key is the name of the Ingredient
+ * It uses a HashMap to store ingredient objects, where the key is the name of the Ingredient
  * and the value is the Ingredient object.</p>
  *
  * @author Johannes Nupen Theigen
@@ -29,13 +28,15 @@ public class FoodStorage {
   }
 
   /**
-   * <p>Adds a new ingredient to the food storage.</p>
+   * <p>Adds a new ingredient to the food storage.
+   * The ingredient is stored in a HashMap where the key is the name of the ingredient
+   * and the value is the Ingredient object.</p>
    *
-   * @param name           the name of the ingredient,
-   *                       which acts as the unique identifier for the ingredient.
-   * @param quantity       the quantity of the ingredient
+   * @param name           the name of the ingredient (e.g. flour, sugar, salt)
+   *
+   * @param quantity       the quantity of the ingredient (e.g. 1)
    * @param unit           the unit of the ingredient (e.g. kg)
-   * @param price          the price of the ingredient (e.g. USD, NOK, EUR)
+   * @param price          the price of the ingredient (e.g. NOK)
    * @param expirationDate the expiration date of the ingredient,
    *                       formatted as yyyy-MM-dd (e.g., 2025-12-31).
    *
@@ -109,7 +110,8 @@ public class FoodStorage {
   }
 
   /**
-   * <p>Removes an ingredient from the food storage.</p>
+   * <p>Removes an ingredient from the food storage.
+   * The ingredient is removed by its name (key).</p>
 
    * @return true if the ingredient exists and is successfully removed,
      and false if the ingredient does not exist.
@@ -120,14 +122,14 @@ public class FoodStorage {
 
   /**
    * <p>Decreases the quantity of an ingredient from the food storage.
-   * If the quantity gets to 0, the ingredient will be removed entirely from the storage.</p>
+   * If the quantity gets to 0, the ingredient will be removed entirely from the storage.
+   * The ingredient is decreased by its name (key).</p>
    *
    * @param ingredientName the name of the ingredient to be reduced.
    * @param quantity the quantity to be reduced from the ingredient.
    * @return false if the ingredient does not exist, and true if the ingredient exists
    *     and is reduced or removed entirely.
    */
-
   public boolean reduceQuantity(String ingredientName, double quantity) {
     boolean wasRemoved = false;
 
@@ -147,8 +149,9 @@ public class FoodStorage {
   }
 
   /**
-   * <p>Updates the price of an ingredient in the food storage.</p>
-   *
+   * <p>Updates the price of an ingredient in the food storage.
+   * The ingredient is updated by its name (key).</p>
+
    *  @param ingredientName the name of the ingredient
    * @param newPrice the new price to be set for the ingredient
    * @return true if the ingredient exists and the price is successfully changed,
@@ -164,7 +167,8 @@ public class FoodStorage {
   }
 
   /**
-   * <p>Changes the unit of an ingredient in the food storage.</p>
+   * <p>Changes the unit of an ingredient in the food storage.
+   * The ingredient is changed by its name (key).</p>
 
    * @param ingredientName the name of the ingredient, which is the key for the ingredient object
    * @param newUnit the new unit to be set for the ingredient
@@ -181,7 +185,8 @@ public class FoodStorage {
   }
 
   /**
-   * <p>Retrieves an ingredient from the food storage.</p>
+   * <p>Retrieves an ingredient from the food storage.
+   * The ingredient is retrieved by its name (key).</p>
    *
    *  @param ingredientName the name of the ingredient to retrieve
    * @return the ingredient object if it exists in the storage,
@@ -192,7 +197,8 @@ public class FoodStorage {
   }
 
   /**
-   * <p>Checks if an ingredient exists in the food storage.</p>
+   * <p>Checks if an ingredient exists in the food storage.
+   * The ingredient is checked by its name (key).</p>
 
    * @param ingredientName the name of the ingredient to check
    * @return true if the ingredient exists in the storage,
