@@ -5,30 +5,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * <p>
- * The Recipe class represents a recipe. A recipe consists of name,
- * description, instruction, required ingredients, servings, and
- * required ingredients. The required ingredients are stored in an ArrayList
- * of Ingredient objects. The Ingredient consists of name, quantity, and unit.
- * </p>
+ *<p>Each Recipe object holds key information about the recipe, including its
+ * <b>name</b>, <b>description</b>, <b>instruction</b> and <b>servings</b>.</p>
+ *
+ * <p>Each Recipe object also holds a list of <b>ingredients</b>
+ * that are needed to make the recipe. The required ingredients
+ * are stored in an Arraylist as instances of the Ingredient class.</p>
  *
  * <p>Instances of Recipe can be managed within a RecipeBook
  * to maintain an organized collection of recipes.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.7
- * @since 11.27.2024
+ * @version 0.0.8
+ * @since 12.02.2024
  */
 public class Recipe {
   private String name;
   private String description;
   private String instruction;
-  private final ArrayList<Ingredient> requiredIngredients;
   private double servings;
+  private final ArrayList<Ingredient> requiredIngredients;
 
   /**
    * <p>Creates a new instance of Recipe with the specified name, description,
    * instruction, and servings.</p>
+   *
+   * <p>The required ingredients for the recipe are stored in an ArrayList.</p>
 
    * @param name the name of the recipe
    * @param description the description of the recipe
@@ -92,6 +94,8 @@ public class Recipe {
 
   /**
    * <p>Retrieves the instruction of the recipe.</p>
+
+   * @return the instruction of the recipe
    */
   public String getInstruction() {
     return instruction;
@@ -111,8 +115,8 @@ public class Recipe {
   }
 
   /**
-   * <p>Return an Iterator that retrieves
-   * the required ingredients for the recipe. It
+   * <p>Returns an Iterator that retrieves
+   * the ingredients needed for the recipe. It
    * retrieves the name, quantity and unit of the ingredient.</p>
    *
    * @return the required ingredients for the recipe
@@ -144,9 +148,7 @@ public class Recipe {
   }
 
   /**
-   * <p>
-   *   Retrieves the amount of people the recipe serves.
-   *   </p>
+   * <p>Retrieves the amount of people the recipe serves.</p>
 
    * @return the amount of people the recipe serves
    */
@@ -155,9 +157,7 @@ public class Recipe {
   }
 
   /**
-   * <p>
-   *   Sets the amount of people the recipe serves.
-   *   </p>
+   * <p>Sets the amount of people the recipe serves.</p>
 
    * @param servings the amount of people the recipe serves
    */
