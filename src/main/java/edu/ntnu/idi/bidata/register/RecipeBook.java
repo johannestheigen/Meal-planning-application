@@ -49,7 +49,8 @@ public class RecipeBook {
 
   /**
    * <p>Removes a recipe from the recipe book.
-   * The recipe is removed from the recipe book using the name of the recipe.</p>
+   * The recipe is removed from recipe book by its name (key).</p>
+   * </p>
    *
    * @param name the name of the recipe to remove
    * @return true if the recipe was removed successfully, false if the recipe does not exist
@@ -86,7 +87,7 @@ public class RecipeBook {
 
   /**
    * <p>Retrieves a recipe from the recipe book.
-   * The recipe is retrieved from the recipe book using the name of the recipe.</p>
+   * The recipe is retrieved from the recipe book by its name (key).</p>
    *
    * @param recipeName the name of the recipe to retrieve
    * @return the recipe object if the recipe exists, null if the recipe does not exist
@@ -96,8 +97,8 @@ public class RecipeBook {
   }
 
   /**
-   * <p>Checks if a recipe exists in the recipe book.</p>
-   * <p>The recipe is checked for existence in the recipe book using the name of the recipe.</p>
+   * <p>Checks if a recipe exists in the recipe book.
+   * The recipe is checked by its name (key).</p>
    *
    * @param recipeName the name of the recipe
    * @return true if the recipe exists, false if the recipe does not exist
@@ -108,7 +109,8 @@ public class RecipeBook {
 
   /**
    * <p>Updates the serving size of a recipe. The quantity of
-   * the required ingredients are updated to match the new serving size.</p>
+   * the required ingredients are updated to match the new serving size.
+   * The recipe is updated by its name (key).</p>
    *
    * @param recipeName the name of the recipe
    * @param newServing the new serving size
@@ -136,7 +138,7 @@ public class RecipeBook {
   /**
    * <p>Checks if the required ingredients for a recipe are available in the food storage.</p>
 
-   * @param requiredIngredient the required ingredient
+   * @param requiredIngredient the required ingredient (e.g. "Flour", 4, "kg")
    * @param foodStorage the food storage
    * @return true if the required ingredients are available,
      false if the required ingredients are missing
