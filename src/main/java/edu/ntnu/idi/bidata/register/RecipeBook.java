@@ -28,8 +28,8 @@ public class RecipeBook {
   }
 
   /**
-   * <p>Adds a new recipe to the recipe book.</p>
-   * <p>The recipe is stored in a HashMap where the key is the name of the recipe
+   * <p>Adds a new recipe to the recipe book.
+   * The recipe is stored in a HashMap where the key is the name of the recipe
    * and the value is the Recipe object.</p>
    *
    * @param name        the name of the recipe (e.g. "Chocolate Cake")
@@ -48,8 +48,8 @@ public class RecipeBook {
   }
 
   /**
-   * <p>Removes a recipe from the recipe book.</p>
-   * <p>The recipe is removed from the recipe book using the name of the recipe.</p>
+   * <p>Removes a recipe from the recipe book.
+   * The recipe is removed from the recipe book using the name of the recipe.</p>
    *
    * @param name the name of the recipe to remove
    * @return true if the recipe was removed successfully, false if the recipe does not exist
@@ -85,8 +85,8 @@ public class RecipeBook {
   }
 
   /**
-   * <p>Retrieves a recipe from the recipe book.</p>
-   * <p>The recipe is retrieved from the recipe book using the name of the recipe.</p>
+   * <p>Retrieves a recipe from the recipe book.
+   * The recipe is retrieved from the recipe book using the name of the recipe.</p>
    *
    * @param recipeName the name of the recipe to retrieve
    * @return the recipe object if the recipe exists, null if the recipe does not exist
