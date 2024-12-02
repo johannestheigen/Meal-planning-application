@@ -13,8 +13,8 @@ import java.time.LocalDate;
  * an organized collection of ingredients.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.1.5
- * @since 11.27.2024
+ * @version 0.1.6
+ * @since 12.02.2024
  */
 
 public class Ingredient {
@@ -115,7 +115,7 @@ public class Ingredient {
   /**
    * <p>Sets the unit of an ingredient.</p>
 
-   * @param unit The unit cannot be null empty, and it must be kg, g, l or ml.
+   * @param unit The unit cannot be null empty, and it must be kg, g, l, ml or pcs.
    * @throws IllegalArgumentException If the unit null, empty or invalid.
    */
   public void setUnit(String unit) {
