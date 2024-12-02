@@ -12,7 +12,7 @@ import java.util.Map;
  * and the value is the Ingredient object.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.3.3
+ * @version 0.3.4
  * @since 12.02.2024
  */
 public class FoodStorage {
@@ -233,6 +233,22 @@ public class FoodStorage {
   public boolean isExpirationDateEqual(LocalDate existingExpirationDate,
                                        LocalDate newExpirationDate) {
     return newExpirationDate.isEqual(existingExpirationDate);
+  }
+
+  /**
+   * <p>Checks if the quantity of an ingredient has been updated.</p>
+
+   * @param ingredientName the name of the ingredient
+   * @param quantity the new quantity of the ingredient
+   * @return true if the quantity was updated, false otherwise.
+   */
+  public boolean isIngredientQuantityUpdated(String ingredientName, double quantity) {
+    Ingredient existingIngredient = storage.get(ingredientName);
+    if (existingIngredient != null && existingIngredient.getQuantity() != quantity) {
+      existingIngredient.setQuantity(quantity);
+      return true;
+    }
+    return false;
   }
 
   /**
