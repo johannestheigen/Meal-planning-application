@@ -19,7 +19,7 @@ import java.util.Iterator;
  * operations. (e.g FoodStorage).</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.4.1
+ * @version 0.4.2
  * @since 12.02.2024
  */
 public class UserInterface {
@@ -230,8 +230,9 @@ public class UserInterface {
 
       handleExpirationDate(existingExpirationDate, expirationDate);
 
-      foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
-      outputHandler.printUpdatedQuantity(name);
+      if (foodStorage.isIngredientQuantityUpdated(name, quantity)) {
+        outputHandler.printUpdatedQuantity(name);
+      }
     } else {
       foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
       outputHandler.printAddedIngredient(name);
