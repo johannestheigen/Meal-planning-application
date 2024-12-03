@@ -19,8 +19,8 @@ import java.util.Iterator;
  * operations. (e.g FoodStorage).</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.4.2
- * @since 12.02.2024
+ * @version 0.4.3
+ * @since 12.03.2024
  */
 public class UserInterface {
 
@@ -137,7 +137,7 @@ public class UserInterface {
 
       handleIngredientAddition(name, quantity, unit, price, expirationDate);
       pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
+    } catch (Exception e) {
       handleException(e);
     }
   }
@@ -219,15 +219,12 @@ public class UserInterface {
    * a message is displayed. If the ingredient already exists in the storage,
    * the quantity of the ingredient is updated.
    */
-  private void handleIngredientAddition(String name, double quantity,
-                                        String unit, double price, LocalDate expirationDate) {
-    if (abort()) {
-      return;
-    }
-    if (foodStorage.isIngredientExisting(name)) {
-      Ingredient existingIngredient = foodStorage.getIngredient(name);
-      LocalDate existingExpirationDate = existingIngredient.getExpirationDate();
+  private void handleIngredientAddition(String name, double quantity, String unit, double price, LocalDate expirationDate) {
+    if (abort()) return;
 
+    if (foodStorage.isIngredientExisting(name)) {
+      LocalDate existingExpirationDate = foodStorage.getIngredient(name).getExpirationDate();
+      foodStorage.addIngredient(name, quantity, unit, price, expirationDate);
       handleExpirationDate(existingExpirationDate, expirationDate);
 
       if (foodStorage.isIngredientQuantityUpdated(name, quantity)) {
@@ -643,7 +640,7 @@ public class UserInterface {
         handleRecipeRemoval(name);
       }
       pressAnyKeyToContinue();
-    } catch (IllegalArgumentException e) {
+    } catch (Exception e) {
       handleException(e);
     }
   }
@@ -763,7 +760,7 @@ public class UserInterface {
       handleNewServing(name, newServing);
       pressAnyKeyToContinue();
 
-    } catch (IllegalArgumentException e) {
+    } catch (Exception e) {
       handleException(e);
     }
   }
