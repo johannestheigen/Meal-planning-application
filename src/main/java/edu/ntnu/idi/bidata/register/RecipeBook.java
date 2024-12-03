@@ -12,8 +12,8 @@ import java.util.Map;
  * and the the value is the Recipe object.</p>
  *
  * @author Johanens Nupen Theigen
- * @version 0.0.4
- * @since 12.02.2024
+ * @version 0.0.5
+ * @since 12.03.2024
  */
 
 public class RecipeBook {
@@ -133,6 +133,30 @@ public class RecipeBook {
       existingRecipe.setServings(newServing);
     }
     return recipeFound;
+  }
+
+  /**
+   *<p>Checks if a recipe can be made based on the available ingredients in the
+   * food storage. It uses an iterator to check if tge required ingredients
+   * of the recipe are available in the food storage.</p>
+   *
+   * @param recipeName the name of the recipe
+   * @param foodStorage the food storage
+   * @return true if the recipe can be made, false if the recipe cannot be made
+   */
+  public boolean canRecipeBeMade(String recipeName, FoodStorage foodStorage) {
+    Recipe recipe = recipes.get(recipeName);
+
+    Iterator<Ingredient> requiredIngredients = recipe.getRequiredIngredients();
+    while (requiredIngredients.hasNext()) {
+      Ingredient required = requiredIngredients.next();
+      if (hasMissingIngredient(required, foodStorage)
+          || hasUnitMismatch(required, foodStorage.getIngredient(required.getName()))
+          || hasInsufficientIngredient(required, foodStorage)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
