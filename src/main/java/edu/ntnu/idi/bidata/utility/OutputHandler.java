@@ -9,8 +9,8 @@ import java.util.Iterator;
  * and print messages related to the food storage and recipe book.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.2.9
- * @since 12.02.2024
+ * @version 0.3.0
+ * @since 12.03.2024
  */
 public class OutputHandler {
 
@@ -19,11 +19,11 @@ public class OutputHandler {
    */
   public void printMainMenu() {
     System.out.println("""
-        -------------------------------------------
+        -------------------------------------------------
         Welcome to the Meal Planning Application.
         A simple application to help you plan your meals, 
         and reduce food waste.
-        -------------------------------------------
+        -------------------------------------------------
         
         Type /storage to manage your food storage
         Type /recipes to manage your recipe book
