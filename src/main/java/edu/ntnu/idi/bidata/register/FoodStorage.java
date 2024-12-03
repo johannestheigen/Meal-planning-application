@@ -12,7 +12,7 @@ import java.util.Map;
  * and the value is the Ingredient object.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.3.5
+ * @version 0.3.6
  * @since 12.03.2024
  */
 public class FoodStorage {
@@ -41,20 +41,20 @@ public class FoodStorage {
    *                       formatted as yyyy-MM-dd (e.g., 2025-12-31).
    *
    * @return true if the ingredient is successfully added to the storage,
-   and false if the ingredient already exists in the storage.
+  and false if the ingredient already exists in the storage.
    */
   public boolean addIngredient(String name, double quantity,
                                String unit, double price, LocalDate expirationDate) {
 
-    Ingredient ingredientToBeAdded = new Ingredient(name,
+    Ingredient newIngredient = new Ingredient(name,
         quantity, unit, price, expirationDate);
-    String ingredientName = ingredientToBeAdded.getName();
+    String ingredientName = newIngredient.getName();
 
     if (storage.containsKey(ingredientName)) {
-      return handleExistingIngredient(ingredientName, ingredientToBeAdded,
+      return handleExistingIngredient(ingredientName, newIngredient,
           quantity, expirationDate);
     }
-    storage.put(ingredientName, ingredientToBeAdded);
+    storage.put(ingredientName, newIngredient);
     return false;
   }
 
@@ -114,7 +114,7 @@ public class FoodStorage {
    * The ingredient is removed by its name (key).</p>
 
    * @return true if the ingredient exists and is successfully removed,
-     and false if the ingredient does not exist.
+  and false if the ingredient does not exist.
    */
   public boolean removeIngredient(String ingredientName) {
     return storage.remove(ingredientName) != null;
@@ -155,7 +155,7 @@ public class FoodStorage {
    *  @param ingredientName the name of the ingredient
    * @param newPrice the new price to be set for the ingredient
    * @return true if the ingredient exists and the price is successfully changed,
-     and false if the ingredient does not exist.
+  and false if the ingredient does not exist.
    */
   public boolean updatePrice(String ingredientName, double newPrice) {
     Ingredient existingIngredient = storage.get(ingredientName);
@@ -173,7 +173,7 @@ public class FoodStorage {
    * @param ingredientName the name of the ingredient, which is the key for the ingredient object
    * @param newUnit the new unit to be set for the ingredient
    * @return true if the ingredient exists and the unit is successfully changed,
-     and false if the ingredient does not exist.
+  and false if the ingredient does not exist.
    */
   public boolean updateUnit(String ingredientName, String newUnit) {
     Ingredient existingIngredient = storage.get(ingredientName);
@@ -190,7 +190,7 @@ public class FoodStorage {
    *
    *  @param ingredientName the name of the ingredient to retrieve
    * @return the ingredient object if it exists in the storage,
-     and null if it does not exist.
+  and null if it does not exist.
    */
   public Ingredient getIngredient(String ingredientName) {
     return storage.get(ingredientName);
@@ -202,7 +202,7 @@ public class FoodStorage {
 
    * @param ingredientName the name of the ingredient to check
    * @return true if the ingredient exists in the storage,
-     and false if it does not exist.
+  and false if it does not exist.
    */
   public boolean isIngredientExisting(String ingredientName) {
     return storage.containsKey(ingredientName);
@@ -214,7 +214,7 @@ public class FoodStorage {
    * @param existingExpirationDate the existing expiration date
    * @param newExpirationDate      the new expiration date
    * @return true if the new expiration date is newer than the existing expiration date,
-     false if the new expiration date is older than the existing expiration date.
+  false if the new expiration date is older than the existing expiration date.
    */
   public boolean isNewExpirationDateNewer(LocalDate existingExpirationDate,
                                           LocalDate newExpirationDate) {
