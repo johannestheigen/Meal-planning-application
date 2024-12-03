@@ -12,8 +12,8 @@ import java.util.Map;
  * and the value is the Ingredient object.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.3.4
- * @since 12.02.2024
+ * @version 0.3.5
+ * @since 12.03.2024
  */
 public class FoodStorage {
 
@@ -97,7 +97,7 @@ public class FoodStorage {
     if (existingIngredient == null || newIngredient == null) {
       return false;
     }
-    if (!existingIngredient.getUnit().equals(newIngredient.getUnit())) {
+    if (!existingIngredient.getUnit().equalsIgnoreCase(newIngredient.getUnit())) {
       throw new IllegalArgumentException("Unit mismatch: existing ingredient uses '"
           + existingIngredient.getUnit() + "', but the new ingredient uses '"
           + newIngredient.getUnit() + "'.");
@@ -244,12 +244,10 @@ public class FoodStorage {
    */
   public boolean isIngredientQuantityUpdated(String ingredientName, double quantity) {
     Ingredient existingIngredient = storage.get(ingredientName);
-    if (existingIngredient != null && existingIngredient.getQuantity() != quantity) {
-      existingIngredient.setQuantity(quantity);
-      return true;
-    }
-    return false;
+
+    return existingIngredient != null && existingIngredient.getQuantity() != quantity;
   }
+
 
   /**
    * <p>Returns an iterator that can be used to retrieve a list
