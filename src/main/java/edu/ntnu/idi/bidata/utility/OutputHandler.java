@@ -9,7 +9,7 @@ import java.util.Iterator;
  * and print messages related to the food storage and recipe book.</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.3.0
+ * @version 0.3.1
  * @since 12.03.2024
  */
 public class OutputHandler {
@@ -118,7 +118,7 @@ public class OutputHandler {
    * <p>Prints an error message when an invalid input is entered by the user.</p>
    */
   public void printInvalidInput(String message) {
-    System.out.println("Invalid input " + message);
+    System.out.println("Invalid input: " + message);
   }
 
   /**
