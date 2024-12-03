@@ -7,6 +7,7 @@ import edu.ntnu.idi.bidata.register.RecipeBook;
 import edu.ntnu.idi.bidata.utility.InputParser;
 import edu.ntnu.idi.bidata.utility.InputValidator;
 import edu.ntnu.idi.bidata.utility.OutputHandler;
+
 import java.time.LocalDate;
 import java.util.Iterator;
 
@@ -19,7 +20,7 @@ import java.util.Iterator;
  * operations. (e.g FoodStorage).</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.4.3
+ * @version 0.4.4
  * @since 12.03.2024
  */
 public class UserInterface {
@@ -75,10 +76,10 @@ public class UserInterface {
   }
 
   /*
-    * Prompts the user to confirm if they want to exit the program.
-    * If the user confirms the operation the program is terminated.
-    * If the user chooses to abort, a message is displayed to
-    * inform the user that they have chosen to abort the operation.
+   * Prompts the user to confirm if they want to exit the program.
+   * If the user confirms the operation the program is terminated.
+   * If the user chooses to abort, a message is displayed to
+   * inform the user that they have chosen to abort the operation.
    */
   private boolean exitProgram() {
     outputHandler.printExitWarning();
@@ -697,11 +698,12 @@ public class UserInterface {
   }
 
   /**
-   * <p>Checks if a recipe can be made based on the ingredients present in the storage.
+   * <p>Checks if a recipe can be prepared based on the ingredients present in the storage.
    * If the recipe does not exist, an error message is displayed.</p>
    */
-  public void checkIfRecipeCanBeMade() {
+  public void checkIfRecipeCanBePrepared() {
     String name = getRecipeNameInput();
+
 
     if (!recipeBook.isRecipeExisting(name)) {
       outputHandler.printRecipeNotFound(name);
@@ -713,115 +715,122 @@ public class UserInterface {
   }
 
   /*
-    * Evaluates the recipe to check if it can be made based on the ingredients
-    * present in the storage. An error message is displayed if
-    * the recipe has missing ingredients, incompatible units, or
-    * insufficient ingredients. If the recipe can be made, a message is displayed
-    * to inform the user that the recipe can be made.
+   * Evaluates the recipe to check if it can be made based on the ingredients
+   * present in the storage. If the recipe can be made, a message is displayed.
    */
   private void evaluateRecipe(String name) {
-    Iterator<Ingredient> requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients();
-
-    while (requiredIngredients.hasNext()) {
-      Ingredient required = requiredIngredients.next();
-      Ingredient available = foodStorage.getIngredient(required.getName());
-
-      if (recipeBook.hasMissingIngredient(required, foodStorage)) {
-        outputHandler.printMissingIngredient(required.getQuantity(),
-            required.getUnit(), required.getName());
-      } else if (recipeBook.hasUnitMismatch(required, available)) {
-        outputHandler.printIncompatibleUnits(required.getName(),
-            required.getUnit(), required.getQuantity(), available.getQuantity(),
-            available.getUnit());
-      } else if (recipeBook.hasInsufficientIngredient(required, foodStorage)) {
-        outputHandler.printInsufficientIngredientAmount(available.getQuantity(),
-            available.getUnit(), required.getName(), required.getQuantity(), required.getUnit());
-      } else {
-        outputHandler.printRecipeCanBeMade(name);
+    if (recipeBook.canRecipeBeMade(name, foodStorage)) {
+      outputHandler.printRecipeCanBeMade(name);
+    } else {
+      Iterator<Ingredient> requiredIngredients = recipeBook.getRecipe(name).getRequiredIngredients();
+      while (requiredIngredients.hasNext()) {
+        Ingredient required = requiredIngredients.next();
+        Ingredient available = foodStorage.getIngredient(required.getName());
+        verifyIngredientRequirements(required, available);
       }
-    }
-  }
-
-  /**
-   * <p>Changes the serving size of a recipe through user interaction.</p>
-   * <p>If the recipe does not exist, an error message is displayed.</p>
-   */
-  public void changeServing() {
-    try {
-      String name = getRecipeNameInput();
-
-      if (!recipeBook.isRecipeExisting(name)) {
-        outputHandler.printRecipeNotFound(name);
-        pressAnyKeyToContinue();
-        return;
-      }
-      double newServing = getServingsInput();
-
-      handleNewServing(name, newServing);
-      pressAnyKeyToContinue();
-
-    } catch (Exception e) {
-      handleException(e);
     }
   }
 
   /*
-   * Handles the change of serving size for a recipe.
-   * If the user confirms the operation, the serving size of the recipe is updated.
-   * If the user chooses to abort the operation, a message is displayed.
+    * Verifies the ingredient requirements for a recipe. If the recipe has missing
+    * ingredients, a message is displayed to inform the user. If the recipe has
+    * incompatible units, a message is displayed to inform the user.
+    * If the recipe has insufficient ingredients, an error message is displayed.
    */
-  private void handleNewServing(String name, double newServing) {
-    if (abort()) {
-      return;
+  private void verifyIngredientRequirements(Ingredient required, Ingredient available) {
+    if (recipeBook.hasMissingIngredient(required, foodStorage)) {
+      outputHandler.printMissingIngredient(required.getQuantity(),
+          required.getUnit(), required.getName());
+    } else if (recipeBook.hasUnitMismatch(required, available)) {
+      outputHandler.printIncompatibleUnits(required.getName(),
+          required.getUnit(), required.getQuantity(), available.getQuantity(),
+          available.getUnit());
+    } else if (recipeBook.hasInsufficientIngredient(required, foodStorage)) {
+      outputHandler.printInsufficientIngredientAmount(available.getQuantity(),
+          available.getUnit(), required.getName(), required.getQuantity(), required.getUnit());
     }
-    recipeBook.updateServing(name, newServing);
-    outputHandler.printUpdatedServing(name);
   }
 
   /**
-   * <p>Displays the main menu to the user and prompts the user to enter a command.
-   * The user can choose to perform different operations by entering the corresponding
-   * command. If the user enters an invalid command, an error message is displayed,
-   * and the user is prompted to enter a valid command.</p>
-   */
-  public void userInput() {
-    outputHandler.printMainMenu();
-    boolean running = true;
-
-    while (running) {
+     * <p>Changes the serving size of a recipe through user interaction.</p>
+     * <p>If the recipe does not exist, an error message is displayed.</p>
+     */
+    public void changeServing () {
       try {
-        String userChoice = inputParser.stringInput();
-        switch (userChoice.toLowerCase()) {
-          case "0" -> running = !exitProgram();
-          case "/main" -> outputHandler.printMainMenu();
-          case "/storage" -> outputHandler.printFoodStorageMenu();
-          case "/recipes" -> outputHandler.printRecipeBookMenu();
-          case "/add-ing" -> addIngredient();
-          case "/edit-price" -> changePrice();
-          case "/del-ing" -> removeIngredient();
-          case "/reduce-ing" -> reduceQuantity();
-          case "/edit-unit" -> changeUnit();
-          case "/list-ing" -> displayListOfIngredients();
-          case "/find-ing" -> findIngredient();
-          case "/sort-ing" -> displayListOfIngredientsAlphabetically();
-          case "/expired" -> displayListOfExpiredIngredients();
-          case "/by-date" -> displayListOfIngredientsByExpirationDate();
-          case "/total-val" -> displayValueOfAllIngredients();
-          case "/expired-val" -> displayValueOfExpiredIngredients();
-          case "/add-rec" -> addRecipe();
-          case "/del-rec" -> removeRecipe();
-          case "/edit-serv" -> changeServing();
-          case "/find-rec" -> findRecipe();
-          case "/list-rec" -> displayRecipes();
-          case "/check-rec" -> checkIfRecipeCanBeMade();
-          default -> {
-            outputHandler.printInvalidInput(userChoice);
-            pressAnyKeyToContinue();
-          }
+        String name = getRecipeNameInput();
+
+        if (!recipeBook.isRecipeExisting(name)) {
+          outputHandler.printRecipeNotFound(name);
+          pressAnyKeyToContinue();
+          return;
         }
+        double newServing = getServingsInput();
+
+        handleNewServing(name, newServing);
+        pressAnyKeyToContinue();
+
       } catch (Exception e) {
         handleException(e);
       }
     }
+
+    /*
+     * Handles the change of serving size for a recipe.
+     * If the user confirms the operation, the serving size of the recipe is updated.
+     * If the user chooses to abort the operation, a message is displayed.
+     */
+    private void handleNewServing (String name,double newServing){
+      if (abort()) {
+        return;
+      }
+      recipeBook.updateServing(name, newServing);
+      outputHandler.printUpdatedServing(name);
+    }
+
+    /**
+     * <p>Displays the main menu to the user and prompts the user to enter a command.
+     * The user can choose to perform different operations by entering the corresponding
+     * command. If the user enters an invalid command, an error message is displayed,
+     * and the user is prompted to enter a valid command.</p>
+     */
+    public void userInput () {
+      outputHandler.printMainMenu();
+      boolean running = true;
+
+      while (running) {
+        try {
+          String userChoice = inputParser.stringInput();
+          switch (userChoice.toLowerCase()) {
+            case "0" -> running = !exitProgram();
+            case "/main" -> outputHandler.printMainMenu();
+            case "/storage" -> outputHandler.printFoodStorageMenu();
+            case "/recipes" -> outputHandler.printRecipeBookMenu();
+            case "/add-ing" -> addIngredient();
+            case "/edit-price" -> changePrice();
+            case "/del-ing" -> removeIngredient();
+            case "/reduce-ing" -> reduceQuantity();
+            case "/edit-unit" -> changeUnit();
+            case "/list-ing" -> displayListOfIngredients();
+            case "/find-ing" -> findIngredient();
+            case "/sort-ing" -> displayListOfIngredientsAlphabetically();
+            case "/expired" -> displayListOfExpiredIngredients();
+            case "/by-date" -> displayListOfIngredientsByExpirationDate();
+            case "/total-val" -> displayValueOfAllIngredients();
+            case "/expired-val" -> displayValueOfExpiredIngredients();
+            case "/add-rec" -> addRecipe();
+            case "/del-rec" -> removeRecipe();
+            case "/edit-serv" -> changeServing();
+            case "/find-rec" -> findRecipe();
+            case "/list-rec" -> displayRecipes();
+            case "/check-rec" -> checkIfRecipeCanBePrepared();
+            default -> {
+              outputHandler.printInvalidInput(userChoice);
+              pressAnyKeyToContinue();
+            }
+          }
+        } catch (Exception e) {
+          handleException(e);
+        }
+      }
+    }
   }
-}
