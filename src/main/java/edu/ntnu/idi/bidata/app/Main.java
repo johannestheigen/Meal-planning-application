@@ -5,16 +5,17 @@ package edu.ntnu.idi.bidata.app;
  * instance of your main-class that starts your application.</p>
 
  * @author Johannes Nupen Theigen
- * @version 0.0.5
- * @since 12.01.2024
+ * @version 0.0.6
+ * @since 12.03.2024
  */
 public class Main {
+
   /**
    * <p>The main method that serves as the entry point for the application.
-   * It initializes the UserInterface and starts the interaction process
-   * with the user.</p>
+   * It initializes an instance of the UserInterface class
+   * and starts the interaction with the user.</p>
 
-   * @param args command line arguments passed during application execution.
+   * @param args the arguments passed to the application
    */
   public static void main(String[] args) {
     UserInterface userInterface = new UserInterface();
