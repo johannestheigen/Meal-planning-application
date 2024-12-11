@@ -295,8 +295,7 @@ public class FoodStorage {
   public Iterator<String> getListOfIngredientsByExpirationDate(LocalDate expirationDate) {
     return storage.values().stream()
         .filter(ingredient -> ingredient.getExpirationDate().isEqual(expirationDate))
-        .map(Ingredient::getName)
-        .iterator();
+        .map(Ingredient::getName).iterator();
   }
 
   /**

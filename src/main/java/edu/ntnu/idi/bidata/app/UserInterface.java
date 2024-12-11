@@ -20,8 +20,8 @@ import java.util.Iterator;
  * operations. (e.g FoodStorage).</p>
  *
  * @author Johannes Nupen Theigen
- * @version 0.4.4
- * @since 12.03.2024
+ * @version 0.4.5
+ * @since 12.11.2024
  */
 public class UserInterface {
 
@@ -45,7 +45,7 @@ public class UserInterface {
     } catch (Exception e) {
       handleException(e);
     } finally {
-      userInput();
+      runMainMenu();
     }
   }
 
@@ -793,7 +793,7 @@ public class UserInterface {
      * command. If the user enters an invalid command, an error message is displayed,
      * and the user is prompted to enter a valid command.</p>
      */
-    public void userInput () {
+    public void runMainMenu() {
       outputHandler.printMainMenu();
       boolean running = true;
 
