@@ -39,7 +39,7 @@ Use the command `java filename` to run the project.
 
 ## How to run the tests
 
-he unit tests are managed with Apache Maven.
+The unit tests are managed with Apache Maven.
 JUnit5 dependencies are specified in the pom.xml file.
 
 To run the tests:
