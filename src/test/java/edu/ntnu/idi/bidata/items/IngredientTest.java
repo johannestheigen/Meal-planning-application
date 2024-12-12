@@ -15,7 +15,7 @@ class IngredientTest {
    * <p>Initializes a new instance of the Ingredient class before each test.</p>
    */
   @BeforeEach
-  void beforeEach() {
+  void setUp() {
     testIngredient = new Ingredient("Test Ingredient", 10, "kg", 100, LocalDate.of(2025, 1, 1));
   }
 

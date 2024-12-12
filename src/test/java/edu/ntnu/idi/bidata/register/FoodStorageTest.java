@@ -3,23 +3,6 @@
  *
  * <p>The purpose of this test class is to validate the functionality of the <code>FoodStorage</code> class
  * through both positive and negative test cases. The following methods are tested:</p>
- *
- * <ol>
- *   <li><b>addIngredient:</b> Tests if valid ingredients are added correctly and handles duplicate ingredients.</li>
- *   <li><b>reduceIngredient:</b> Tests if existing ingredients can be reduced and if ingredients are removed when the quantity reaches zero.</li>
- *   <li><b>updateDescription:</b> Tests if existing ingredient's description can be updated.</li>
- *   <li><b>updatePrie:</b> Tests if existing ingredient's price can be updated.</li>
- *   <li><b>getIngredient:</b> Tests if existing ingredients can be retrieved by name.</li>
- *   <li><b>getIngredientInfo:</b> Tests if existing ingredient's information can be retrieved by name.</li>
- *   <li><b>getListOfIngredients:</b> Tests if all ingredients can be listed correctly.</li>
- *   <li><b>getListOfIngredientsAlphabetically:</b> Tests if ingredients can be listed in alphabetical order.</li>
- *   <li><b>getListOfExpiredIngredients:</b> Tests if expired ingredients are listed correctly.</li>
- *   <li><b>getListOfIngredientsByExpirationDate:</b> Tests if ingredients can be retrieved by a specific expiration date.</li>
- *   <li><b>getValueOfAllIngredients:</b> Tests if the total value of all ingredients is calculated correctly.</li>
- *   <li><b>getValueOfExpiredIngredients:</b> Tests if the total value of expired ingredients is calculated correctly.</li>
- * </ol>
- *
- * <p>Each method is validated for both expected success and failure cases to ensure robustness.</p>
  */
 
 package edu.ntnu.idi.bidata.register;
@@ -36,8 +19,8 @@ class FoodStorageTest {
   FoodStorage foodStorageTest;
 
   /**
-   * Initializes a shared instance of <code>FoodStorage</code> to be used
-   * throughout the entire test.
+   * <p>Initializes a shared instance of <code>FoodStorage</code> to be used
+   * throughout the entire test.</p>
    */
 
   @BeforeEach
@@ -46,9 +29,9 @@ class FoodStorageTest {
   }
 
   /**
-   * Positive test which checks that an ingredient is added to the storage
+   * <p>Positive test which checks that an ingredient is added to the storage
    * with the correct name, and that its quantity increases when a duplicate
-   * ingredient is added.
+   * ingredient is added.</p>
    */
   @Test
   void addIngredientPositiveTest() {
@@ -65,8 +48,9 @@ class FoodStorageTest {
   }
 
   /**
-   * Negative test to ensure that when an ingredient is added to storage,
-   * it is actually added, and its name does not match an incorrect value.
+   * <p Negative test which checks if an ingredient is added to the storage
+   *  with the incorrect name and quantity.</p>
+   * </p>
    */
   @Test
   void addIngredientNegativeTest() {
@@ -116,7 +100,7 @@ class FoodStorageTest {
    */
   @Test
   void updatePricePositiveTest() {
-    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,01,01));
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
 
     Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
     assertEquals(5.50,ingredientBeforeUpdate.getPrice(),"Expected the price of the ingredient to be 5.50 before the update");
@@ -133,7 +117,7 @@ class FoodStorageTest {
    */
   @Test
   void updatePriceNegativeTest() {
-    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,01,01));
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
 
     Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
     assertEquals(5.50,ingredientBeforeUpdate.getPrice(),"Expected the price of the ingredient to be 5.50 before the update");
@@ -147,36 +131,87 @@ class FoodStorageTest {
     assertNotEquals(5.50, updatedIngredient.getPrice(), "Price should no longer be '5.50' after update");
   }
 
-
-
-  /**
-   * Positive test that checks if an ingredient can be retrieved
-   * after being added to the storage.
-   */
   @Test
-  void getIngredientPositiveTest() {
-    foodStorageTest.addIngredient("Tomato", 1, "kg", 15.50, LocalDate.of(2024, 12, 1));
+  void updateUnitPositiveTest() {
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
 
-    Ingredient ingredient = foodStorageTest.getIngredient("Tomato");
+    Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
+    assertEquals("kg",ingredientBeforeUpdate.getUnit(),"Expected the unit of the ingredient to be 'kg' before the update");
 
-    assertNotNull(ingredient, "The ingredient object 'Tomato' should exist in the storage.");
+    foodStorageTest.updateUnit("Banana","g");
+
+    Ingredient updatedIngredient = foodStorageTest.getIngredient("Banana");
+
+    assertEquals("g",updatedIngredient.getUnit(),"Expected the unit of the ingredient to be 'g' after the update");
+  }
+
+  @Test
+  void updateUnitNegativeTest() {
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
+
+    Ingredient ingredientBeforeUpdate = foodStorageTest.getIngredient("Banana");
+    assertEquals("kg",ingredientBeforeUpdate.getUnit(),"Expected the unit of the ingredient to be 'kg' before the update");
+
+    foodStorageTest.updateUnit("Banana","g");
+
+    Ingredient updatedIngredient = foodStorageTest.getIngredient("Banana");
+
+    assertEquals("g",updatedIngredient.getUnit(),"Expected the unit of the ingredient to be 'g' after the update");
+
+    assertNotEquals("kg", updatedIngredient.getUnit(), "Unit should no longer be 'kg' after update");
   }
 
   /**
-   * Negative test that checks that an incorrect ingredient
-   * is not returned when retrieving it from the storage.
+   * <p>Positive test that checks if an ingredient's expiration date is properly updated.</p>
    */
   @Test
-  void getIngredientNegativeTest() {
-
-    Ingredient addedIngredient = foodStorageTest.getIngredient("Blueberry");
-
-    assertNull(addedIngredient, "The ingredient 'Blueberry' should not be found in the storage.");
+  void isIngredientExistPositiveTest() {
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
+    assertNotNull(foodStorageTest.getIngredient("Banana"),"Expected the ingredient to exist in the storage");
   }
 
   /**
-   * Positive test that checks that the correct list of
-   * ingredients is returned after adding ingredients to the storage.
+   * <p>Negative test that checks if an ingredient's expiration date is not wrongly updated.</p>
+   */
+  @Test
+  void isIngredientExistNegativeTest() {
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
+    assertNull(foodStorageTest.getIngredient("Apple"),"Expected the ingredient not to exist in the storage");
+  }
+
+  /**
+   * <p>
+   *   Positive test that checks if an ingredient has been properly updated.
+   * </p>
+   */
+  @Test
+  void isIngredientQuantityUpdatedPositiveTest() {
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
+    foodStorageTest.getIngredient("Banana").setQuantity(2);
+    assertEquals(2, foodStorageTest.getIngredient("Banana").getQuantity(),"Expected the quantity of the ingredient to be updated");
+  }
+
+  /**
+   * <p>Negative test that checks if an ingredient's quantity is not wrongly updated.</p>
+   */
+  @Test
+  void isIngredientQuantityUpdatedNegativeTest() {
+    foodStorageTest.addIngredient("Banana",1,"kg",5.50,LocalDate.of(2025,1,1));
+    foodStorageTest.getIngredient("Banana").setQuantity(2);
+    assertNotEquals(-1, foodStorageTest.getIngredient("Banana").getQuantity(),"Expected the quantity of the ingredient not to be updated");
+  }
+
+  /**
+   * <p>
+   *   Positive test that checks if an ingredient's with the same name
+   *   is given the name of the ingredient with the same name and that the
+   *   older ingredient is renamed with its name and the old expiration date.
+   * </p>
+   */
+
+  /**
+   * <p>Positive test that checks that the correct list of
+   * ingredients is returned after adding ingredients to the storage.</p>
    */
   @Test
   void getListOfIngredientsPositiveTest() {
@@ -197,8 +232,8 @@ class FoodStorageTest {
   }
 
   /**
-   * Negative test that checks that incorrect names are not returned
-   * when retrieving a list of added ingredients from storage.
+   * <p>Negative test that checks that incorrect names are not returned
+   *  when retrieving a list of added ingredients from storage.</p>
    */
   @Test
   void getListOfIngredientsNegativeTest() {
@@ -219,9 +254,9 @@ class FoodStorageTest {
   }
 
   /**
-   * Positive test that checks that the correct list of
+   * <p>Positive test that checks that the correct list of
    * ingredients is returned in alphabetical order
-   * after adding ingredients to the storage.
+   * after adding ingredients to the storage.</p>
    */
   @Test
   void getListOfIngredientsAlphabeticallyPositiveTest() {
@@ -237,9 +272,9 @@ class FoodStorageTest {
   }
 
   /**
-   * Negative test that checks that the list of ingredient names
+   * <p>Negative test that checks that the list of ingredient names
    * is not returned in the wrong alphabetical order
-   * when retrieving a list of ingredients.
+   * when retrieving a list of ingredients.</p>
    */
 
   @Test
@@ -256,8 +291,8 @@ class FoodStorageTest {
   }
 
   /**
-   * Positive test that checks that the correct list of
-   * expired ingredients is returned.
+   * <p>Positive test that checks that the correct list of
+   * expired ingredients is returned.</p>
    */
   @Test
   void getListOfExpiredIngredientsPositiveTest() {
@@ -273,8 +308,8 @@ class FoodStorageTest {
   }
 
   /**
-   * Negative test that checks that unexpired ingredients
-   * are not included in the list of expired ingredients.
+   * <p>Negative test that checks that unexpired ingredients
+   * are not included in the list of expired ingredients.</p>
    */
   @Test
   void getListOfExpiredIngredientsNegativeTest() {
@@ -287,10 +322,11 @@ class FoodStorageTest {
   }
 
   /**
+   * <p>
    * Positive test that checks that the correct list of
    * ingredients from a given expiration date is returned.
+   * </p>
    */
-
   @Test
   void getListOfIngredientsByExpirationDatePositiveTest()
   {
@@ -306,11 +342,12 @@ class FoodStorageTest {
   }
 
   /**
+   * <p>
    * Negative test that checks that unexpired ingredients
    * are not returned when retrieving a list of expired ingredients
    * for a given expiration date.
+   * </p>
    */
-
   @Test
   void getListOfIngredientsByExpirationDateNegativeTest() {
 
@@ -323,8 +360,10 @@ class FoodStorageTest {
   }
 
     /**
+     * <p>
      * Positive test that checks that the correct total value of all ingredients
      * is returned from the storage.
+     * </p>
      */
   @Test
   void getValueOfAllIngredientsPositiveTest() {
@@ -339,8 +378,10 @@ class FoodStorageTest {
   }
 
   /**
+   * <p>
    * Negative test that checks that an incorrect total value of all ingredients
    * is not returned from the storage.
+   * </p>
    */
   @Test
   void getValueOfAllIngredientsNegativeTest() {
@@ -357,8 +398,10 @@ class FoodStorageTest {
   }
 
   /**
+   * <p>
    * Positive test that checks that the correct total value of all expired ingredients
    * is returned from the storage.
+   * </p>
    */
   @Test
   void getValueOfExpiredIngredientsPositiveTest() {
@@ -373,9 +416,11 @@ class FoodStorageTest {
   }
 
   /**
+   * <p>
    * Negative test that checks that the value of unexpired
    * ingredients is not included when retrieving the value
    * of all expired ingredients from the storage.
+   * </p>
    */
   @Test
   void getValueOfExpiredIngredientsNegativeTest() {
