@@ -2,12 +2,12 @@
 
 # Meal Planning Application
 
-**STUDENT NAME**: Johannes Nupen Theigen  
-**STUDENT ID**: 134126
+By Johannes Nupen Theigen
 
 ## Project description
 
-The meal planning application aims to make consumers more conscious about food waste.
+The meal planning application was my very first graded project at NTNU.
+The application aims to make consumers more concious about their food waste.
 It provides a list of groceries in their household and how 
 they can use them to make food before its expiration date. 
 
