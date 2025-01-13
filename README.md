@@ -24,10 +24,6 @@ There are five packages in the main folder:
 - **`edu.ntnu.idi.bidata.app`**: Contains the `UserInterface` class and the `Main` class.
 - **`edu.ntnu.idi.bidata.utilou`**: Contains utility classes for input parsing, input validation, and output handling.
 
-## Link to repository
-
-[Meal Planning Repository](https://github.com/NTNU-BIDATA-IDATG1003-2024/meal-planning-johannestheigen)
-
 ## How to run the project
 
 To run the project you first have to download the project from the repository. 
